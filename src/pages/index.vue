@@ -11,7 +11,7 @@
 
       <section class="content">
         
-        <h1>bosta</h1>
+        <h1>HOSPEDALÁ</h1>
 
       </section>
 
