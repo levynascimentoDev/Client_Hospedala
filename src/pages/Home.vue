@@ -1,0 +1,66 @@
+<template>
+    <div class="conatiner">
+        <section>
+            <TopBar :home="false" @show-bar="handleShowBar" /> 
+            <RightBar :user="user" v-if="showBar" @close="handleCloseBar"/>
+            <h1>Sejá bem vindo a hospedalá {{ user.name }}</h1>
+            
+        </section>
+    </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { type User } from '../types/types';
+import { useRouter } from 'vue-router';
+import TopBar from '../components/TopBar.vue';
+import RightBar from '../components/RightBar.vue';
+
+
+export default defineComponent({
+    name:"Home",
+    data() {
+        return {
+            user:{} as User,
+            showBar:false
+        }
+    },
+    setup() {
+        const router = useRouter();
+        return { router };
+    },
+    components:{
+        TopBar,
+        RightBar
+    },
+    methods:{
+        handleShowBar() {
+            this.showBar = true;
+        },
+        handleCloseBar() {
+            this.showBar = false;
+        },
+        async Authorization() {
+            const resp = await fetch('http://localhost:3000/api/users/me', {
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                credentials:"include"
+            })
+            if (!resp.ok) {
+                return this.router.push("/")
+            } else {
+                const user:User = await resp.json() as User
+                this.user = user 
+            }
+        }
+    },
+    created() {
+        this.Authorization()
+    }
+})
+</script>
+
+<style scoped>
+
+</style>

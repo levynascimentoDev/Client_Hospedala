@@ -1,0 +1,43 @@
+* {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  margin: 0;
+  color: white;
+}
+
+body, html {
+  box-sizing: border-box;
+}
+
+.container {
+  max-height: 100dvh;
+}
+
+section {
+  /* background-color: #242424; */
+  background-color: #15223B;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+input {
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  height: 30px;
+  border-radius: 10px;
+}
+
+button {
+  border-radius: 10px;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 10px 20px;
+}
