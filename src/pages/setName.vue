@@ -48,7 +48,7 @@ export default {
                 this.isLoading = true;
 
                 const name = `${this.firstName}${this.lastName.length > 0 ? this.lastName : ''}`
-                const resp = await fetch('http://localhost:3000/api/auth/register/username', {
+                const resp = await fetch(`${import.meta.env.API_URI}/api/auth/register/username`, {
                     method:"POST",
                     headers:{
                         "Content-Type":"application/json"
@@ -68,7 +68,7 @@ export default {
             }    
         },
         async verifyToken() {
-            const resp = await fetch(`http://localhost:3000/api/auth/register/tokens`, {
+            const resp = await fetch(`${import.meta.env.API_URI}/api/auth/register/tokens`, {
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${this.router.params.code}`,

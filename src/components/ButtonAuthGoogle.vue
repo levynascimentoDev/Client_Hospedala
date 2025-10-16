@@ -41,7 +41,7 @@
                 try {
                     this.isLoading = true;
                     this.$emit('load', true)
-                    const resp = await fetch("http://localhost:3000/api/auth/google", {
+                    const resp = await fetch(`${import.meta.env.API_URI}/api/auth/google`, {
                         headers:{
                             "Content-Type":"application/json"
                         }

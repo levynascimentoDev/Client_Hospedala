@@ -45,7 +45,7 @@
     },
     methods:{
       async Authorization() {
-        const resp = await fetch('http://localhost:3000/api/users/me', {
+        const resp = await fetch(`${import.meta.env.API_URI}/api/users/me`, {
           headers:{
             "Content-Type":"application/json"
           },

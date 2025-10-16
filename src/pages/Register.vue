@@ -89,7 +89,7 @@ export default defineComponent({
         const input = await this.checkInputs()
         if (input) return;
 
-        const response = await fetch("http://localhost:3000/api/auth/register", {
+        const response = await fetch(`${import.meta.env.API_URI}/api/auth/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -110,7 +110,7 @@ export default defineComponent({
       }
     },
     async Authorization() {
-      const resp = await fetch('http://localhost:3000/api/users/me', {
+      const resp = await fetch(`${import.meta.env.API_URI}/api/users/me`, {
         headers:{
           "Content-Type":"application/json"
         },

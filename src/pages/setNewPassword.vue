@@ -45,7 +45,7 @@ export default {
         async sendRequest() {
             if (this.passwordConfirm === this.password && this.passwordConfirm.length >= 7 && this.password.length >= 7) {
                 this.isLoading = true;
-                const resp = await fetch('http://localhost:3000/api/auth/login/forgot-password', {
+                const resp = await fetch(`${import.meta.env.API_URI}/api/auth/login/forgot-password`, {
                     method:"PATCH",
                     headers:{
                         "Content-Type":"application/json",
@@ -62,7 +62,7 @@ export default {
             }
         },
         async verifyToken() {
-            const resp = await fetch(`http://localhost:3000/api/auth/register/tokens`, {
+            const resp = await fetch(`${import.meta.env.API_URI}/api/auth/register/tokens`, {
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${this.router.params.code}`,

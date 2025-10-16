@@ -35,7 +35,7 @@ export default defineComponent({
       }, 300)
     },
     async logout() {
-      const resp = await fetch('http://localhost:3000/api/users/logout', {
+      const resp = await fetch(`${import.meta.env.API_URI}/api/users/logout`, {
         method:"DELETE",
         headers:{
           "Content-Type":"application/json"
