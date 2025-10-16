@@ -121,7 +121,7 @@ export default defineComponent({
     this.Authorization()
   },
   watch: {
-    email(after:string, before:string) {
+    email() {
       this.emailError = false;
     } 
   }

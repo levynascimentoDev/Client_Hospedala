@@ -7,7 +7,7 @@
             <span v-if="email" class="email">{{ email }}</span>
             <div class="inputs">
                 <input
-                    v-for="(val, i) in arrayCode"
+                    v-for="(_, i) in arrayCode"
                     :class="{ error:inputError }"
                     :key="i"
                     maxlength="1"

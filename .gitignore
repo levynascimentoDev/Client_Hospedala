@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+./src/pages/Teste.vue
+./src/pages/Chat.vue
 
 # Editor directories and files
 .vscode/*
