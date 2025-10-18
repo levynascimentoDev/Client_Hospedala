@@ -62,5 +62,19 @@ export default defineComponent({
 </script>
 
 <style scoped>
+@media (max-width: 600px) {
 
+    section {
+      text-align: center;
+    }
+    h1{
+      font-size: 19px;
+    }     
+
+    h2 {
+      font-size: 26px !important;
+    }
+
+
+}
 </style>

@@ -94,5 +94,28 @@ export default defineComponent({
     .links {
         display: block;
     }
+
+    @media (max-width: 600px) {
+        .top-bar {
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 15px 10px;
+        }
+
+        .top-bar .logo h1 {
+            font-size: 22px;
+            padding-left: 5px;
+        }
+
+        .link {
+            padding: 8px 12px;
+            font-size: 12px;
+            margin: 5px;
+        }
+
+        button.link {
+            display: block;
+        }
+    }
     
 </style>
