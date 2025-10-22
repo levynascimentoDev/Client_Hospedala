@@ -89,7 +89,7 @@ export default defineComponent({
         const input = await this.checkInputs()
         if (input) return;
 
-        const response = await fetch(`https://api.hospedala.com/api/auth/register`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -110,7 +110,7 @@ export default defineComponent({
       }
     },
     async Authorization() {
-      const resp = await fetch(`https://api.hospedala.com/api/users/me`, {
+      const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
         headers:{
           "Content-Type":"application/json"
         },

@@ -45,7 +45,7 @@ export default {
         async sendRequest() {
             if (this.passwordConfirm === this.password && this.passwordConfirm.length >= 7 && this.password.length >= 7) {
                 this.isLoading = true;
-                const resp = await fetch(`https://api.hospedala.com/api/auth/register/complete`, {
+                const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register/complete`, {
                     method:"POST",
                     headers:{
                         "Content-Type":"application/json"
@@ -61,7 +61,7 @@ export default {
             }
         },
         async verifyToken() {
-            const resp = await fetch(`https://api.hospedala.com/api/auth/register/tokens`, {
+            const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register/tokens`, {
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${this.router.params.code}`,

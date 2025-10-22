@@ -35,7 +35,7 @@ export default defineComponent({
       }, 300)
     },
     async logout() {
-      const resp = await fetch(`https://api.hospedala.com/api/users/logout`, {
+      const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/users/logout`, {
         method:"DELETE",
         headers:{
           "Content-Type":"application/json"

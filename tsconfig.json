@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "module": "esnext"
+    "module": "esnext",
+    "types": ["vite/client"]
   },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "include": ["vite-env.d.ts"]
 }
