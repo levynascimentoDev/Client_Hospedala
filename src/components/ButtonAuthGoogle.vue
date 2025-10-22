@@ -41,7 +41,7 @@
                 try {
                     this.isLoading = true;
                     this.$emit('load', true)
-                    const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google`, {
+                    const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/google`, {
                         headers:{
                             "Content-Type":"application/json"
                         }

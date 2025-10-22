@@ -81,7 +81,7 @@ export default defineComponent({
         },
         async refreshCode() {
             this.loading = true
-            const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/token/refresh`, {
+            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/token/refresh`, {
                 method:"PATCH",
                 headers:{
                     "Content-Type":"application/json"
@@ -117,7 +117,7 @@ export default defineComponent({
         if (this.router.params.code && this.router.params.type && ["register", "forgot-password", "login"].includes(this.router.params.type as string)) {            
             if (this.router.params.type == "login") {
                 
-                const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login/tokens`, {
+                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/login/tokens`, {
                     headers:{
                         "Content-Type":"application/json",
                         "Authorization":`Bearer ${this.router.params.code}`
@@ -130,7 +130,7 @@ export default defineComponent({
 
             } else if (this.router.params.type == "register") {
                 
-                const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register/tokens`, {
+                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/register/tokens`, {
                     headers:{
                         "Content-Type":"application/json",
                         "Authorization":`Bearer ${this.router.params.code}`,
@@ -142,7 +142,7 @@ export default defineComponent({
                 return this.email = values.email
 
             } else if (this.router.params.type == "forgot-password") {
-                const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register/tokens`, {
+                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/register/tokens`, {
                     headers:{
                         "Content-Type":"application/json",
                         "Authorization":`Bearer ${this.router.params.code}`,
@@ -164,7 +164,7 @@ export default defineComponent({
                 setTimeout(() => {}, 1500)
 
                 if (this.router.params.type == "login") {
-                    const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login/verify`, {
+                    const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/login/verify`, {
                         method:"POST",
                         headers:{
                             "Content-Type":"application/json"
@@ -180,7 +180,7 @@ export default defineComponent({
                         return this.$router.push("/home")
                     }
                 } else if (this.$route.params.type == "register" || this.$route.params.type == "forgot-password") {
-                    const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register/verify`, {
+                    const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/register/verify`, {
                         method:"POST",
                         headers:{
                             "Content-Type":"application/json"

@@ -45,7 +45,7 @@
     },
     methods:{
       async Authorization() {
-        const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
+        const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
           headers:{
             "Content-Type":"application/json"
           },
