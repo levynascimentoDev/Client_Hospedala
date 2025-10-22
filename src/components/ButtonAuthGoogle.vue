@@ -49,6 +49,7 @@
 
                     if (resp.ok) {
                         const value:googleAuthResponse = await resp.json()
+                        console.log(value)
                         window.location.href = value.redirect_uri
                     } else {
                         this.isLoading = false;
