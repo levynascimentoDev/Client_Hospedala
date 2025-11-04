@@ -3,13 +3,11 @@
         <span v-if="isLoading" class="loading"></span>
         <img
             v-if="!isLoading"
-            src="../assets/google-icon.svg"
+            src="../../assets/google-icon.svg"
             alt="logo-google"
-            width="24"
-            height="24"
+            class="img"
         >
-        <span v-if="isLogin && !isLoading">Login com google</span>
-        <span v-else-if="!isLogin && !isLoading">Cadastre-se com google</span>
+        <span>Entrar com google</span>
     </button>
 </template>
 
@@ -45,7 +43,7 @@
                         headers:{
                             "Content-Type":"application/json"
                         }
-                    })
+                    })  
 
                     if (resp.ok) {
                         const value:googleAuthResponse = await resp.json()
@@ -61,32 +59,34 @@
 
                 }
             }
-        },
-        props:{
-            isLogin:{
-                type:Boolean,
-                default:false
-            }
         }
     })
 </script>
 
 <style scoped>
     .google-button {
+        width: 294px;
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 5px;
-        width: 250px;
-        max-width: 250px;
-        flex: 0 0 auto;
-        transition: all ease-in .2s;
+        padding: 10px 0;
+        box-shadow:  2px 4px 4px rgba(0, 0, 0, 0.2);
+        cursor: pointer ;
+        transition: all ease-out .2s;
     }
+    
 
+    .google-button img {
+        max-width: 20px;
+        max-height: 20px;
+    }
+    
     span {
         color: black;
-        font-weight: 600;
-        font-size: 16px;
+        font-weight: 500;
+        font-size: 14px;
     }
 
     .loading {
@@ -105,7 +105,7 @@
 
 
     .google-button:not(:disabled):hover {
-        box-shadow: 0 3px 5px black;
+        transform: translateY(-3px);
     }
 
     @keyframes spin {

@@ -4,8 +4,10 @@
             <h1>Hospedala</h1>
         </div>
         <div v-if="home" class="links">
-            <router-link class="link" to="/login">Entrar</router-link>
-            <router-link class="link" to="/register">Cadastrar-se</router-link>
+            <router-link class="link" to="/">
+                <i class="bi bi-airplane-fill"></i>
+                <span>Hospedagens</span>
+            </router-link>
         </div>
         <button v-if="!home" class="link" @click="showBar">
             <i class="bi bi-gear-fill"></i>
@@ -39,7 +41,7 @@ export default defineComponent({
 <style scoped>
     .top-bar {
         width: 100%;
-        padding: 25px 20px;
+        padding: 10px 20px;
         background: white;
         display: flex;
         align-items: center;
@@ -49,6 +51,8 @@ export default defineComponent({
         position: absolute;
         max-height: 100px;
         top: 0;
+        z-index: 9999;
+        box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);
     }
 
     .top-bar .logo h1 {
@@ -58,48 +62,61 @@ export default defineComponent({
         padding-left: 10px;
     }
     
+    .links {
+        display: block;
+        margin-right: 40px;
+    }
     .link {
-        background: black;
-        color: white;
-        transition: all linear .2s;
-        padding: 10px 15px;
-        border-radius: 20px;
+        position: relative;
+        color: black;
+        border-radius: 7px;
         cursor: pointer;
         text-decoration: none;
         margin: 10px 10px;
         font-weight: 600;
+        font-size: 18px;
+        display: flex;
+        gap: 5px;
+        /* padding: 5px; */
+        /* box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4); */
+    }
+    
+    
+    .link::after {
+        content: ' ';
+        display: inline-block;
+        height: 2px;
+        background: black;
+        position: absolute;
+        width: 0;
+        bottom: -2px;
+        left: 0;
+        transition: all linear .3s;
     }
 
-    .link:hover {
-        border: 1px solid black;
-        /* box-shadow: 0 0 3px black; */
-        box-shadow: inset 3px 3px 6px rgb(108, 107, 107);   
-        background: white;
-        color: black;
+    .link:hover::after {
+        width: 100%;
     }
 
-    .link:hover i {
-        color: black;
-        font-size: 16px;
+    .link > span {
+        display: block;
     }
 
-    i {
-        font-size: 16px;
+    .link > i {
+        margin-left: 5px ;
+        display: block;
     }
-
+    
     .logo {
         display: block;
     }
     
-    .links {
-        display: block;
-    }
 
-    @media (max-width: 600px) {
+    /* @media (max-width: 600px) {
         .top-bar {
             flex-direction: row;
             justify-content: space-between;
-            padding: 15px 10px;
+            padding: 15px 5px;
         }
 
         .top-bar .logo h1 {
@@ -117,5 +134,5 @@ export default defineComponent({
             display: block;
         }
     }
-    
+     */
 </style>
