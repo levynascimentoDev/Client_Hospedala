@@ -82,6 +82,7 @@ export default defineComponent({
 }
 
 .input i {
+    user-select: none;
     transition: all .4s;
     position: absolute;
     font-size: 21px;

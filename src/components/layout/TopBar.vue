@@ -3,23 +3,37 @@
         <div class="logo">
             <h1>Hospedala</h1>
         </div>
-        <div v-if="home" class="links">
-            <router-link class="link" to="/">
+        <div v-if="!home" class="links">
+            <router-link class="link"  to="/">
                 <i class="bi bi-airplane-fill"></i>
                 <span>Hospedagens</span>
             </router-link>
         </div>
-        <button v-if="!home" class="link" @click="showBar">
-            <i class="bi bi-gear-fill"></i>
-        </button>
+        <ul v-else-if="!isLogged" class="buttons">
+            <li><router-link to="/login" class="login" >Entrar</router-link></li>
+            <li><router-link to="/register" class="register">Cadastrar-se</router-link></li>
+        </ul>
+        <nav class="buttons" type="button" v-else>
+
+            <button>
+                <i class="bi bi-bell"></i>
+            </button>   
+
+            <button class="button-menu" @click="$emit('menu', showMenu())">
+                <i class="bi bi-list-task"></i>
+                <img src="https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200" alt="Icone do user" class="user-icon">
+            </button>
+        </nav>
     </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, type PropType } from 'vue';
+
 export default defineComponent({
     data() {
         return {
-            toogleButton:false
+            toogleButton:false,
+            toogleMenu:false
         }
     },
     props:{
@@ -27,11 +41,25 @@ export default defineComponent({
             type:Boolean,
             required:false,
             default:true
+        },
+        isLogged:{
+            type:Boolean,
+            required:false,
+            default:false
+
+        },
+        data:{
+            type: Object as PropType<{email:string, name:string, icon:string}>,
+            required:false
         }
     },
     methods:{
         showBar() {
             this.$emit('show-bar')
+        },
+        showMenu() {
+            this.toogleMenu = !this.toogleMenu;
+            return this.toogleMenu;
         }
     },
 });
@@ -41,14 +69,14 @@ export default defineComponent({
 <style scoped>
     .top-bar {
         width: 100%;
-        padding: 10px 20px;
+        padding: 10px 35px;
         background: white;
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex-direction: row;
         box-sizing: border-box;
-        position: absolute;
+        position: fixed;
         max-height: 100px;
         top: 0;
         z-index: 9999;
@@ -59,7 +87,6 @@ export default defineComponent({
         position: relative;
         color: black;
         font-size: 30px;
-        padding-left: 10px;
     }
     
     .links {
@@ -77,10 +104,43 @@ export default defineComponent({
         font-size: 18px;
         display: flex;
         gap: 5px;
-        /* padding: 5px; */
-        /* box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4); */
+    }
+    ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: max-content;
+    }
+
+    ul li {
+        list-style: none;
+        gap: 10px;
+        transition: .3s all ease;
     }
     
+
+    ul li:hover{
+        transform: translateY(-2px);
+    }
+
+    .login {
+        padding: 10px;
+        border: 2px solid black;
+        border-radius: 10px;
+        text-decoration: none;
+        margin: 20px;
+    }
+
+    .register {
+        padding: 10px;
+        background: #02552A;
+        font-weight: 500;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: .2s ease;
+    }
+
     
     .link::after {
         content: ' ';
@@ -109,6 +169,41 @@ export default defineComponent({
     
     .logo {
         display: block;
+    }
+    
+    .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent ;
+        gap: 7px;
+    }
+
+    
+    
+    .buttons button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        cursor: pointer;
+    }
+    
+    .buttons button > i {
+        font-size: 22px;
+    }
+    
+    .buttons > .button-menu {
+        border: 2px solid #D4D4D4;
+        border-radius: 10px;
+        gap: 8px;
+        
+    } 
+    
+    .buttons button > img {
+        width: 35px;        
+        height: 34px;
+        border-radius: 100%;
     }
     
 

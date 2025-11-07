@@ -1,5 +1,4 @@
 <script lang="ts">
-import { getDefaultFormatCodeSettings } from 'typescript';
 import ButtonAuthGoogle from '../../components/auth/ButtonAuthGoogle.vue';
 import InputPassword from '../../components/auth/inputPassword.vue';
 import SpanMessage from '../../components/layout/spanMessage.vue';
@@ -13,7 +12,7 @@ export default defineComponent({
             email:"",
             password:"",
             isError:false,
-            isLoading:false
+            isLoading:false,
         }
     },
     components:{
@@ -25,7 +24,19 @@ export default defineComponent({
     methods:{
         async postRequets() {
             this.isError = true;
-        }
+        },
+        async getRequets() {
+            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
+                headers:{
+                    "Conetent-Type":"application/json"
+                },
+                credentials:"include"
+            })
+
+            if (resp.ok) {
+                return this.$router.push('/');
+            }
+        },
     }
 })
 
@@ -33,7 +44,7 @@ export default defineComponent({
 
 <template> 
     <div class="container">
-        <TopBar :home="true" />
+        <TopBar :home="false" :isLogged="false" />
         <section>
             <div class="content">
                 <div class="box-login">
