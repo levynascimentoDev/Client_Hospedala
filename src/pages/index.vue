@@ -300,7 +300,6 @@ export default defineComponent({
         <Menu 
             v-if="showMenu"
             :user="user"
-            v-click-outside="showMenu = false"
         />
         <div class="hosts">
             <div class="row-values" v-for="(listValues, indexList) in filter" :key="indexList">
