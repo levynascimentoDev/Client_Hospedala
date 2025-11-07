@@ -1,6 +1,7 @@
 <script lang="ts">
 import ButtonAuthGoogle from '../../components/auth/ButtonAuthGoogle.vue';
 import InputPassword from '../../components/auth/inputPassword.vue';
+import ModalForgotPass from '../../components/auth/ModalForgotPass.vue';
 import SpanMessage from '../../components/layout/spanMessage.vue';
 import TopBar from '../../components/layout/TopBar.vue';
 import { defineComponent } from 'vue';
@@ -19,7 +20,8 @@ export default defineComponent({
         TopBar,
         InputPassword,
         ButtonAuthGoogle,
-        SpanMessage
+        SpanMessage,
+        ModalForgotPass
     },
     methods:{
         async postRequets() {
@@ -46,6 +48,7 @@ export default defineComponent({
     <div class="container">
         <TopBar :home="false" :isLogged="false" />
         <section>
+            <ModalForgotPass/>
             <div class="content">
                 <div class="box-login">
                     <h1>Login</h1>
