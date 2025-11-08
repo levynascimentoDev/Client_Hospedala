@@ -1,5 +1,10 @@
 <template>
     <div class="top-bar">
+        <Menu 
+            :user="user"
+            v-if="toogleMenu"
+            @clickOutside="toogleMenu = false"
+        />
         <div class="logo">
             <h1>Hospedala</h1>
         </div>
@@ -19,7 +24,7 @@
                 <i class="bi bi-bell"></i>
             </button>   
 
-            <button class="button-menu" @click="$emit('menu', showMenu())">
+            <button class="button-menu" @click.stop="showMenu()">
                 <i class="bi bi-list-task"></i>
                 <img src="https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200" alt="Icone do user" class="user-icon">
             </button>
@@ -27,13 +32,25 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue';
+import { defineComponent, ref, type PropType } from 'vue';
+import type { User } from '../../types/types';
+import Menu from './Menu.vue';
 
 export default defineComponent({
+    components: { 
+        Menu 
+    },
     data() {
         return {
             toogleButton:false,
-            toogleMenu:false
+            toogleMenu:false,
+            user:ref<User>({
+                name:"teste",
+                email:"teste@gmail.com",
+                admin:false,
+                id:122313123,
+                icon:"http://localhost:5000/src/assets/imgs/Apresentation2.png"
+            })
         }
     },
     props:{

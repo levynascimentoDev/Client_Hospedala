@@ -26,7 +26,7 @@ export default defineComponent({
                
                <span class="or">OU</span>
                <RouterLink to="/register" class="create-account">Criar nova conta</RouterLink>
-               <button type="button" >Voltar para o login</button>
+               <button type="button" @click="$emit('toogle')">Voltar para o login</button>
 
             </div>
         </div>
@@ -173,9 +173,11 @@ export default defineComponent({
     .footer button{
         width: 100%;
         padding: 10px 0px;
-        cursor: pointer;
-
-        
+        cursor: pointer;        
+        transition: ease .2s;
+    }
+    .footer button:hover {
+        background: rgba(255, 0, 0, 0.283);
     }
     @keyframes slide {
         from{

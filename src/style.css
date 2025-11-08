@@ -22,5 +22,15 @@ section {
   display: flex;
 }
 
+img {
+  user-select: none;    
+  pointer-events: none; 
+  -webkit-user-drag: none;
+}
+
+i {
+  user-select: none;
+}
+
 
 

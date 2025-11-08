@@ -295,12 +295,8 @@ export default defineComponent({
 
 <template>
     <div class="container">
-        <TopBar :home="true" :isLogged="true"  @menu="showMenu = $event"/>
+        <TopBar :home="true" :isLogged="true"/>
         <Apresentation />
-        <Menu 
-            v-if="showMenu"
-            :user="user"
-        />
         <div class="hosts">
             <div class="row-values" v-for="(listValues, indexList) in filter" :key="indexList">
                 <h1>Em destaque</h1>

@@ -14,6 +14,7 @@ export default defineComponent({
             password:"",
             isError:false,
             isLoading:false,
+            toogleModalForgot:false
         }
     },
     components:{
@@ -39,6 +40,10 @@ export default defineComponent({
                 return this.$router.push('/');
             }
         },
+        showModalForgot() {
+            this.toogleModalForgot = !this.toogleModalForgot;
+            return this.toogleModalForgot
+        }
     }
 })
 
@@ -48,7 +53,7 @@ export default defineComponent({
     <div class="container">
         <TopBar :home="false" :isLogged="false" />
         <section>
-            <ModalForgotPass/>
+            <ModalForgotPass v-if="toogleModalForgot" @toogle="showModalForgot()"/>
             <div class="content">
                 <div class="box-login">
                     <h1>Login</h1>
@@ -78,7 +83,7 @@ export default defineComponent({
                     </form>
                     <span class="or">ou</span>
                     <ButtonAuthGoogle @load="isLoading = $event" />
-                    <button type="button" class="forgot-password">Esqueci minha senha!</button>
+                    <button type="button" class="forgot-password" @click="showModalForgot()">Esqueci minha senha!</button>
                 </div>
                 <img src="../../assets/imgs/image-card.png" alt="Imagens de praia" class="img-span">
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue';
+import { defineComponent, ref, type PropType } from 'vue';
 import type { User } from '../../types/types';
 
 export default defineComponent({
@@ -14,8 +14,21 @@ export default defineComponent({
         showEmail() {
             const newEmail = this.user.email.replace('@gmail.com', '')
             return `${this.user.email[0]}${`*`.repeat(newEmail.length-2)}${newEmail[newEmail.length-1]}@gmail.com`
+        },
+        handlerClickOutside(event:Event) {
+            const menu = this.$refs.menu as HTMLElement
+            if (menu && !(menu as HTMLElement).contains(event.target as Node)) {
+                this.$emit('clickOutside', false)
+            }
         }
     },
+    mounted() {
+        window.addEventListener('click', this.handlerClickOutside)
+    },
+    beforeUnmount() {
+        window.removeEventListener('click', this.handlerClickOutside)
+    }
+    
 })
 </script>
 
@@ -29,12 +42,12 @@ export default defineComponent({
            </span>
         </div>
         <nav class="navigator">
-            <router-link  class="link" to="#"><img src="../../assets/icons/home.svg" alt="Home icon"/>   Inicio</router-link>
-            <router-link  class="link" to="#"><img src="../../assets/icons/home.svg" alt="Coins icon"/>   Milha Coins</router-link>
-            <router-link class="link" to="#"><img src="../../assets/icons/plane.svg" alt="Plane icon"/>   Minhas Viagens</router-link>
-            <router-link class="link" to="#"><img src="../../assets/icons/heart.svg" alt="Heart icon"/>   Favoritos</router-link>
-            <router-link class="link" to="#"><img src="../../assets/icons/rotaLivre.svg" alt="Rotalivre icon"/>   Rota livre</router-link>
-            <router-link class="link" to="#"><img src="../../assets/icons/config.svg" alt="Config icon"/>   Configurações</router-link>
+            <router-link  class="link" to="/"><img src="../../assets/icons/home.svg" alt="Home icon"/>   Inicio</router-link>
+            <router-link  class="link" to="/coins"><img src="../../assets/icons/home.svg" alt="Coins icon"/>   Milha Coins</router-link>
+            <router-link class="link" to="/travels"><img src="../../assets/icons/plane.svg" alt="Plane icon"/>   Minhas Viagens</router-link>
+            <router-link class="link" to="/favorites"><img src="../../assets/icons/heart.svg" alt="Heart icon"/>   Favoritos</router-link>
+            <router-link class="link" to="/rotalivre"><img src="../../assets/icons/rotaLivre.svg" alt="Rotalivre icon"/>   Rota livre</router-link>
+            <router-link class="link" to="/settings"><img src="../../assets/icons/config.svg" alt="Config icon"/>   Configurações</router-link>
             <button class="logout-button" type="button"><img src="../../assets/icons/exit.svg" alt="Exit icon"/>  Sair</button>
         </nav>
     </div>
@@ -127,7 +140,7 @@ export default defineComponent({
 }
 
 .navigator .link:hover {
-    background: #F5F5F5;
+    background: #dddbdb9a;
 }
 
 .navigator .logout-button:hover {
@@ -135,9 +148,14 @@ export default defineComponent({
 }
 
 .navigator .logout-button {
+    margin-top: 15px;
     border-radius: 8px;
     text-align: center;
 }
+
+.router-link-exact-active {
+    background: #d1d1d1 !important;
+} 
 
 @keyframes slideIn {
     from {
