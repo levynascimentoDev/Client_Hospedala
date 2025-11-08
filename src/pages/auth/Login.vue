@@ -5,7 +5,7 @@ import ModalForgotPass from '../../components/auth/ModalForgotPass.vue';
 import SpanMessage from '../../components/layout/spanMessage.vue';
 import TopBar from '../../components/layout/TopBar.vue';
 import { defineComponent } from 'vue';
-
+import ModalConfirmCode from '../../components/auth/ModalConfirmCode.vue';
 export default defineComponent({
     name:"Login",
     data() {
@@ -22,7 +22,8 @@ export default defineComponent({
         InputPassword,
         ButtonAuthGoogle,
         SpanMessage,
-        ModalForgotPass
+        ModalForgotPass,
+        ModalConfirmCode
     },
     methods:{
         async postRequets() {
@@ -54,6 +55,7 @@ export default defineComponent({
         <TopBar :home="false" :isLogged="false" />
         <section>
             <ModalForgotPass v-if="toogleModalForgot" @toogle="showModalForgot()"/>
+            <ModalConfirmCode/>
             <div class="content">
                 <div class="box-login">
                     <h1>Login</h1>
