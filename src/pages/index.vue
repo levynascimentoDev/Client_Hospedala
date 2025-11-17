@@ -1,57 +1,18 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import TopBar from '../components/layout/TopBar.vue';
-import Apresentation from '../components/home/Apresentation.vue';
 import Footer from '../components/layout/Footer.vue';
 import Host from '../components/home/Host.vue';
-import type { hostData, User } from '../types/types';
 import Menu from '../components/layout/Menu.vue';
+import SpinerLoading from '../components/layout/spinnerLoading.vue';
+import type { hostData, User } from '../types/types';
 
 export default defineComponent({
     name:"Homepage",
     data() {
         return {
-            filter:ref<hostData[][]>([]),
-            datas:ref<hostData[]>([
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                 { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
+            filter:[] as hostData[][],
+            datas:[
                 { 
                     title:"Reserva de quarto em fortaleza",
                     default_value:45.5,
@@ -104,45 +65,6 @@ export default defineComponent({
                         media:4.5
                     }
                 },
-                 { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
                 { 
                     title:"Reserva de quarto em fortaleza",
                     default_value:45.5,
@@ -166,45 +88,6 @@ export default defineComponent({
                     ],
                     review:{
                         total:100,  
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                 { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
                         media:4.5
                     }
                 },
@@ -247,45 +130,54 @@ export default defineComponent({
                         media:4.5
                     }
                 }
-            ]),
-            isLogged:false,
-            user:ref<User>({
-                name:"teste",
-                email:"teste@gmail.com",
-                admin:false,
-                id:122313123,
-                icon:"http://localhost:5000/src/assets/imgs/Apresentation2.png"
-            }),
-            showMenu:false
+            ] as hostData[],
+            user:null as User | null,
+            isLoading:false
         }
+   
     },
     components:{
         TopBar,
-        Apresentation,
         Footer,
         Menu,
-        Host
+        Host,
+        SpinerLoading
     },
     methods:{
-        async getRequets() {
+        async getUserData() {
             const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
                 headers:{
-                    "Conetent-Type":"application/json"
+                    "Content-Type":"application/json",
                 },
                 credentials:"include"
             })
 
-            if (resp.ok) this.isLogged = true;
-            else this.isLogged = false;
-        },
+            if (resp.ok) {
+                this.user = await resp.json() as User
+            }
+        }
     },
     created() {
+        this.isLoading = true;
+        this.getUserData()
+        setTimeout(() => this.isLoading = false, 1500);
+        for (let i = 0; i < this.datas.length; i+=8 ) {
+            this.filter.push(this.datas.slice(i, i+8));
+        }
 
-        this.getRequets();
+    },
+    mounted() {
+        window.scrollTo({ top: 0 });
+    },
+    watch: {
+        isLoading(after:boolean, before:boolean) {
 
-        if (this.datas.length) {
-            for (let i = 0; i < this.datas.length; i+=8 ) {
-                this.filter.push(this.datas.slice(i, i+8));
+            if (after) {
+                window.scrollTo({ top: 0    });
+                document.body.style.overflow = "hidden"    
+            } else {
+                window.scrollTo({ top: 0 });
+                document.body.style.overflow = ""    
             }
         }
     }
@@ -295,10 +187,16 @@ export default defineComponent({
 
 <template>
     <div class="container">
-        <TopBar :home="true" :isLogged="true"/>
-        <Apresentation />
-        <div class="hosts">
-            <div class="row-values" v-for="(listValues, indexList) in filter" :key="indexList">
+        <TopBar :home="true" :isLogged="user != null" :user="user"/>
+        <div class="content" v-if="isLoading" style="margin-top: 60px;">
+            <div class="row-content" v-for="row in 2" :key="row">
+                <div class="values">
+                    <host :isLoading="true" v-for="i in 8" :key="i"/>
+                </div>
+            </div>
+        </div>
+        <div class="content" v-else>
+            <div class="row-content" v-for="(listValues, indexList) in filter" :key="indexList">
                 <h1>Em destaque</h1>
                 <div class="values">
                     <Host v-for="(value, indexValue) in listValues" :data="value" :key="indexValue"  />
@@ -317,35 +215,35 @@ export default defineComponent({
 
 <style scoped>
 
-.hosts {
+.content {
     display: flex;
     justify-content: start;
     align-content: start;
     padding-left: 38px;
     padding-right: 38px;
-    
     padding-bottom: 30px;
-    padding-top: 20px;
+    padding-top: 35px;
     gap: 25px;
     flex-wrap: wrap;
     margin-bottom: 80px;
+    flex: 1;
 }
 
-.row-values {
+.row-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
 }
 
-.row-values h1 {
+.row-content h1 {
     font-size: 20px;
     margin-left: 20px;
     margin-bottom: 10px;
     flex-shrink: 0;
 }
 
-.row-values .values {
+.row-content .values {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -357,7 +255,7 @@ export default defineComponent({
     width: 100%;
 }
 
-.row-values .values::-webkit-scrollbar {
+.row-content .values::-webkit-scrollbar {
     height: 0;
 }
 

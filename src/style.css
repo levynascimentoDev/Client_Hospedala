@@ -5,14 +5,27 @@
   border: none;
   margin: 0;
   color: white;
-  outline: none;
   box-sizing: border-box;
   color: rgb(0, 0, 0);
 }
 
+
+input:focus {
+  border: 0.2 solid black;
+}
+
+body, html {
+  height: 100%;
+}
+
+
 .container {
   max-height: 100dvh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
+
 
 section {
   background-color: #fff;

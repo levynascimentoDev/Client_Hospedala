@@ -1,11 +1,11 @@
 <script lang="ts">
-import ButtonAuthGoogle from '../../components/auth/ButtonAuthGoogle.vue';
-import InputPassword from '../../components/auth/inputPassword.vue';
-import ModalForgotPass from '../../components/auth/ModalForgotPass.vue';
-import SpanMessage from '../../components/layout/spanMessage.vue';
+import ButtonAuthGoogle from '../../components/auth/buttons/ButtonAuthGoogle.vue';
+import InputPassword from '../../components/auth/buttons/inputPassword.vue';
+import ModalForgotPass from '../../components/auth/modal/ModalForgotPass.vue';
 import TopBar from '../../components/layout/TopBar.vue';
 import { defineComponent } from 'vue';
-import ModalConfirmCode from '../../components/auth/ModalConfirmCode.vue';
+import ModalConfirmCode from '../../components/auth/modal/ModalConfirmCode.vue';
+import Footer from '../../components/layout/Footer.vue';
 export default defineComponent({
     name:"Login",
     data() {
@@ -14,16 +14,17 @@ export default defineComponent({
             password:"",
             isError:false,
             isLoading:false,
-            toogleModalForgot:false
+            toogleModalForgot:false,
+            toogleSetCode:false,
         }
     },
     components:{
         TopBar,
         InputPassword,
         ButtonAuthGoogle,
-        SpanMessage,
         ModalForgotPass,
-        ModalConfirmCode
+        ModalConfirmCode,
+        Footer
     },
     methods:{
         async postRequets() {
@@ -55,11 +56,10 @@ export default defineComponent({
         <TopBar :home="false" :isLogged="false" />
         <section>
             <ModalForgotPass v-if="toogleModalForgot" @toogle="showModalForgot()"/>
-            <ModalConfirmCode/>
-            <div class="content">
+            <ModalConfirmCode v-if="toogleSetCode"/>
+            <div class="content" >
                 <div class="box-login">
-                    <h1>Login</h1>
-                    <SpanMessage v-if="isError" :message="'Email ou senha incorretos'"/> 
+                    <h1>Entre ou Cadastre-se</h1>
                     <form @submit.prevent="postRequets">
     
                         <label for="email" class="input">
@@ -72,12 +72,7 @@ export default defineComponent({
                                 :class="{ 'inputs-error': isError }"
                             />
                         </label>
-    
-                        <InputPassword 
-                            @password="password = $event"
-                            class="input"
-                            :isError="isError"
-                        />
+
                         <button 
                             type="submit" 
                             :disabled="isLoading"
@@ -85,16 +80,17 @@ export default defineComponent({
                     </form>
                     <span class="or">ou</span>
                     <ButtonAuthGoogle @load="isLoading = $event" />
-                    <button type="button" class="forgot-password" @click="showModalForgot()">Esqueci minha senha!</button>
+                    <!-- <div class="create-account">
+                        <span>Não tem uma conta?</span>  
+                        <router-link to="/register" class="link">Crie uma</router-link>
+                    </div>
+                    <button type="button" class="forgot-password" @click="showModalForgot()">Esqueci minha senha!</button>                     -->
                 </div>
-                <img src="../../assets/imgs/image-card.png" alt="Imagens de praia" class="img-span">
-
             </div>
-        
-            <div class="footer" ></div>
             
         </section>        
-
+        
+        <Footer />
     </div>
 </template>
 
@@ -105,9 +101,9 @@ section {
     align-items: center;
     justify-content: center ;
     flex-direction: column;
-    overflow: hidden;
-    widows: 100%;
+    width: 100%;
 }
+
 
 .content {
     display: flex;
@@ -115,7 +111,7 @@ section {
     justify-content: space-around;
     width: 100%;
     max-width: 100%;
-    padding: 0 30px;
+    padding: 0 30px;    
 }
 
 .img-span {
@@ -127,7 +123,7 @@ section {
 
 .box-login {
     border-radius: 10px;
-    box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 2px 4px 14px rgba(0, 0, 0, 0.2); */
     text-align: center;
     display: flex;
     align-items: center;
@@ -138,6 +134,12 @@ section {
     gap: 10px;
     padding: 0 10px;
     margin-bottom: 20px;
+    transform: scale(1.15);
+}
+
+.box-login h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
 .box-login form {
@@ -147,6 +149,7 @@ section {
     flex-direction: column;
     gap: 10px;
     padding: 10px;
+    padding-bottom: 0;
 }
 
 
@@ -180,15 +183,16 @@ section {
 
 
 .box-login form button {
-    background: linear-gradient(#02552A, #026331, #064D28);
+    /* background: linear-gradient(#02552A, #026331, #064D28); */
+    background: black;
     color: white;
     width: 300px;
     padding: 10px 0;
     border-radius: 8px;
     cursor: pointer;
-    transition: all linear .3s;
     font-size: 15px;
     font-weight: 500;
+    transition: linear .2s;
 }
 
 .box-login form button:disabled {
@@ -197,14 +201,14 @@ section {
 }
 
 .box-login form button:not(:disabled):hover  {
-    opacity: 0.8;
+    opacity: 0.6;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .or {
     user-select: none;
     font-size: 15px;
-    margin: 0;
+    margin: -5px;
 }
 
 .or::before, .or::after {
@@ -212,7 +216,7 @@ section {
     display: inline-block;
     width: 120px;
     background: black;
-    height: 1.5px;
+    height: 0.9px;
     margin: 2px 10px;
 }
 
@@ -241,19 +245,28 @@ section {
 }   
 
 
-.footer {
-    width: 100%;
-    height: 93px;
-    background: linear-gradient(#02552A, #026331, #064D28);
-    position: fixed;
-    bottom: 0;  
-}
-
 .inputs-error {
     border: 1.7px solid red;
     box-shadow: 2px 4px 8px rgba(255, 0, 0, 0.2);
 }
 
+.box-login .create-account {
+    font-size: 12px;
+    display: flex;
+    gap: 5px;
+}
+
+.create-account .link {
+    text-decoration: none;
+    font-weight: 600;
+    color: rgb(0, 67, 191);
+    transition: all linear .2s;
+}
+
+
+.link:hover {
+    text-decoration: underline;
+}
 
 @media (max-width: 850px) {
     

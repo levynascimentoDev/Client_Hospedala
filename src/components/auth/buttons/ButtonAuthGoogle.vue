@@ -3,7 +3,7 @@
         <span v-if="isLoading" class="loading"></span>
         <img
             v-if="!isLoading"
-            src="../../assets/google-icon.svg"
+            src="../../../assets/google-icon.svg"
             alt="logo-google"
             class="img"
         >
@@ -31,7 +31,8 @@
         },
         data() {
             return {
-                isLoading:ref<boolean>(false)
+                isLoading:ref<boolean>(false),
+                googleWindow:null as Window | null
             }
         },
         methods:{
@@ -46,8 +47,28 @@
                     })  
 
                     if (resp.ok) {
-                        const value:googleAuthResponse = await resp.json()
-                        window.location.href = value.redirect_uri
+                        const urlGoogle:googleAuthResponse = await resp.json()
+
+                        document.location.href = urlGoogle.redirect_uri;
+
+                        // if (this.googleWindow && !this.googleWindow.closed) {
+                        //     this.googleWindow.focus()
+                        //     return
+                        // }
+
+                        // this.googleWindow = window.open(
+                        //     urlGoogle.redirect_uri,
+                        //     'googleAuth',
+                        //     'width=500,height=600'
+                        // )
+
+                        // const closePopOut = setInterval(() => {
+                        //     if (this.googleWindow?.closed) {
+                        //         this.googleWindow = null;
+                        //         clearInterval(closePopOut)
+                        //     }
+                        // }, 500);
+                        
                     } else {
                         this.isLoading = false;
                         this.$emit('load', false)

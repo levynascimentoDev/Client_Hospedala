@@ -1,13 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 export default defineComponent({
-    name:"modalConfirm",
-    data(){
-        return{
-            inputValues:["","","","","",""],
-            code:""
-        }
-    }
+    name:"modalForgot"
 })
 </script>
 
@@ -16,24 +10,23 @@ export default defineComponent({
         <div  class="modal-forgot">
 
             <div class="title">
-                
-                <h2>Insira o código de confirmação</h2>
-                <p> Insira o código de 6 digitos que enviamos para.</p>
-                <h1>a......@gmail.com</h1>
+                <img src="../../assets/icons/lock.svg" alt="cadeado">
+                <h1>Problemas para entrar?</h1>
+                <p> Insira o seu e-mail, telefone ou nome de usuário e enviaremos um link para você voltar a acessar a sua conta.</p>
     
             </div>
-            <div class="inputs">
-                <input type="text" v-for="(value, key) in inputValues" :key="key" :value="value" maxlength="1">
-                
-
-
-            </div>
+            <form>
+                <input type="text" placeholder="Email, telefone ou nome de usuário">
+                <button class="btn-green">Enviar link para login</button>
+    
+            </form>
             <div class="footer">
     
                <RouterLink to="/suport/forgot-password" class="link">Não consegue redefinir sua senha?</RouterLink>
                
                <span class="or">OU</span>
                <RouterLink to="/register" class="create-account">Criar nova conta</RouterLink>
+               <button type="button" @click="$emit('toogle')">Voltar para o login</button>
 
             </div>
         </div>
@@ -58,11 +51,11 @@ export default defineComponent({
         height: max-content;
         background: white;
         text-align: center;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-top: 10px;
         border-radius: 10px;
         box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
         overflow: hidden;
+        padding-bottom: 0px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -112,7 +105,8 @@ export default defineComponent({
         font-size: 13px;
     }
     form button{
-        background: linear-gradient(#02552A, #026331, #02552A);
+        /* background: linear-gradient(#02552A, #026331, #02552A); */
+        background: black;
         color: white;
         width: 260px;
         padding: 10px 0px;
@@ -133,7 +127,6 @@ export default defineComponent({
         flex-direction: column;
         width: 100%;
         gap: 8px;
-
     }
 
     .footer .link {
@@ -183,27 +176,9 @@ export default defineComponent({
         padding: 10px 0px;
         cursor: pointer;        
         transition: ease .2s;
-        
     }
     .footer button:hover {
         background: rgba(255, 0, 0, 0.283);
-    }
-
-    .inputs input {
-        width: 35px;
-        height: 45px;
-        text-align: center;
-        font-size: 15px;
-        border: 1px solid #DBDBDB;
-        border-radius: 8px;
-        
-    }
-    .inputs{
-        gap: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
     }
     @keyframes slide {
         from{

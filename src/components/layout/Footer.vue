@@ -30,16 +30,16 @@
             <div class="social-media">
                 <h1>Redes Sociais</h1>
                 <ul>
-                    <li><router-link to="#"><i class="bi bi-whatsapp"></i></router-link></li>
+                    <li><a href="#"><i class="bi bi-whatsapp"></i></a></li>
                     <li><a href="https://www.instagram.com/hospedala/?utm_source=ig_web_button_share_sheet"><i class="bi bi-instagram"></i></a></li>
-                    <li><router-link to="#"><i class="bi bi-facebook"></i></router-link></li>
+                    <li><a href="#"><i class="bi bi-facebook"></i></a></li>
                 </ul>
             </div>
         </div>        
         <hr>
         <div class="copyright">
             <p>&copy;2025 Hospedala. Todos os direitos reservados.</p>
-        </div>
+        </div>  
     </div>
 </template>
 

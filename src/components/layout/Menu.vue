@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, type PropType } from 'vue';
+import { defineComponent, type PropType } from 'vue';
 import type { User } from '../../types/types';
 
 export default defineComponent({
@@ -14,6 +14,18 @@ export default defineComponent({
         showEmail() {
             const newEmail = this.user.email.replace('@gmail.com', '')
             return `${this.user.email[0]}${`*`.repeat(newEmail.length-2)}${newEmail[newEmail.length-1]}@gmail.com`
+        },
+        async userLogout() {
+            
+            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/logout`,{
+                method:'DELETE',
+                credentials:"include"
+            })
+            
+            if (resp.ok) {
+                location.reload()
+            }
+
         },
         handlerClickOutside(event:Event) {
             const menu = this.$refs.menu as HTMLElement
@@ -48,7 +60,7 @@ export default defineComponent({
             <router-link class="link" to="/favorites"><img src="../../assets/icons/heart.svg" alt="Heart icon"/>   Favoritos</router-link>
             <router-link class="link" to="/rotalivre"><img src="../../assets/icons/rotaLivre.svg" alt="Rotalivre icon"/>   Rota livre</router-link>
             <router-link class="link" to="/settings"><img src="../../assets/icons/config.svg" alt="Config icon"/>   Configurações</router-link>
-            <button class="logout-button" type="button"><img src="../../assets/icons/exit.svg" alt="Exit icon"/>  Sair</button>
+            <button class="logout-button" type="button" @click="userLogout"><img src="../../assets/icons/exit.svg" alt="Exit icon"/>  Sair</button>
         </nav>
     </div>
 </template>

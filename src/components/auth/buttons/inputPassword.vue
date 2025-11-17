@@ -9,7 +9,7 @@
             ref="inputPassword"
             :class="{ 'input-error': isError }"
         />
-        <i :class="classFied" @click="alterType"></i>
+        <i v-if="password.length" :class="classFied" @click="alterType"></i>
     </label>
 </template>
 
