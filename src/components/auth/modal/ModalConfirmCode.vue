@@ -5,7 +5,8 @@ export default defineComponent({
     data(){
         return{
             inputValues:["","","","","",""],
-            code:""
+            code:"",
+            
         }
     }
 })
@@ -23,18 +24,12 @@ export default defineComponent({
     
             </div>
             <div class="inputs">
-                <input type="text" v-for="(value, key) in inputValues" :key="key" :value="value" maxlength="1">
-                
-
-
+                <input type="text" v-for="(value, key) in inputValues" :key="key" :value="inputValues[key]" maxlength="1">
             </div>
             <div class="footer">
-    
-               <RouterLink to="/suport/forgot-password" class="link">Não consegue redefinir sua senha?</RouterLink>
-               
-               <span class="or">OU</span>
-               <RouterLink to="/register" class="create-account">Criar nova conta</RouterLink>
-
+            
+                <span>Reenviar - codigo</span>
+            
             </div>
         </div>
     </div>

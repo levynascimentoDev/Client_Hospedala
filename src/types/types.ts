@@ -1,20 +1,34 @@
 
 export interface User {
-    id:number,
-    name:string
-    email:string,
-    icon?:string,
-    admin:boolean
+    id:number;
+    given_name:string;
+    family_name:string;
+    email:string;
+    icon?:string;
+    role:"user" | "Host" | "admin";
 }
 
-export interface hostData {
+export interface Place {
+    id:string;
     title:string;
-    type:"apartamento" | "casa" | "quarto" | "microcasa" | "condominio";
-    default_value:number;
+    description:string;
+    type:string;
     region:string;
-    review:{
-        total:number,
-        media:number;
-    }
-    images:string[];
+    sigla:string;
+    city:string;
+    max_people:number;
+    default_value:number;
+    owner_id:number;
+    lat:string;
+    lon:string;
+    available:boolean;
+}
+
+export interface placeRequests {
+    id:string;
+    title:string;
+    default_value:number;
+    image:string;
+    city:string;
+    type:string
 }

@@ -105,7 +105,7 @@ export default defineComponent({
                 {{ m }}</option>
             </select>
             <select  v-model="year" @change="emitDate" :class="{ 'error': errorInput.year }">
-                <option value="" disabled selected ><span class="first-option">Ano</span></option>                
+                <option value="" disabled selected class="first-option">Ano</option>                
                 <option 
                     v-for="(y, index) in listYears" 
                     :key="index" 

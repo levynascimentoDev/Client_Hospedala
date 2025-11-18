@@ -5,132 +5,14 @@ import Footer from '../components/layout/Footer.vue';
 import Host from '../components/home/Host.vue';
 import Menu from '../components/layout/Menu.vue';
 import SpinerLoading from '../components/layout/spinnerLoading.vue';
-import type { hostData, User } from '../types/types';
+import type { placeRequests, User } from '../types/types';
 
 export default defineComponent({
     name:"Homepage",
     data() {
         return {
-            filter:[] as hostData[][],
-            datas:[
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortalezasddsddssdsdd",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,  
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortalezasddsddssdsdd",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,  
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortaleza",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,
-                        media:4.5
-                    }
-                },
-                { 
-                    title:"Reserva de quarto em fortalezasddsddssdsdd",
-                    default_value:45.5,
-                    region:"fortaleza",
-                    type:"quarto",
-                    images:[
-                        "https://a0.muscache.com/im/pictures/miso/Hosting-1463445144407173757/original/f4ff9a3f-fec0-4bfd-a39c-fe1971a1fc0c.jpeg?im_w=1200"
-                    ],
-                    review:{
-                        total:100,  
-                        media:4.5
-                    }
-                }
-            ] as hostData[],
+            filter:[] as placeRequests[][],
+            datas:[] as any[],
             user:null as User | null,
             isLoading:false
         }
@@ -144,26 +26,32 @@ export default defineComponent({
         SpinerLoading
     },
     methods:{
-        async getUserData() {
-            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
-                headers:{
-                    "Content-Type":"application/json",
-                },
-                credentials:"include"
-            })
+        async fetchRequetsPlaces() {
+            this.isLoading = true;
 
-            if (resp.ok) {
-                this.user = await resp.json() as User
+            try {
+                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/host/places`, {
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                const results = await resp.json();
+                this.datas = results.data;
+
+                this.filter = Array.from({ length: Math.ceil(this.datas.length / 8) }, (_, i) =>
+                    this.datas.slice(i * 8, i * 8 + 8)
+                );
+
+                console.log(this.datas)
+
+            } catch (err) {
+                console.error("Erro ao buscar places:", err);
+            } finally {
+                this.isLoading = false;
             }
         }
     },
     created() {
-        this.isLoading = true;
-        this.getUserData()
-        setTimeout(() => this.isLoading = false, 1500);
-        for (let i = 0; i < this.datas.length; i+=8 ) {
-            this.filter.push(this.datas.slice(i, i+8));
-        }
+        this.fetchRequetsPlaces();
 
     },
     mounted() {
@@ -214,6 +102,10 @@ export default defineComponent({
 </template>
 
 <style scoped>
+
+.container {
+    padding-top: 165px;
+}
 
 .content {
     display: flex;

@@ -1,13 +1,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import type { hostData } from '../../types/types';
+import type { placeRequests } from '../../types/types';
 import type { PropType } from 'vue';
 
 export default defineComponent({
     name:"HostComponent",
     props:{
         data:{
-            type:Object as PropType<hostData>,
+            type:Object as PropType<placeRequests>,
             required:false
             
         },
@@ -36,17 +36,17 @@ export default defineComponent({
     </div>
     <div class="host" v-else>
         <img 
-            :src="data?.images[0]" 
+            :src="data?.image" 
             alt="imagem da hospedagem"
         >
         <div class="info">
-            <h1>{{ data?.type }} - {{ data?.region }}</h1>
+            <h1>{{ data?.type }} - {{ data?.city }}</h1>
             <p>{{ data?.title }}</p>    
         </div>
         <div class="footer">
-            <span class="value">R${{ data?.default_value }}/noite</span>
+            <span class="value">R${{ data?.default_value }}.00/noite</span>
             <span class="review">
-                <i class="bi bi-star-fill"></i> {{ data?.review.media }}        
+                <i class="bi bi-star-fill"></i> 4.9       
             </span>
         </div>
         
@@ -80,8 +80,10 @@ export default defineComponent({
 
 .host img {
     width: 100%;
-    height: auto;
-    object-fit: cover;
+    height: 130px;     
+    object-fit: cover; 
+    border-top-left-radius: 20px;  
+    border-top-right-radius: 20px;
 }
 
 .info {

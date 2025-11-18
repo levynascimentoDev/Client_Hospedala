@@ -15,7 +15,10 @@
                 </button>       
                 <button class="button-menu" @click.stop="showMenu()">
                     <i class="bi bi-list"></i>
-                    <img :src="user?.icon">
+                    <img class="avatar" v-if="user?.icon" :src="user?.icon">
+                    <span class="avatar">
+                        {{ user?.given_name[0]?.toLocaleUpperCase() }}
+                    </span>
                 </button>
             </nav>
             <router-link v-else-if="!isLogged && home" to="/login" class="link">Entre ou Cadastre-se</router-link>
@@ -42,6 +45,7 @@ export default defineComponent({
         return {
             toogleButton:false,
             toogleMenu:false,
+            user:null as User | null
         }
     },
     props:{
@@ -56,18 +60,46 @@ export default defineComponent({
             default:false
 
         },
-        user:{
-            type: Object as PropType<User | null>,
-            required:false,
-            default:null
-        }
     },
     methods:{
         showMenu() {
             this.toogleMenu = !this.toogleMenu;
             return this.toogleMenu;
         },
+        async fetchAuth() {
+            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
+                headers:{
+                    "Content-Type":"aplication/json"
+                },
+                credentials:"include"
+            });
+            
+
+            if (resp.ok) {
+
+                const user = await resp.json() as User;
+                this.user = user;
+
+            } else {
+                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/refresh/token`, {
+                    headers:{
+                        "Content-Type":"aplication/json"
+                    },
+                    credentials:"include"
+                });
+
+                if (!resp.ok) {
+                    return this.user = null;
+                } 
+
+                window.location.reload();
+
+            }
+        },
     },
+    created() {
+        this.fetchAuth()
+    }
 });
 
 
@@ -172,10 +204,16 @@ export default defineComponent({
         
     } 
     
-    .buttons button > img {
+    .buttons button > img.avatar, span.avatar {
         width: 35px;        
-        height: 34px;
+        height: 35px;
         border-radius: 100%;
+        text-align: center;
+        background: black;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
 </style>

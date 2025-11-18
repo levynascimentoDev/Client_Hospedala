@@ -19,11 +19,14 @@ export default defineComponent({
             
             const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/logout`,{
                 method:'DELETE',
+                headers:{
+                    "Content-Type":"application/json"
+                },
                 credentials:"include"
             })
             
             if (resp.ok) {
-                location.reload()
+                window.location.reload()
             }
 
         },
@@ -47,9 +50,12 @@ export default defineComponent({
 <template>
     <div class="menu" ref="menu">
         <div class="user-info">
-           <img :src="user.icon" alt="User Avatar">
+           <img class="avatar" v-if="user.icon" :src="user.icon">
+            <span class="avatar">
+                {{ user?.given_name[0]?.toLocaleUpperCase() }}
+            </span>
            <span class="text-info">
-                <h1>{{ user.name }}</h1>
+                <h1>{{ user.given_name }}</h1>
                 <p>{{ showEmail() }}</p>
            </span>
         </div>
@@ -96,11 +102,17 @@ export default defineComponent({
     gap: 20px;
 }
 
-.user-info img {
+.user-info img.avatar, .user-info span.avatar {
     border-radius: 100%;
     width: 40px;
     height: 40px;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+    background: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 
@@ -111,6 +123,8 @@ export default defineComponent({
 
 .user-info p {
     font-size: 13px;
+    white-space: normal;   
+    word-wrap: break-word; 
 }
 
 .navigator {

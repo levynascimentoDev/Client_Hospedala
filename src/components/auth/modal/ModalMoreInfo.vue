@@ -30,7 +30,23 @@ export default defineComponent({
                 return
             } 
 
-            const resp = await fetch('')
+            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/register`,{
+                method:'POST',
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    given_name:this.first_name,
+                    family_name:this.last_name,
+                    birth_date:this.date
+                }),
+                credentials:"include",
+            })
+
+
+            if (resp.ok) {
+                this.$router.push('/');
+            }
         }
     },
     watch:{

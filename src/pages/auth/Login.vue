@@ -14,8 +14,6 @@ export default defineComponent({
             password:"",
             isError:false,
             isLoading:false,
-            toogleModalForgot:false,
-            toogleSetCode:false,
         }
     },
     components:{
@@ -27,8 +25,18 @@ export default defineComponent({
         Footer
     },
     methods:{
-        async postRequets() {
-            this.isError = true;
+        async postRequests() {
+            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/login`, {
+                headers:{
+                    "Content-Type":"aplication/json"
+                },
+                credentials:"include"
+            })
+
+
+            if (resp.ok) {
+                
+            }
         },
         async getRequets() {
             const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
@@ -42,10 +50,36 @@ export default defineComponent({
                 return this.$router.push('/');
             }
         },
-        showModalForgot() {
-            this.toogleModalForgot = !this.toogleModalForgot;
-            return this.toogleModalForgot
-        }
+        async fetchAuth() {
+            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
+                headers:{
+                    "Content-Type":"aplication/json"
+                },
+                credentials:"include"
+            });
+            
+
+            if (resp.ok) {
+                
+                this.$router.push('/');
+                
+
+            } else {
+                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/refresh/token`, {
+                    headers:{
+                        "Content-Type":"aplication/json"
+                    },
+                    credentials:"include"
+                });
+
+                if (resp.ok) {
+                    this.$router.push('/');
+                } 
+            }
+        },
+    },
+    created() {
+        this.fetchAuth()
     }
 })
 
@@ -55,12 +89,10 @@ export default defineComponent({
     <div class="container">
         <TopBar :home="false" :isLogged="false" />
         <section>
-            <ModalForgotPass v-if="toogleModalForgot" @toogle="showModalForgot()"/>
-            <ModalConfirmCode v-if="toogleSetCode"/>
             <div class="content" >
                 <div class="box-login">
                     <h1>Entre ou Cadastre-se</h1>
-                    <form @submit.prevent="postRequets">
+                    <form @submit.prevent="postRequests">
     
                         <label for="email" class="input">
                             <span>E-mail</span>
@@ -80,11 +112,6 @@ export default defineComponent({
                     </form>
                     <span class="or">ou</span>
                     <ButtonAuthGoogle @load="isLoading = $event" />
-                    <!-- <div class="create-account">
-                        <span>Não tem uma conta?</span>  
-                        <router-link to="/register" class="link">Crie uma</router-link>
-                    </div>
-                    <button type="button" class="forgot-password" @click="showModalForgot()">Esqueci minha senha!</button>                     -->
                 </div>
             </div>
             

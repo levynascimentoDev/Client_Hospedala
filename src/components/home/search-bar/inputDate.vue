@@ -207,6 +207,7 @@ export default defineComponent({
     font-size: 14px;
     background:transparent;
     cursor: pointer;
+    color: #878787;
 }
 
 .input-date:active {
