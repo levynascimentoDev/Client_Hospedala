@@ -29,7 +29,8 @@ export default defineComponent({
                 this.error.terms = !this.terms;
                 return
             } 
-            
+
+            const resp = await fetch('')
         }
     },
     watch:{
