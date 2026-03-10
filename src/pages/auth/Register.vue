@@ -1,6 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
 import ModalMoreInfo from '../../components/auth/modal/ModalMoreInfo.vue';
+import { useUserStore } from '../../stores/users';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
     components:{
@@ -19,37 +20,15 @@ export default defineComponent({
                 this.$router.push('/login');
             }
         },
-        async fetchAuth() {
-            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
-                headers:{
-                    "Content-Type":"aplication/json"
-                },
-                credentials:"include"
-            });
-            
-
-            if (resp.ok) {
-                
-                this.$router.push('/');
-                
-
-            } else {
-                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/refresh/token`, {
-                    headers:{
-                        "Content-Type":"aplication/json"
-                    },
-                    credentials:"include"
-                });
-
-                if (resp.ok) {
-                    this.$router.push('/');
-                } 
-            }
-        },
     },
     created() {
         this.validateToken();
-        this.fetchAuth()
+        const userStore = useUserStore();
+        userStore.fetchUser();
+
+        if (userStore.user) {
+            return this.$router.push('/');
+        }
     }
 })
 

@@ -1,40 +1,48 @@
 <template>
     <div class="top-bar">
         <Menu 
-            :user="user"
-            v-if="toogleMenu && user != null"
+            v-if="toogleMenu && userStore.user"
+            :user="userStore.user"
             @clickOutside="toogleMenu = false"
         />
         <div class="navigation">
             <div class="logo" @click="$router.push('/')">
-                <h1>Hospedala</h1>
+                <img 
+                    src="../../assets/hospedala-logo.png"
+                    alt="logo"
+                    width="160px"
+                    height="auto"
+                >
             </div>
-            <nav class="buttons" type="button" v-if="isLogged">
+            <nav class="buttons" type="button" v-if="userStore.user">
                 <button>
                     <i class="bi bi-bell"></i>
                 </button>       
                 <button class="button-menu" @click.stop="showMenu()">
                     <i class="bi bi-list"></i>
-                    <img class="avatar" v-if="user?.icon" :src="user?.icon">
+                    <img class="avatar" v-if="userStore.user?.icon" :src="userStore.user.icon">
                     <span class="avatar">
-                        {{ user?.given_name[0]?.toLocaleUpperCase() }}
+                        {{ userStore.user?.given_name[0]?.toLocaleUpperCase() }}
                     </span>
                 </button>
             </nav>
-            <router-link v-else-if="!isLogged && home" to="/login" class="link">Entre ou Cadastre-se</router-link>
+            <router-link v-else-if="!userStore.user && home" to="/login" class="link">Entre ou Cadastre-se</router-link>
         </div>
-        <div class="search">
-            <SearchBar v-if="home"/>
+        <div 
+            v-if="home"
+            class="search"
+        >
+            <SearchBar />
         </div>
         
         
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue';
-import type { User } from '../../types/types';
+import { defineComponent } from 'vue';
 import Menu from './Menu.vue';
 import SearchBar from '../home/searchBar.vue';
+import { useUserStore } from '../../stores/users';
 
 export default defineComponent({
     components: { 
@@ -45,7 +53,7 @@ export default defineComponent({
         return {
             toogleButton:false,
             toogleMenu:false,
-            user:null as User | null
+            userStore:useUserStore()
         }
     },
     props:{
@@ -54,51 +62,15 @@ export default defineComponent({
             required:false,
             default:true
         },
-        isLogged:{
-            type:Boolean,
-            required:false,
-            default:false
-
-        },
     },
     methods:{
         showMenu() {
             this.toogleMenu = !this.toogleMenu;
             return this.toogleMenu;
         },
-        async fetchAuth() {
-            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
-                headers:{
-                    "Content-Type":"aplication/json"
-                },
-                credentials:"include"
-            });
-            
-
-            if (resp.ok) {
-
-                const user = await resp.json() as User;
-                this.user = user;
-
-            } else {
-                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/refresh/token`, {
-                    headers:{
-                        "Content-Type":"aplication/json"
-                    },
-                    credentials:"include"
-                });
-
-                if (!resp.ok) {
-                    return this.user = null;
-                } 
-
-                window.location.reload();
-
-            }
-        },
     },
-    created() {
-        this.fetchAuth()
+    async created() {
+        await this.userStore.fetchUser()
     }
 });
 

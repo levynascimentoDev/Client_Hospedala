@@ -32,3 +32,15 @@ export interface placeRequests {
     city:string;
     type:string
 }
+
+
+type locationValue = {
+    name:string;
+    sigla:string;
+}
+
+
+export interface ibgeLocationPlaces {
+    citys:locationValue[];
+    states:locationValue[];
+}

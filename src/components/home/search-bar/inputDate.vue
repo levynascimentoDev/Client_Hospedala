@@ -57,13 +57,44 @@ export default defineComponent({
                 this.$emit('selected', false)
                 this.showDropdown = false;
             }
+        },
+        nextPage() {
+            
+            const startDay:Date = new Date(this.prevMonth.date.getFullYear(), this.prevMonth.date.getMonth()+2, 1)
+            const endDay:number = new Date(startDay.getFullYear(), startDay.getMonth(), 0).getDate();
+                
+            const prevDays = []
+ 
+            for (let i = startDay.getDate(); i <= endDay; i++) {
+                prevDays.push(i)
+            }
+            
+            this.prevMonth = {
+                date:startDay,
+                days:prevDays,
+                weekStart:startDay.getDay()
+            }
+
+            const nextDays = []
+            const nextStartDay:Date = new Date(startDay.getFullYear(), startDay.getMonth()+1, 1);
+            const nextEndDay:number = new Date(nextStartDay.getFullYear(), nextStartDay.getMonth(), 0).getDate();
+
+            for (let i = nextStartDay.getDate(); i <= nextEndDay; i++) {
+                nextDays.push(i)
+            }
+
+            this.nextMonth = {
+                date:nextStartDay,
+                days:nextDays,
+                weekStart:nextStartDay.getDay()
+            }    
         }
     },
     created() {
         const startDay:Date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
         const endDay:number = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 0).getDate();
         const prevDays = []
-
+ 
         for (let i = startDay.getDate(); i <= endDay; i++) {
             prevDays.push(i)
         }
@@ -119,9 +150,21 @@ export default defineComponent({
         <div v-if="showDropdown" class="dropdown">
             <div class="calendar">
                 <div class="prev-month month">
-                    <div class="header">
-                        <button v-if="currentDate.getMonth() != prevMonth.date.getMonth()"><i class="bi bi-caret-right-fill back" style="rotate: 360deg;"></i></button>
+                    <div class="header" :class="{ 'center' :  currentDate.getMonth() != prevMonth.date.getMonth() && currentDate.getFullYear() != prevMonth.date.getFullYear()}">
+
+                        <button 
+                            v-if="currentDate.getMonth() != prevMonth.date.getMonth() && currentDate.getFullYear() != prevMonth.date.getFullYear()"
+                            type="button"
+                        ><i class="bi bi-caret-left-fill"></i></button>
+
                         <span>{{ months[prevMonth.date.getMonth()] }} de {{ prevMonth.date.getFullYear() }}</span>
+
+                        <button
+                            v-if="currentDate.getMonth() != prevMonth.date.getMonth() && currentDate.getFullYear() != prevMonth.date.getFullYear()"
+                            style="opacity: 0;"
+                        ></button>
+
+
                     </div>
                     <div class="weeks">
                         <div class="week" v-for="(w, index) in weeks" :key="index">{{ w }}</div>
@@ -133,7 +176,7 @@ export default defineComponent({
                             class="day" 
                             v-for="(d, index) in prevMonth.days" 
                             :key="index"
-                            :disabled="d < currentDate.getDate()"
+                            :disabled="d < currentDate.getDate() && prevMonth.date.getMonth() == currentDate.getMonth()"
                         >
                         {{ d }}
                         </button>
@@ -141,8 +184,15 @@ export default defineComponent({
                 </div>
                 <div class="next-month month">
                     <div class="header">
+                        <button
+                            style="opacity: 0;"
+                        >
+                        </button>
+
                         <span>{{ months[nextMonth.date.getMonth()] }} de {{ nextMonth.date.getFullYear() }}</span>
-                        <button><i class="bi bi-caret-right-fill next"></i></button>
+                        <button
+                            @click="nextPage"
+                        ><i class="bi bi-caret-right-fill next"></i></button>
                     </div>
                     <div class="weeks">
                         <div class="week" v-for="(w, index) in weeks" :key="index">{{ w }}</div>
@@ -221,6 +271,9 @@ export default defineComponent({
     background: white;
     border-radius: 23px;
 }
+.button-active:hover {
+    background: white;
+}
 
 
 .dropdown {
@@ -253,11 +306,15 @@ export default defineComponent({
 .calendar .header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     position: relative;
     padding: 10px;
     margin-bottom: 10px;
     width: 100%;
+}
+
+.center {
+    align-items: center;
 }
 
 .header span {
@@ -265,11 +322,15 @@ export default defineComponent({
 }
 
 .header i {
-    position: absolute;
     right: 10px;
     top: 30%;
     padding: 0px 5px;
     background: #ccc;
+}
+
+.header button {
+    cursor: pointer;
+    background: transparent;
 }
 
 .calendar .prev-month,

@@ -3,9 +3,12 @@ import ButtonAuthGoogle from '../../components/auth/buttons/ButtonAuthGoogle.vue
 import InputPassword from '../../components/auth/buttons/inputPassword.vue';
 import ModalForgotPass from '../../components/auth/modal/ModalForgotPass.vue';
 import TopBar from '../../components/layout/TopBar.vue';
-import { defineComponent } from 'vue';
 import ModalConfirmCode from '../../components/auth/modal/ModalConfirmCode.vue';
 import Footer from '../../components/layout/Footer.vue';
+import { useUserStore } from '../../stores/users';
+import { defineComponent } from 'vue';
+
+
 export default defineComponent({
     name:"Login",
     data() {
@@ -38,48 +41,16 @@ export default defineComponent({
                 
             }
         },
-        async getRequets() {
-            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
-                headers:{
-                    "Conetent-Type":"application/json"
-                },
-                credentials:"include"
-            })
-
-            if (resp.ok) {
-                return this.$router.push('/');
-            }
-        },
-        async fetchAuth() {
-            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/me`, {
-                headers:{
-                    "Content-Type":"aplication/json"
-                },
-                credentials:"include"
-            });
-            
-
-            if (resp.ok) {
-                
-                this.$router.push('/');
-                
-
-            } else {
-                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/refresh/token`, {
-                    headers:{
-                        "Content-Type":"aplication/json"
-                    },
-                    credentials:"include"
-                });
-
-                if (resp.ok) {
-                    this.$router.push('/');
-                } 
-            }
-        },
     },
-    created() {
-        this.fetchAuth()
+
+    async created() {
+        const userStore = useUserStore();
+
+        await userStore.fetchUser();
+
+        if (userStore.user) {
+            return this.$router.push('/');
+        }
     }
 })
 

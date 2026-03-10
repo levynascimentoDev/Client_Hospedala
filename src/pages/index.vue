@@ -5,18 +5,17 @@ import Footer from '../components/layout/Footer.vue';
 import Host from '../components/home/Host.vue';
 import Menu from '../components/layout/Menu.vue';
 import SpinerLoading from '../components/layout/spinnerLoading.vue';
-import type { placeRequests, User } from '../types/types';
+import type { User } from '../settings/types/types';
+import { useHostStore } from '../stores/hosts';
 
 export default defineComponent({
     name:"Homepage",
     data() {
         return {
-            filter:[] as placeRequests[][],
-            datas:[] as any[],
+            places:useHostStore(),
             user:null as User | null,
             isLoading:false
         }
-   
     },
     components:{
         TopBar,
@@ -25,34 +24,10 @@ export default defineComponent({
         Host,
         SpinerLoading
     },
-    methods:{
-        async fetchRequetsPlaces() {
-            this.isLoading = true;
-
-            try {
-                const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/host/places`, {
-                    headers: { "Content-Type": "application/json" }
-                });
-
-                const results = await resp.json();
-                this.datas = results.data;
-
-                this.filter = Array.from({ length: Math.ceil(this.datas.length / 8) }, (_, i) =>
-                    this.datas.slice(i * 8, i * 8 + 8)
-                );
-
-                console.log(this.datas)
-
-            } catch (err) {
-                console.error("Erro ao buscar places:", err);
-            } finally {
-                this.isLoading = false;
-            }
-        }
-    },
-    created() {
-        this.fetchRequetsPlaces();
-
+    async created() {
+        this.isLoading = true;
+        await this.places.fetchAllPlaces();
+        this.isLoading = false;
     },
     mounted() {
         window.scrollTo({ top: 0 });
@@ -75,7 +50,7 @@ export default defineComponent({
 
 <template>
     <div class="container">
-        <TopBar :home="true" :isLogged="user != null" :user="user"/>
+        <TopBar :home="true" />
         <div class="content" v-if="isLoading" style="margin-top: 60px;">
             <div class="row-content" v-for="row in 2" :key="row">
                 <div class="values">
@@ -84,14 +59,14 @@ export default defineComponent({
             </div>
         </div>
         <div class="content" v-else>
-            <div class="row-content" v-for="(listValues, indexList) in filter" :key="indexList">
+            <div class="row-content" v-for="(listValues, indexList) in places.filterPlaces" :key="indexList">
                 <h1>Em destaque</h1>
                 <div class="values">
                     <Host v-for="(value, indexValue) in listValues" :data="value" :key="indexValue"  />
                 </div>
             </div>
 
-            <div class="not-found" v-if="datas.length == 0">
+            <div class= "not-found" v-if="!places.filterPlaces.length">
                 <i class="bi bi-emoji-frown"></i>
                 <h1>Ops!, Sem valores no momento.</h1>
             </div>

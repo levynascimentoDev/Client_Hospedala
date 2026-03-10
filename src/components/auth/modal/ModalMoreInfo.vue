@@ -13,7 +13,8 @@ export default defineComponent({
                 terms:false,
                 firstName:false,
                 lastName:false,
-                date:false
+                date:false,
+                name:false
             }
         }
     },
@@ -29,6 +30,14 @@ export default defineComponent({
                 this.error.terms = !this.terms;
                 return
             } 
+
+
+            // if (`${this.first_name}${this.last_name}`.split('').every(c => isNaN(parseInt(c)))) {
+            //     this.error.name = true;
+            //     return
+            // } else {
+            //     this.error.name = false;
+            // }
 
             const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/register`,{
                 method:'POST',
@@ -75,7 +84,7 @@ export default defineComponent({
                         placeholder="Digite seu Nome" 
                         autocomplete="given-name"
                         :class="{ 'error' : error.firstName }"
-                        @input="error.firstName = false"
+                        @input="error.firstName = false; error.name = false"
                     >
 
                 </label>
@@ -90,7 +99,7 @@ export default defineComponent({
                         placeholder="Digite seu Sobrenome" 
                         autocomplete="family-name"
                         :class="{ 'error' : error.lastName }"
-                        @input="error.lastName = false"
+                        @input="error.lastName = false; error.name = false"
                     >
                     
                 </label>
@@ -98,6 +107,12 @@ export default defineComponent({
                     <i class="bi bi-exclamation-triangle-fill"></i>
                     <span v-if="error.firstName">Nome é obrigatorio pra identificação pessoal</span>
                     <span v-else>Sobrenome é obrigatorio para identificação pessoal</span>
+                </span>
+
+
+                <span class="text-alert" v-if="error.name">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <span>Não pode conter numeros no seu nome</span>
                 </span>
             </div>
             <InputBirthDay @date="date = $event" :error="error.date" @error="error.date = $event" />

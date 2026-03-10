@@ -24,7 +24,8 @@ export default defineComponent({
             errorInput:{
                 day:false,
                 month:false,
-                year:false
+                year:false,
+                age:false
             }
         }
         
@@ -39,6 +40,7 @@ export default defineComponent({
     methods:{
         emitDate() {
             if (!this.day || !this.month || !this.year) {
+                this.errorInput.age = false;
 
                 if (this.error) {
                     this.errorInput.day = !this.day;
@@ -51,9 +53,31 @@ export default defineComponent({
             this.errorInput.day = false;
             this.errorInput.month = false;
             this.errorInput.year = false;
+
             this.$emit('error', false);
 
+            
             const date = new Date(Number(this.year), Number(this.month), Number(this.day))
+
+            const dateNow = new Date();
+
+            let age = dateNow.getFullYear() - date.getFullYear() 
+
+            if ( !(dateNow.getMonth() > date.getMonth()) )  {   
+                age -= 1
+            } else if ( date.getMonth() == dateNow.getMonth() && dateNow.getDate() >= date.getDate())  {
+                age -= 1
+            }
+
+            if (age < 18) {
+
+                this.day = ""
+                this.month = ""
+                this.year = ""
+                return this.errorInput.age = true;
+
+            }
+            
             const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
             this.$emit('date', formattedDate)
             
@@ -75,6 +99,7 @@ export default defineComponent({
                 this.errorInput.day = !this.day;
                 this.errorInput.month = !this.month;
                 this.errorInput.year = !this.year;
+                this.errorInput.age = !this.errorInput.age;
             }
         }
     }
@@ -117,6 +142,11 @@ export default defineComponent({
         <span class="text-alert" v-if="errorInput.year || errorInput.month || errorInput.day">
             <i class="bi bi-exclamation-triangle-fill"></i>
             <span>Coloque sua data de nascimento para continuar o registro</span>
+        </span>
+
+        <span class="text-alert" v-else-if="errorInput.age">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>Você deve ter no minimo 18 anos para continuar</span>
         </span>
     </label>
 </template>

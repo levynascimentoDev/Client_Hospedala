@@ -7,28 +7,24 @@ import InputPersons from './search-bar/inputPersons.vue';
 export default defineComponent({
     data() {
         return {
-            inputSelected:false
+            inputLocation:false,
+            inputDate:false
         }
     },
     components:{
         InputLocation,
         InputDate,
         InputPersons
-    },
-    methods:{
-        handleSelected(value:boolean) {
-            this.inputSelected = value;
-        }
     }
 })
 </script>
 
 
 <template>
-    <div class="search-bar" :class="{ 'input-selected' : inputSelected }">
-        <InputLocation @selected="inputSelected = $event" class="items" />
-        <InputDate @selected="inputSelected = $event" class="items" />
-        <InputPersons @selected="inputSelected = $event" class="items" />
+    <div class="search-bar" :class="{ 'input-selected' : inputDate || inputLocation  }">
+        <InputLocation @selected="inputLocation = $event" class="items" />
+        <InputDate @selected="inputDate = $event" class="items" />
+        <InputPersons  class="items" />
         <button 
             type="button"
             class="search"
