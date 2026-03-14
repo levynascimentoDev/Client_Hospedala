@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import type { ibgeLocationPlaces } from "../../../settings/types/types";
+import type { ibgeLocationPlaces } from "../../../../settings/types/types";
 
 export default defineComponent({
     data() {
@@ -144,7 +144,7 @@ export default defineComponent({
     <label for="location" class="input-location">
         <span class="label">
             <img 
-                src="../../../assets/icons/plane.svg" 
+                src="../../../../assets/icons/plane.svg" 
                 width="18px"
                 height="18px"
                 alt="Avião"

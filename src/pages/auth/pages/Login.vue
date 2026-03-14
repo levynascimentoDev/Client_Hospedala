@@ -4,8 +4,8 @@ import InputPassword from '../../components/auth/buttons/inputPassword.vue';
 import ModalForgotPass from '../../components/auth/modal/ModalForgotPass.vue';
 import TopBar from '../../components/layout/TopBar.vue';
 import ModalConfirmCode from '../../components/auth/modal/ModalConfirmCode.vue';
-import Footer from '../../components/layout/Footer.vue';
-import { useUserStore } from '../../stores/users';
+import Footer from '../../components/Footer.vue';
+import { useUserStore } from '../../../stores/users';
 import { defineComponent } from 'vue';
 
 

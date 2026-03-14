@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import type { placeRequests } from '../../settings/types/types';
+import type { placeRequests } from '../../../settings/types/types';
 import type { PropType } from 'vue';
 
 export default defineComponent({

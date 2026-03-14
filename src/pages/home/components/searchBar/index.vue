@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import InputLocation from './search-bar/inputLocation.vue';
-import InputDate from './search-bar/inputDate.vue';
-import InputPersons from './search-bar/inputPersons.vue';
+import InputLocation from './inputLocation.vue';
+import InputDate from './inputDate.vue';
+import InputPersons from './inputPersons.vue';
 
 export default defineComponent({
     data() {

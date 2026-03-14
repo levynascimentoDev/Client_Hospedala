@@ -1,12 +1,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import TopBar from '../components/layout/TopBar.vue';
-import Footer from '../components/layout/Footer.vue';
-import Host from '../components/home/Host.vue';
-import Menu from '../components/layout/Menu.vue';
-import SpinerLoading from '../components/layout/spinnerLoading.vue';
-import type { User } from '../settings/types/types';
-import { useHostStore } from '../stores/hosts';
+import Host from './components/Host.vue';
+import SpinerLoading from '../../components/spinnerLoading.vue';
+import type { User } from '../../settings/types/types';
+import { useHostStore } from '../../stores/hosts';
+import DefaultLayout from '../../layouts/DefaultLayout.vue';
 
 export default defineComponent({
     name:"Homepage",
@@ -18,11 +16,9 @@ export default defineComponent({
         }
     },
     components:{
-        TopBar,
-        Footer,
-        Menu,
         Host,
-        SpinerLoading
+        SpinerLoading,
+        DefaultLayout
     },
     async created() {
         this.isLoading = true;
@@ -49,8 +45,7 @@ export default defineComponent({
 
 
 <template>
-    <div class="container">
-        <TopBar :home="true" />
+    <DefaultLayout>
         <div class="content" v-if="isLoading" style="margin-top: 60px;">
             <div class="row-content" v-for="row in 2" :key="row">
                 <div class="values">
@@ -71,17 +66,11 @@ export default defineComponent({
                 <h1>Ops!, Sem valores no momento.</h1>
             </div>
         </div>
-        <Footer />
-    </div>
+    </DefaultLayout>
 
 </template>
 
 <style scoped>
-
-.container {
-    padding-top: 165px;
-}
-
 .content {
     display: flex;
     justify-content: start;

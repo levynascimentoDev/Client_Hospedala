@@ -1,6 +1,6 @@
 <script lang="ts">
-import ModalMoreInfo from '../../components/auth/modal/ModalMoreInfo.vue';
-import { useUserStore } from '../../stores/users';
+import ModalMoreInfo from "../components/modal/ModalMoreInfo.vue";
+import { useUserStore } from '../../../stores/users';
 import { defineComponent } from 'vue';
 
 export default defineComponent({

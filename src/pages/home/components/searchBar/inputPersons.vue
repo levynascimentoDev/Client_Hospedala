@@ -39,7 +39,7 @@ export default defineComponent({
     <label for="date" class="input-date" :class="{ 'button-active' : showDropdown }" ref="dropdown">
         <span class="label">
             <img 
-                src="../../../assets/icons/calendar.svg" 
+                src="../../../../assets/icons/calendar.svg" 
                 width="18px"
                 height="18px"
                 alt="Calendario"

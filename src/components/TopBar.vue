@@ -8,7 +8,7 @@
         <div class="navigation">
             <div class="logo" @click="$router.push('/')">
                 <img 
-                    src="../../assets/hospedala-logo.png"
+                    src="../assets/hospedala-logo.png"
                     alt="logo"
                     width="160px"
                     height="auto"
@@ -41,8 +41,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Menu from './Menu.vue';
-import SearchBar from '../home/searchBar.vue';
-import { useUserStore } from '../../stores/users';
+import SearchBar from '../pages/home/components/searchBar/index.vue';
+import { useUserStore } from '../stores/users';
 
 export default defineComponent({
     components: { 
