@@ -3,7 +3,7 @@
         <span v-if="isLoading" class="loading"></span>
         <img
             v-if="!isLoading"
-            src="../../../assets/google-icon.svg"
+            src="../../../../assets/google-icon.svg"
             alt="logo-google"
             class="img"
         >

@@ -20,9 +20,14 @@ export const useUserStore = defineStore('user', {
                     },
                     withCredentials:true
                 }) 
-                this.user = respAcess.data as User;
+                if (respAcess.status == 200) {
+                    this.user = respAcess.data as User;
+                } else {
+                    this.user = null;
+                }
+
                 return
-            
+                
             } catch (err) {
 
                 try {

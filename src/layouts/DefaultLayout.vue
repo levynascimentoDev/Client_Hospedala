@@ -7,14 +7,20 @@ export default defineComponent({
     components:{
         Footer,
         TopBar
+    },
+    props:{
+        home:{
+            type:Boolean,
+            default:false
+        }
     }
 })
 </script>
 
 <template>
     <div class="container">
-        <TopBar/>
-        <main>
+        <TopBar :home="home"/>
+        <main :class="{homeSpace:home}">
             <slot/>
         </main>
         <Footer/>
@@ -22,8 +28,10 @@ export default defineComponent({
 </template>
 
 <style scoped>
-main {
+.homeSpace {
     margin-top: 180px;
+}
+main {
     flex: 1;
 }
 </style>

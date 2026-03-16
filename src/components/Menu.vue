@@ -60,13 +60,13 @@ export default defineComponent({
            </span>
         </div>
         <nav class="navigator">
-            <router-link  class="link" to="/"><img src="../../assets/icons/home.svg" alt="Home icon"/>   Inicio</router-link>
-            <router-link  class="link" to="/coins"><img src="../../assets/icons/home.svg" alt="Coins icon"/>   Milha Coins</router-link>
-            <router-link class="link" to="/travels"><img src="../../assets/icons/plane.svg" alt="Plane icon"/>   Minhas Viagens</router-link>
-            <router-link class="link" to="/favorites"><img src="../../assets/icons/heart.svg" alt="Heart icon"/>   Favoritos</router-link>
-            <router-link class="link" to="/rotalivre"><img src="../../assets/icons/rotaLivre.svg" alt="Rotalivre icon"/>   Rota livre</router-link>
-            <router-link class="link" to="/settings"><img src="../../assets/icons/config.svg" alt="Config icon"/>   Configurações</router-link>
-            <button class="logout-button" type="button" @click="userLogout"><img src="../../assets/icons/exit.svg" alt="Exit icon"/>  Sair</button>
+            <router-link  class="link" to="/"><img src="../assets/icons/home.svg" alt="Home icon"/>   Inicio</router-link>
+            <router-link  class="link" to="/coins"><img src="../assets/icons/home.svg" alt="Coins icon"/>   Milha Coins</router-link>
+            <router-link class="link" to="/travels"><img src="../assets/icons/plane.svg" alt="Plane icon"/>   Minhas Viagens</router-link>
+            <router-link class="link" to="/favorites"><img src="../assets/icons/heart.svg" alt="Heart icon"/>   Favoritos</router-link>
+            <router-link class="link" to="/rotalivre"><img src="../assets/icons/rotaLivre.svg" alt="Rotalivre icon"/>   Rota livre</router-link>
+            <router-link class="link" to="/settings"><img src="../assets/icons/config.svg" alt="Config icon"/>   Configurações</router-link>
+            <button class="logout-button" type="button" @click="userLogout"><img src="../assets/icons/exit.svg" alt="Exit icon"/>  Sair</button>
         </nav>
     </div>
 </template>

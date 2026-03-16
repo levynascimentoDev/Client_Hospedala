@@ -45,7 +45,7 @@ export default defineComponent({
 
 
 <template>
-    <DefaultLayout>
+    <DefaultLayout :home="true">
         <div class="content" v-if="isLoading" style="margin-top: 60px;">
             <div class="row-content" v-for="row in 2" :key="row">
                 <div class="values">
