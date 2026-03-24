@@ -40,7 +40,7 @@ export default defineComponent({
             alt="imagem da hospedagem"
         >
         <div class="info">
-            <h1>{{ data?.type }} - {{ data?.city }}</h1>
+            <h1>{{ `${data?.type.charAt(0).toUpperCase()}${data?.type.slice(1)}`  }} - {{ data?.city }}</h1>
             <p>{{ data?.title }}</p>    
         </div>
         <div class="footer">
