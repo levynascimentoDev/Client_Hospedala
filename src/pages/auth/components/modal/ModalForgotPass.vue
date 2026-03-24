@@ -10,7 +10,7 @@ export default defineComponent({
         <div  class="modal-forgot">
 
             <div class="title">
-                <img src="../../assets/icons/lock.svg" alt="cadeado">
+                <img src="../../../../assets/icons/lock.svg" alt="cadeado">
                 <h1>Problemas para entrar?</h1>
                 <p> Insira o seu e-mail, telefone ou nome de usuário e enviaremos um link para você voltar a acessar a sua conta.</p>
     

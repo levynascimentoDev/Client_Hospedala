@@ -29,7 +29,7 @@ export default defineComponent({
         window.scrollTo({ top: 0 });
     },
     watch: {
-        isLoading(after:boolean, before:boolean) {
+        isLoading(after:boolean) {
 
             if (after) {
                 window.scrollTo({ top: 0    });

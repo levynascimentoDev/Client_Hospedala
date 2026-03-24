@@ -36,7 +36,7 @@ export default defineComponent({
 
         </div>
         <div class="inputs">
-            <input type="text" v-for="(value, key) in inputValues" :key maxlength="1" v-model="inputValues[key]" @input="onInput(key)">
+            <input type="text" v-for="(_, key) in inputValues" :key maxlength="1" v-model="inputValues[key]" @input="onInput(key)">
         </div>
         <div class="footer">
             <button>Reenviar - codigo</button>
@@ -124,18 +124,6 @@ export default defineComponent({
     color: white;
     border-radius: 10px;
 }
-
-/* .footer button::before, button::after{
-    content: '';
-    width: 100px;
-    background: #696969 ;
-    height: 1px;
-    display: inline-block;
-    margin-left: 10px;
-    margin-right: 10px;
-
-} */
-
 
 .footer .create-account {
     font-size: 13px;
