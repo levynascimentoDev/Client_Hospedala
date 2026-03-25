@@ -4,7 +4,6 @@ import Home from "../pages/home/index.vue";
 import hostRoutes from "./host.routes";
 
 
-
 const router = createRouter({
     routes:[
         { path:"/", component:Home },

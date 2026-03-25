@@ -108,17 +108,8 @@
         box-shadow: 0 0 10px rgba(10, 124, 62, 0.4);
     }
 
-    .icon{
-        width: 50px;
-        height: 50px;
-        background-color: #000;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 50px;
-        font-size: 20px;
-        margin: 10px;
-        margin-bottom: 20px;
-    }
+
+    
     i {
         color: #FFF;
     }
