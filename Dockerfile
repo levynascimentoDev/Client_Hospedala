@@ -4,8 +4,10 @@ WORKDIR /app
 
 COPY . .
 
-EXPOSE 5000
-
 RUN bun install
 
-CMD ["bun", "run", "dev", "--host"]
+RUN bun run build
+
+EXPOSE 5000
+
+CMD ["bun", "run", "start"]
