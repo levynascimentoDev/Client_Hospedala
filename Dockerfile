@@ -1,10 +1,14 @@
 FROM docker.io/oven/bun:latest
 
-WORKDIR /app
+RUN adduser -D -u 1000 user
 
+WORKDIR /app
 COPY . .
 
-RUN bun install
-RUN bun run build
+RUN chown -R user:user /app
+USER user
 
-CMD ["bun", "run", "start"]
+RUN bun install
+EXPOSE 8080
+
+CMD ["bun", "run", "dev"]
