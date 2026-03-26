@@ -5,7 +5,7 @@ RUN adduser -D -u 1000 user
 WORKDIR /app
 COPY . .
 
-RUN chown -R user:user /app
+COPY --chown=1000:1000 . .
 USER user
 
 RUN bun install
