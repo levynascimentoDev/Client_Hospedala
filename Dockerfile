@@ -1,6 +1,6 @@
 FROM docker.io/oven/bun:latest
 
-RUN adduser -D -u 1000 user
+RUN useradd -D -u 1000 user
 
 WORKDIR /app
 COPY . .
