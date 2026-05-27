@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "vuets",
@@ -9,18 +10,18 @@
         "bootstrap-icons": "^1.13.1",
         "pinia": "^3.0.4",
         "serve": "^14.2.6",
+        "vite": "^7.1.7",
         "vue": "^3.5.22",
-        "vue-router": "^4.6.4"
+        "vue-router": "^4.6.4",
       },
       "devDependencies": {
         "@types/node": "^24.6.0",
         "@vitejs/plugin-vue": "^6.0.1",
         "@vue/tsconfig": "^0.8.1",
         "typescript": "~5.9.3",
-        "vite": "^7.1.7",
-        "vue-tsc": "^3.1.0"
-      }
-    }
+        "vue-tsc": "^3.1.0",
+      },
+    },
   },
   "packages": {
     "@babel/helper-string-parser": ["@babel/helper-string-parser@7.27.1", "", {}, "sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA=="],

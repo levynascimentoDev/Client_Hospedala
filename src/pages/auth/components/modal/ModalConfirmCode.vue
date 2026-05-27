@@ -1,24 +1,70 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
+
+
 export default defineComponent({
     name: "modalConfirm",
     data() {
         return {
-            inputValues: ["", "", "", "", "", ""],
+            inputValues:["", "", "", "", "", ""], 
             code: "",
         }
     },
     methods: {
-        onInput(key: number) {
-            // se tem valor no input 
-            if (!this.inputValues[key])
-            return;
-            
-            const match = this.inputValues[key].match(/^[0-9]$/)
-            if (!match) {
-                this.inputValues[key] = ""
+        onInput(index:number) {
+
+            const regex = /^[0-9]+$/
+
+            if (this.inputValues[index] && !regex.test(this.inputValues[index])) {
+                this.inputValues[index] = "";
+            }
+        
+            if (this.inputValues[index]?.length) {
+                const inputs = this.$refs.inputs as HTMLInputElement[]
+                inputs[index+1]?.focus()
             }
 
+        },
+        onBackspace(index:number) {
+            const inputs = this.$refs.inputs as HTMLInputElement[]
+
+            // Se o input atual TEM valor
+            if (this.inputValues[index]) {
+                this.inputValues[index] = ""
+                return
+            }
+
+            // Se está vazio → volta
+
+            if (index > 0) {
+                inputs[index - 1]?.focus()
+            }
+        },
+        onPaste(event:ClipboardEvent) {
+            const value = event.clipboardData?.getData("text") as string;
+            const regex = /^[0-9]+$/
+
+            console.log(value.length)
+
+            if (!regex.test(value) && !(value.length == 6)) return;
+            
+            if (value) {
+                console.log(value)
+            } 
+            // this.setCode
+        }
+    },
+        
+    mounted() {
+        const inputs = this.$refs.inputs as HTMLInputElement[]
+        if (!inputs) return;
+        inputs[0]?.focus()
+    },
+    computed:{
+        setCode() {
+                if (this.inputValues.every(char => char.length)) {
+                this.code = this.inputValues.toString()
+            }
         }
     }
 
@@ -26,7 +72,10 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="modal-forgot">
+    <div 
+        class="modal-forgot"
+        @paste.prevent="onPaste($event)"
+    >
 
         <div class="title">
 
@@ -36,7 +85,16 @@ export default defineComponent({
 
         </div>
         <div class="inputs">
-            <input type="text" v-for="(_, key) in inputValues" :key maxlength="1" v-model="inputValues[key]" @input="onInput(key)">
+            <input 
+                ref="inputs" 
+                type="text" 
+                v-for="(_, key) in inputValues" 
+                :key="key"
+                maxlength="1" 
+                v-model="inputValues[key]" 
+                @input="onInput(key)"
+                @keydown.backspace="onBackspace(key)"
+            >
         </div>
         <div class="footer">
             <button>Reenviar - codigo</button>
@@ -120,8 +178,10 @@ export default defineComponent({
     align-items: center;
     margin: 0;
     padding: 0;
-    background-color: black;
-    color: white;
+    /* background-color: black; */
+    /* color: white; */
+    background-color: transparent;
+    text-decoration: underline;
     border-radius: 10px;
 }
 
