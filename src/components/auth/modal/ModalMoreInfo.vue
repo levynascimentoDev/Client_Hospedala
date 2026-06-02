@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import InputBirthDay from '../buttons/InputBirthDay.vue';
+import InputBirthDay from '../../../../components/auth/buttons/InputBirthDay.vue';
 
 export default defineComponent({
     data() {

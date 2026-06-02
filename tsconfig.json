@@ -8,5 +8,5 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "include": ["vite-env.d.ts"]
+  "include": ["vite-env.d.ts"]  
 }

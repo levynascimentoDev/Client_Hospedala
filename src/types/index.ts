@@ -34,9 +34,9 @@ export interface placeRequests {
 }
 
 
-type locationValue = {
+export interface locationValue {
     name:string;
-    sigla:string;
+    sigla:string;   
 }
 
 

@@ -3,7 +3,7 @@
         <div class="info">
             <div class="title">
                 <span class="logo">
-                    <img src="../assets/icons/hospedala.svg" alt="logo hospedala">
+                    <img src="../../assets/icons/hospedala.svg" alt="logo hospedala">
                     <span>Hospedala</span>
                 </span>
                 <p>Viagens com segurança e facilidade.</p>

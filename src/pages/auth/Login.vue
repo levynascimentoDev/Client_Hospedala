@@ -1,10 +1,9 @@
 <script lang="ts">
-import ButtonAuthGoogle from '../components//buttons/ButtonAuthGoogle.vue';
-import ModalForgotPass from '../components/modal/ModalForgotPass.vue';
-import ModalConfirmCode from '../components/modal/ModalConfirmCode.vue';
-import { useUserStore } from '../../../stores/users';
+import ButtonAuthGoogle from '../../components/auth/buttons/ButtonAuthGoogle.vue';
+import ModalForgotPass from '../../components/auth/modal/ModalForgotPass.vue';
+import ModalConfirmCode from '../../components/auth/modal/ModalConfirmCode.vue';
+import { useUserStore } from '../../stores/users.ts';
 import { defineComponent } from 'vue';
-import DefaultLayout from '../../../layouts/DefaultLayout.vue';
 
 
 export default defineComponent({
@@ -21,7 +20,6 @@ export default defineComponent({
         ButtonAuthGoogle,
         ModalForgotPass,
         ModalConfirmCode,
-        DefaultLayout
     },
     methods:{
         async postRequests() {
@@ -54,7 +52,7 @@ export default defineComponent({
 
 <template> 
     
-    <DefaultLayout>
+    <div class="container">
         <section>
             <div class="content" >
                 <div class="box-login">
@@ -82,7 +80,7 @@ export default defineComponent({
                 </div>
             </div>
         </section>        
-    </DefaultLayout>
+    </div>
 </template>
 
 <style scoped>

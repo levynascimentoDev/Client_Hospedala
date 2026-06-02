@@ -1,14 +1,21 @@
 import { createRouter, createWebHistory  } from "vue-router";
 import authRoutes from "./auth.routes";
-import Home from "../pages/home/index.vue";
-import hostRoutes from "./host.routes";
-import Teste from "../pages/teste.vue";
+import hostRoutes from "./host.routes.ts";
 
 
 const router = createRouter({
     routes:[
-        { path:"/", component:Home },
-        { path:"/teste", component:Teste },
+        { 
+            path:"/", 
+            component:() => import("../layouts/MainLayout.vue"),
+            children:[
+                {
+                    path:"",
+                    component:() => import("../pages/index.vue")
+                }                
+            ],
+        },
+        
         ...authRoutes, 
         ...hostRoutes
     ],

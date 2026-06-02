@@ -8,7 +8,7 @@
         <div class="navigation">
             <div class="logo" @click="$router.push('/')">
                 <img 
-                    src="../assets/hospedala-logo.png"
+                    src="../../../public/hospedala-logo.png"
                     alt="logo"
                     width="160px"
                     height="auto"
@@ -26,10 +26,10 @@
                     </span>
                 </button>
             </nav>
-            <router-link v-else-if="!userStore.user && home" to="/login" class="link">Entre ou Cadastre-se</router-link>
+            <router-link v-else-if="!userStore.user && search" to="/login" class="link">Entre ou Cadastre-se</router-link>
         </div>
         <div 
-            v-if="home"
+            v-if="search"
             class="search"
         >
             <SearchBar />
@@ -41,8 +41,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Menu from './Menu.vue';
-import SearchBar from '../pages/home/components/searchBar/index.vue';
-import { useUserStore } from '../stores/users';
+import SearchBar from '../app/searchBar/Search.vue';
+import { useUserStore } from '../../stores/users.ts';
+
 
 export default defineComponent({
     components: { 
@@ -56,18 +57,17 @@ export default defineComponent({
             userStore:useUserStore()
         }
     },
-    props:{
-        home:{
-            type:Boolean,
-            required:false,
-            default:true
-        },
-    },
     methods:{
         showMenu() {
             this.toogleMenu = !this.toogleMenu;
             return this.toogleMenu;
         },
+    },
+    props:{
+        search:{
+            type:Boolean,
+            default:true
+        }
     },
     async created() {
         await this.userStore.fetchUser()

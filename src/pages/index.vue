@@ -1,10 +1,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Host from './components/Host.vue';
-import SpinerLoading from '../../components/spinnerLoading.vue';
-import type { User } from '../../settings/types/types';
-import { useHostStore } from '../../stores/hosts';
-import DefaultLayout from '../../layouts/DefaultLayout.vue';
+import Host from '../components/app/Host.vue';
+import SpinerLoading from '../components/ui/spinnerLoading.vue';
+import type { User } from '../types/index.js';
+import { useHostStore } from '../stores/hosts.ts';
 
 export default defineComponent({
     name:"Homepage",
@@ -18,7 +17,6 @@ export default defineComponent({
     components:{
         Host,
         SpinerLoading,
-        DefaultLayout
     },
     async created() {
         this.isLoading = true;
@@ -45,7 +43,7 @@ export default defineComponent({
 
 
 <template>
-    <DefaultLayout :home="true">
+    <div class="container">
         <div class="content" v-if="isLoading" style="margin-top: 60px;">
             <div class="row-content" v-for="row in 2" :key="row">
                 <div class="values">
@@ -66,7 +64,7 @@ export default defineComponent({
                 <h1>Ops!, Sem valores no momento.</h1>
             </div>
         </div>
-    </DefaultLayout>
+    </div>
 
 </template>
 

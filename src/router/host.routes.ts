@@ -1,12 +1,25 @@
 import type { RouteRecordRaw } from "vue-router";
-import SelectYourPlace from "../pages/TemporarySession/SelectYourPlace.vue";
-import PlaceType from "../pages/TemporarySession/PlaceType.vue";
-import AcomodationsDetails from "../pages/hostSession/pages/AcomodationsDetails.vue";
+
 
 const hostRoutes: RouteRecordRaw[] = [
-        { path: "/select-type-place", component: SelectYourPlace },
-        { path: "/place-type", component: PlaceType },
-        { path:"/acomodations-details", component:AcomodationsDetails }
+    {
+        path:"/host",
+        component:() => import("../layouts/DefaultLayout.vue"),
+        children:[
+            {
+                path:"/create/select-type-place",
+                component:() => import("../pages/hostSession/SelectYourPlace.vue")
+            },
+            {
+                path:"/create/place-type",
+                component:() => import("../pages/hostSession/PlaceType.vue")
+            },
+            {
+                path:"/create/acomodations-details",
+                component:() => import("../pages/hostSession/AcomodationsDetails.vue")
+            }
+        ]
+    }
 ]
 
 export default hostRoutes;

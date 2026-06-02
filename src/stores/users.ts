@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import type { User } from "../settings/types/types";
-import api from "../settings/http/api";
+import type { User } from "../types";
+import api from "../services/http/api.js";
 
 
 export const useUserStore = defineStore('user', {

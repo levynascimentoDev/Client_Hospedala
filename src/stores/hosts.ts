@@ -1,5 +1,5 @@
-import api from "../settings/http/api";
-import type { placeRequests } from "../settings/types/types";
+import api from "../services/http/api";
+import type { placeRequests } from "../types";
 import { defineStore } from "pinia";
 
 export const useHostStore = defineStore('hosts', {

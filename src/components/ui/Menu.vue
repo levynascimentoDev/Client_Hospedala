@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
-import type { User } from '../settings/types/types';
+import type { User } from "../../types";
 
 export default defineComponent({
     name:"menu",
