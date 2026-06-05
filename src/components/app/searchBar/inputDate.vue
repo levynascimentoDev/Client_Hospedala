@@ -1,132 +1,139 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { ref, useTemplateRef, onMounted, onBeforeUnmount } from "vue";
 
-export default defineComponent({
-    data() {
-        return {
-            query:"",
-            showDropdown:false,
-            currentDate:new Date(),
-            prevMonth:{
-                date:new Date(),
-                days:[] as number[],
-                weekStart:null as number | null
-            },
-            nextMonth:{
-                date:new Date(),
-                days:[] as number[],
-                weekStart:null as number | null
-            },
-            weeks:[
-                "D",
-                "S",
-                "T",
-                "Q",
-                "Q",
-                "S",
-                "S"
-            ],
-            months:[
-                "janeiro",
-                "fevereiro",
-                "março",
-                "abril",
-                "maio",
-                "junho",
-                "julho",
-                "agosto",
-                "setembro",
-                "outubro",
-                "novembro",
-                "dezembro"
-            ]
-        }
-    },
-    methods:{
-        hideDropdown() {
-            this.showDropdown = false;  
-            this.$emit('selected', false);
-        },
-        activeDropdown() {
-            this.showDropdown = true;
-            this.$emit('selected', true);
-        },
-        handlerClickOutside(event:Event) {
-            const dropdown = this.$refs.dropdown as HTMLElement
-            if (dropdown && !(dropdown as HTMLElement).contains(event.target as Node)) {
-                this.$emit('selected', false)
-                this.showDropdown = false;
-            }
-        },
-        nextPage() {
-            
-            const startDay:Date = new Date(this.prevMonth.date.getFullYear(), this.prevMonth.date.getMonth()+2, 1)
-            const endDay:number = new Date(startDay.getFullYear(), startDay.getMonth(), 0).getDate();
-                
-            const prevDays = []
- 
-            for (let i = startDay.getDate(); i <= endDay; i++) {
-                prevDays.push(i)
-            }
-            
-            this.prevMonth = {
-                date:startDay,
-                days:prevDays,
-                weekStart:startDay.getDay()
-            }
+const emit = defineEmits<{
+    (e:'selected',  value:boolean):void;
+}>()
+interface Calendar {
+    date:Date;
+    days:number[];
+    weekStart:number | null;
+}
 
-            const nextDays = []
-            const nextStartDay:Date = new Date(startDay.getFullYear(), startDay.getMonth()+1, 1);
-            const nextEndDay:number = new Date(nextStartDay.getFullYear(), nextStartDay.getMonth(), 0).getDate();
-
-            for (let i = nextStartDay.getDate(); i <= nextEndDay; i++) {
-                nextDays.push(i)
-            }
-
-            this.nextMonth = {
-                date:nextStartDay,
-                days:nextDays,
-                weekStart:nextStartDay.getDay()
-            }    
-        }
-    },
-    created() {
-        const startDay:Date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
-        const endDay:number = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 0).getDate();
-        const prevDays = []
- 
-        for (let i = startDay.getDate(); i <= endDay; i++) {
-            prevDays.push(i)
-        }
-
-        this.prevMonth = {
-            date:this.currentDate,
-            days:prevDays,
-            weekStart:startDay.getDay()
-        }
-
-        const nextDays = []
-        const nextStartDay:Date = new Date(this.prevMonth.date.getFullYear(), this.prevMonth.date.getMonth()+1, 1);
-        const nextEndDay:number = new Date(this.prevMonth.date.getFullYear(), this.prevMonth.date.getMonth()+1, 0).getDate();
-
-        for (let i = nextStartDay.getDate(); i <= nextEndDay; i++) {
-            nextDays.push(i)
-        }
-
-        this.nextMonth = {
-            date:nextStartDay,
-            days:nextDays,
-            weekStart:nextStartDay.getDay()
-        }
-        
-    },  
-    mounted() {
-        document.addEventListener('click', this.handlerClickOutside);
-    },
-    beforeUnmount() {
-        document.removeEventListener('click', this.handlerClickOutside);
-    }
+const showDropdown = ref(false);
+const currentDate = ref<Date>(new Date())
+const prevMonth = ref<Calendar>({
+    date:new Date(),
+    days:[],
+    weekStart:null
 })
+
+const nextMonth = ref<Calendar>({
+    date:new Date(),
+    days:[],
+    weekStart:null
+})
+
+const weeks = ref([
+    "D",
+    "S",
+    "T",
+    "Q",
+    "Q",
+    "S",
+    "S"
+])
+
+const months = ref([
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro"
+])
+
+
+const startDay:Date = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 1);
+const endDay:number = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 0).getDate();
+const prevDays = []
+
+for (let i = startDay.getDate(); i <= endDay; i++) {
+    prevDays.push(i)
+}
+
+prevMonth.value = {
+    date:currentDate.value,
+    days:prevDays,
+    weekStart:startDay.getDay()
+}
+
+const nextDays = []
+const nextStartDay:Date = new Date(prevMonth.value.date.getFullYear(), prevMonth.value.date.getMonth()+1, 1);
+const nextEndDay:number = new Date(prevMonth.value.date.getFullYear(), prevMonth.value.date.getMonth()+1, 0).getDate();
+
+for (let i = nextStartDay.getDate(); i <= nextEndDay; i++) {
+    nextDays.push(i)
+}
+
+nextMonth.value = {
+    date:nextStartDay,
+    days:nextDays,
+    weekStart:nextStartDay.getDay()
+}
+
+
+const activeDropdown = () => {
+    showDropdown.value = true;
+    emit('selected', true);
+}
+
+const dropdown = useTemplateRef<HTMLElement>("dropdown");
+
+const handlerClickOutside = (event:Event) => {
+    if (dropdown && !dropdown.value?.contains(event.target as Node)) {
+        emit('selected', false)
+        showDropdown.value = false;
+    }
+}
+
+const nextPage = () => {
+    const startDay:Date = new Date(prevMonth.value.date.getFullYear(), prevMonth.value.date.getMonth()+2, 1)
+    const endDay:number = new Date(startDay.getFullYear(), startDay.getMonth(), 0).getDate();
+        
+    const prevDays = []
+
+    for (let i = startDay.getDate(); i <= endDay; i++) {
+        prevDays.push(i)
+    }
+    
+    prevMonth.value = {
+        date:startDay,
+        days:prevDays,
+        weekStart:startDay.getDay()
+    }
+
+    const nextDays = []
+    const nextStartDay:Date = new Date(startDay.getFullYear(), startDay.getMonth()+1, 1);
+    const nextEndDay:number = new Date(nextStartDay.getFullYear(), nextStartDay.getMonth(), 0).getDate();
+
+    for (let i = nextStartDay.getDate(); i <= nextEndDay; i++) {
+        nextDays.push(i)
+    }
+
+    nextMonth.value = {
+        date:nextStartDay,
+        days:nextDays,
+        weekStart:nextStartDay.getDay()
+    }    
+
+}
+
+onMounted(() => {
+    document.addEventListener('click', handlerClickOutside);
+})
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handlerClickOutside);
+})
+
+
 </script>
 
 

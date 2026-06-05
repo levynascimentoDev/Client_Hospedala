@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory  } from "vue-router";
 import authRoutes from "./auth.routes";
 import hostRoutes from "./host.routes.ts";
+import { useUserStore } from "../stores/users.ts";
+import { useAuthStore } from "../stores/auth.ts";
 
 
 const router = createRouter({
@@ -20,6 +22,27 @@ const router = createRouter({
         ...hostRoutes
     ],
     history:createWebHistory()
+})
+
+
+router.beforeEach(async (to, from, next) => {
+    const userStore = useUserStore();
+    await userStore.fetchUser();
+
+    if (to.meta.requireNotAuth && userStore.user) return next("/");
+    if (to.meta.requireAuth && !userStore.user) return next("/login"); 
+
+    if (to.meta.requireTokenAuthTemp) {
+
+        const authStore = useAuthStore()
+        const state = await authStore.fetchTokenVerify()
+        if (!state || to.meta.requireTokenAuthTemp !== state) return next(from.path);
+
+    }
+    
+
+    next();
+        
 })
 
 export default router;

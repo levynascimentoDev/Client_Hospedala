@@ -1,16 +1,10 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 
-export default defineComponent({
-    data() {
-        return {
-            rooms:0,
-            beds:0,
-            bathRooms:0
-        }
-    },
+const rooms = ref(0);
+const beds = ref(0);
+const bathRooms = ref(0);
     
-})
 </script>
 
 <template>

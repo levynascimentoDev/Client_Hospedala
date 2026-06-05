@@ -2,7 +2,6 @@
     <div class="top-bar">
         <Menu 
             v-if="toogleMenu && userStore.user"
-            :user="userStore.user"
             @clickOutside="toogleMenu = false"
         />
         <div class="navigation">
@@ -26,7 +25,7 @@
                     </span>
                 </button>
             </nav>
-            <router-link v-else-if="!userStore.user && search" to="/login" class="link">Entre ou Cadastre-se</router-link>
+            <router-link v-else-if="!userStore.user && search" to="/auth/login" class="link">Entre ou Cadastre-se</router-link>
         </div>
         <div 
             v-if="search"
@@ -38,42 +37,29 @@
         
     </div>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import Menu from './Menu.vue';
 import SearchBar from '../app/searchBar/Search.vue';
+
 import { useUserStore } from '../../stores/users.ts';
+import { ref } from 'vue';
 
 
-export default defineComponent({
-    components: { 
-        Menu,
-        SearchBar
-    },
-    data() {
-        return {
-            toogleButton:false,
-            toogleMenu:false,
-            userStore:useUserStore()
-        }
-    },
-    methods:{
-        showMenu() {
-            this.toogleMenu = !this.toogleMenu;
-            return this.toogleMenu;
-        },
-    },
-    props:{
-        search:{
-            type:Boolean,
-            default:true
-        }
-    },
-    async created() {
-        await this.userStore.fetchUser()
+withDefaults(
+    defineProps<{
+        search:boolean
+    }>()
+    ,{
+        search:true
     }
-});
+)
 
+const toogleMenu = ref(false);
+const userStore = useUserStore();
+
+const showMenu = () => {
+    toogleMenu.value = !toogleMenu.value;
+}
 
 </script>
 <style scoped>

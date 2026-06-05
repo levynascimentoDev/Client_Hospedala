@@ -1,11 +1,11 @@
 <script setup lang="ts">
-    import { ref } from 'vue'
+import { ref } from 'vue'
 
-    const selected = ref<number | null>(null)
+const selected = ref<number | null>(null)
 
-    function selectBox(index: number) {
+function selectBox(index: number) {
     selected.value = selected.value === index ? null : index
-    }
+}
 </script>
 
 <template>

@@ -1,53 +1,28 @@
-<script lang="ts">
+<script setup lang="ts">
 import ButtonAuthGoogle from '../../components/auth/buttons/ButtonAuthGoogle.vue';
-import ModalForgotPass from '../../components/auth/modal/ModalForgotPass.vue';
-import ModalConfirmCode from '../../components/auth/modal/ModalConfirmCode.vue';
-import { useUserStore } from '../../stores/users.ts';
-import { defineComponent } from 'vue';
+import { ref } from 'vue';
+import api from '../../services/http/api.ts';
+import { useRouter } from 'vue-router';
 
+const email = ref("");
+const isError = ref(false);
+const isLoading = ref(false);
 
-export default defineComponent({
-    name:"Login",
-    data() {
-        return {
-            email:"",
-            password:"",
-            isError:false,
-            isLoading:false,
-        }
-    },
-    components:{
-        ButtonAuthGoogle,
-        ModalForgotPass,
-        ModalConfirmCode,
-    },
-    methods:{
-        async postRequests() {
-            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/login`, {
-                headers:{
-                    "Content-Type":"aplication/json"
-                },
-                credentials:"include"
-            })
+interface FormRequest {
+    email:string;
+}
 
+const router = useRouter()
 
-            if (resp.ok) {
-                
-            }
-        },
-    },
+const postRequests = async () => {
+    const resp = await api.post<FormRequest>("/auth/login", {
+        email:email
+    })    
 
-    async created() {
-        const userStore = useUserStore();
-
-        await userStore.fetchUser();
-
-        if (userStore.user) {
-            return this.$router.push('/');
-        }
+    if (resp.status == 200) {
+        return router.push("/auth/verification") 
     }
-})
-
+}
 </script>
 
 <template> 

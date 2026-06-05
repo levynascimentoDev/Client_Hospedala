@@ -1,142 +1,117 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-import type { ibgeLocationPlaces } from "../../../types";
+<script setup lang="ts">
+import { useHostStore } from "../../../stores/hosts";
+import { reactive, ref, watch } from "vue";
 
-export default defineComponent({
-    data() {
-        return {
-            query:"",
-            showDropdown:false,
-            locationPlaces:{} as ibgeLocationPlaces,
-            results:[] as {name:string, sigla:string, recomended?:boolean}[],
-            isLoading:false,
-            debounceTimer:null as any
-        }
-    },
-    methods:{
-        async fetchApiPlaces() {
+interface currentLoc {
+    region?:string;
+    city?:string;
+}
 
-            if (!localStorage.getItem('ibgePlaces')) {
-                
-                const respStates = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
-                const respDataStates = await respStates.json() as any[];
-                const states = respDataStates.map((s:any) => ({ name:s.nome, sigla:s.sigla }))
+const query = ref("");
+const showDropdown = ref(false);
+const results = ref<{name:string, sigla:string, recomended?:boolean}[]>([])
+const isLoading = ref(false);
+const debounceTimer = ref<any>(null)
+const hostStore = useHostStore();
+const currentLocation = reactive<currentLoc>({});
     
-                const respCitys = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/municipios');
-                const respDataCitys = await respCitys.json() as any[];
-                const citys = respDataCitys.map((c:any) => ({ name:c.nome, sigla:c.microrregiao?.mesorregiao?.UF?.sigla }))
+hostStore.fetchApiPlaces();
+
+(async () => {
+    const resp = await fetch('https://ipinfo.io/json')    
+    const data = await resp.json()
+    currentLocation.region = data.region as string;
+    currentLocation.city = data.city as string;
+})()
 
 
-                const locationsApi = {
-                    "citys":[
-                        ...citys
-                    ],
-                    "states":[
-                        ...states
-                    ]
-                }
+const normalize = (str:string) => {
+    return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
 
-                localStorage.setItem('ibgePlaces', JSON.stringify(locationsApi));
+}
 
-                this.locationPlaces = locationsApi;
+const locationRecomended = async () => {
+    try {
 
-            } else {                
-                
-                const values:ibgeLocationPlaces = JSON.parse(localStorage.getItem('ibgePlaces') as string) as ibgeLocationPlaces;
+        isLoading.value = true;
+        let resultsStates = hostStore.locations.states.filter((state) => normalize(state.name).includes(normalize(currentLocation.region as string)))
 
-                this.locationPlaces = values;
-                
+        const resultValues:{name:string; sigla:string; recomended:boolean}[] = [
+            {
+                name:resultsStates[0]?.name as string,
+                sigla:resultsStates[0]?.sigla as string,
+                recomended:true
+            },
+            {
+                name:currentLocation?.city as string,
+                sigla:resultsStates[0]?.sigla as string,
+                recomended:true
             }
-        },
-        normalize(str: string) {
-            return String(str || "")
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "");
-        },
-        searchAutoComplete() {
-            if (this.debounceTimer) clearTimeout(this.debounceTimer);
 
-            this.isLoading = true
-            this.debounceTimer = setTimeout(() => {
-
-                const query = this.normalize(this.query.trim())
-    
-                if (!query) {
-                    this.locationRecomended();
-                    return
-                }
-    
-                let resultsStates = this.locationPlaces.states.filter((state) => this.normalize(state.name).includes(query))
-                let resultsCitys = this.locationPlaces.citys.filter((city) => this.normalize(city.name).includes(query))
-    
-                const results = [
-                    ...resultsStates,
-                    ...resultsCitys
-                ]
-    
-        
-                this.results = results.filter(
-                    (v, i, arr) =>
-                        arr.findIndex((x) => x.name === v.name && x.sigla === v.sigla) === i
-                ).slice(0, 10)
-
-                this.isLoading = false;
-            }, 250);
-
-        },
-        hideDropdown() {
-            this.showDropdown = false;  
-            this.isLoading = false;
-            this.$emit('selected', false);
-        },
-        async inputFocus() {
-            this.showDropdown = true;
-            this.$emit('selected', true);
-            await this.locationRecomended()
-        },
-        async locationRecomended() {
-            try {
-
-                this.isLoading = true;
-
-                const resp = await fetch('https://ipapi.co/json/')
-                const data = await resp.json()
-
-                let resultsStates = this.locationPlaces.states.filter((state) => this.normalize(state.name).includes(this.normalize(data.region as string)))
-
-                const results:{name:string, sigla:string, recomended:boolean}[] = [
-                    {
-                        name:resultsStates[0]?.name as string,
-                        sigla:resultsStates[0]?.sigla as string,
-                        recomended:true
-                    },
-                    {
-                        name:data.city as string,
-                        sigla:resultsStates[0]?.sigla as string,
-                        recomended:true
-                    }
-
-                ]
-                this.isLoading = false;
-                this.results = results;
-            } catch (err) {
-                this.isLoading = false;
-            }
-        }
-        
-    },
-    watch:{
-        async query(after:string) {
-            if (!after) {
-                await this.locationRecomended()
-            }
-        }
-    },
-    async created() {
-        await this.fetchApiPlaces()
+        ]
+        isLoading.value = false;
+        results.value = resultValues;
+    } catch (err) {
+        isLoading.value = false;
     }
+
+}
+
+const searchAutoComplete = () => {
+    if (debounceTimer.value) clearTimeout(debounceTimer.value);
+
+    isLoading.value = true
+    debounceTimer.value = setTimeout(() => {
+
+        const value = normalize(query.value.trim())
+
+        if (!value.length) {
+            return locationRecomended();
+        }
+
+        let resultsStates = hostStore.locations.states.filter((state) => normalize(state.name).includes(value))
+        let resultsCitys = hostStore.locations.citys.filter((city) => normalize(city.name).includes(value))
+
+        const resultValues = [
+            ...resultsStates,
+            ...resultsCitys
+        ]
+
+
+        results.value = resultValues.filter(
+            (v, i, arr) =>
+                arr.findIndex((x) => x.name === v.name && x.sigla === v.sigla) === i
+        ).slice(0, 10)
+
+        isLoading.value = false;
+    }, 250);
+
+}
+
+const emit = defineEmits<{
+    (e:"selected", value:boolean):void;
+}>()
+
+const hideDropdown = () => {
+    showDropdown.value = false;  
+    isLoading.value = false;
+    emit('selected', false);
+}
+
+const inputFocus = () => {
+    showDropdown.value = true;
+    emit('selected', true);
+    searchAutoComplete()
+}
+
+watch(query, () => {
+    searchAutoComplete()
 })
+
+
 </script>
 
 
@@ -156,9 +131,8 @@ export default defineComponent({
             id="location" 
             placeholder="Buscar destinos"
             v-model="query"
-            @focus="inputFocus"
-            @blur="hideDropdown"
-            @input="searchAutoComplete"
+            @focus="inputFocus()"
+            @blur="hideDropdown()"
             autocomplete="off"
         >
 
@@ -171,6 +145,11 @@ export default defineComponent({
                 <i class="bi bi-geo-alt-fill"></i>
                 <span v-if="value.recomended">{{ value.name }}, {{ value.sigla }} <span class="recomended">- perto de você</span></span>
                 <span v-else>{{ value.name }}, {{ value.sigla }}</span>
+            </li>
+        </ul>
+        <ul v-else-if="showDropdown" class="dropdown">
+            <li class="not-found">
+                Nada encontrado
             </li>
         </ul>
 
@@ -238,6 +217,7 @@ export default defineComponent({
     top: 100%;  
     left: -10px;
     min-width: 300px;      
+    min-height: 100px;
     background: #fff;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -352,6 +332,12 @@ export default defineComponent({
     }
 
 
+}
+
+.not-found {
+    color: #7d7d7d;    
+    padding: 10px 10px;
+    text-align: center;
 }
 
 </style>

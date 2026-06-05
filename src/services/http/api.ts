@@ -4,7 +4,9 @@ import axios from "axios";
 const api = axios.create({
     baseURL:import.meta.env.VITE_API_URI,
     withCredentials:true,
-    validateStatus:() => true
+    headers:{
+        "Content-Type":"aplication/json"
+    },
 })
 
 export default api;

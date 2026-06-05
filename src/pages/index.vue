@@ -1,44 +1,26 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { onMounted } from 'vue';
 import Host from '../components/app/Host.vue';
-import SpinerLoading from '../components/ui/spinnerLoading.vue';
-import type { User } from '../types/index.js';
 import { useHostStore } from '../stores/hosts.ts';
+import { ref, nextTick } from 'vue';
 
-export default defineComponent({
-    name:"Homepage",
-    data() {
-        return {
-            places:useHostStore(),
-            user:null as User | null,
-            isLoading:false
-        }
-    },
-    components:{
-        Host,
-        SpinerLoading,
-    },
-    async created() {
-        this.isLoading = true;
-        await this.places.fetchAllPlaces();
-        this.isLoading = false;
-    },
-    mounted() {
-        window.scrollTo({ top: 0 });
-    },
-    watch: {
-        isLoading(after:boolean) {
 
-            if (after) {
-                window.scrollTo({ top: 0    });
-                document.body.style.overflow = "hidden"    
-            } else {
-                window.scrollTo({ top: 0 });
-                document.body.style.overflow = ""    
-            }
-        }
-    }
-});
+const placesStore = useHostStore();
+const isLoading = ref(false);
+
+
+isLoading.value = true;
+(async () => {
+    await placesStore.fetchAllPlaces();
+})()
+isLoading.value = false;
+onMounted(async () => {
+    await nextTick()
+    window.scrollTo({ top: 0 });
+})
+console.log(placesStore.filterPlaces.length)
+
+
 </script>
 
 
@@ -52,14 +34,14 @@ export default defineComponent({
             </div>
         </div>
         <div class="content" v-else>
-            <div class="row-content" v-for="(listValues, indexList) in places.filterPlaces" :key="indexList">
+            <div class="row-content" v-for="(listValues, indexList) in placesStore.filterPlaces" :key="indexList">
                 <h1>Em destaque</h1>
                 <div class="values">
                     <Host v-for="(value, indexValue) in listValues" :data="value" :key="indexValue"  />
                 </div>
             </div>
 
-            <div class= "not-found" v-if="!places.filterPlaces.length">
+            <div class= "not-found" v-if="!placesStore.filterPlaces.length">
                 <i class="bi bi-emoji-frown"></i>
                 <h1>Ops!, Sem valores no momento.</h1>
             </div>

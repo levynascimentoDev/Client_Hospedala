@@ -1,74 +1,68 @@
 import { defineStore } from "pinia";
 import type { User } from "../types";
 import api from "../services/http/api.js";
+import { ref } from "vue";
 
 
-export const useUserStore = defineStore('user', {
-    state() {
-        return {
-            user:null as User | null
+export const useUserStore = defineStore('user', () => {
+    
+    const user = ref<User | null>(null)
+
+    const fetchLogoutUser = async () => {
+        try {
+            await api.delete('/users/logout', {
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                withCredentials:true
+            })
+
+            return user.value = null;
+        } catch (err) {
+            return user.value = null;
         }
-    },
-    actions:{
-        async fetchUser() {
+    }
+    
+    const fetchUser = async () => {
+        try {
+            const respAcess = await api.get('/users/me', {
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                withCredentials:true
+            }) 
+            if (respAcess.status == 200) {
+                return user.value = respAcess.data as User;
+            } else {
+                return user.value = null;
+            }
 
+        } catch (error) {
             try {
-                
-                const respAcess = await api.get('/api/users/me', {
+                await api.get('/auth/refresh/token', {
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    withCredentials:true
+                });
+
+                const respAcess = await api.get('/users/me', {
                     headers:{
                         "Content-Type":"application/json"
                     },
                     withCredentials:true
                 }) 
-                if (respAcess.status == 200) {
-                    this.user = respAcess.data as User;
-                } else {
-                    this.user = null;
-                }
-
-                return
-                
-            } catch (err) {
-
-                try {
-
-                    await api.get('/api/auth/refresh/token', {
-                        headers:{
-                            "Content-Type":"application/json"
-                        },
-                        withCredentials:true
-                    });
-
-                    const respAcess = await api.get('/api/users/me', {
-                        headers:{
-                            "Content-Type":"application/json"
-                        },
-                        withCredentials:true
-                    }) 
-                    return this.user = respAcess.data as User;
-                    
-                } catch (errRefresh) {
-                    await this.fetchLogoutUser()
-                    return;
-                }
-
-            } 
-            
-        },
-        async fetchLogoutUser() {
-            try {
-                await api.delete('/users/logout', {
-                    headers:{
-                        "Content-Type":"application/json"
-                    },
-                    withCredentials:true
-                })
-
-                return this.user == null;
-            } catch (err) {
-
-                return;
+                return user.value = respAcess.data as User;
+            } catch (error) {
+                return await fetchLogoutUser()
             }
-        },
-    },
+        }
+    }
+
+    return {
+        user,
+        fetchUser,
+        fetchLogoutUser
+    }
+
 })

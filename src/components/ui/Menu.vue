@@ -1,72 +1,65 @@
-<script lang="ts">
-import { defineComponent, type PropType } from 'vue';
-import type { User } from "../../types";
+<script setup lang="ts">
+import { computed, useTemplateRef, onMounted, onBeforeUnmount } from 'vue';
+import { useUserStore } from '../../stores/users';
 
-export default defineComponent({
-    name:"menu",
-    props:{
-        user:{
-            type:Object as PropType<User>,
-            required:true
-        },
-    },
-    methods:{
-        showEmail() {
-            const newEmail = this.user.email.replace('@gmail.com', '')
-            return `${this.user.email[0]}${`*`.repeat(newEmail.length-2)}${newEmail[newEmail.length-1]}@gmail.com`
-        },
-        async userLogout() {
-            
-            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/users/logout`,{
-                method:'DELETE',
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                credentials:"include"
-            })
-            
-            if (resp.ok) {
-                window.location.reload()
-            }
+const userStore = useUserStore();
 
-        },
-        handlerClickOutside(event:Event) {
-            const menu = this.$refs.menu as HTMLElement
-            if (menu && !(menu as HTMLElement).contains(event.target as Node)) {
-                this.$emit('clickOutside', false)
-            }
-        }
-    },
-    mounted() {
-        window.addEventListener('click', this.handlerClickOutside)
-    },
-    beforeUnmount() {
-        window.removeEventListener('click', this.handlerClickOutside)
-    }
-    
+const emit = defineEmits<{
+    clickOutside:[value:boolean]
+}>()
+
+const showEmail = computed(() => {
+    const newEmail = userStore.user?.email.replace('@gmail.com', '') as string;
+    return `${userStore.user?.email[0]}${`*`.repeat(newEmail.length-2)}${newEmail[newEmail.length-1]}@gmail.com`
 })
+
+const userLogout = async () => {
+    await userStore.fetchLogoutUser();
+    await userStore.fetchUser()
+}
+
+{}
+const menu = useTemplateRef<HTMLElement>("menu")  
+
+function handlerClickOutside(event:Event) {
+    
+    if (menu.value && !menu.value.contains(event.target as Node)) {
+
+        emit("clickOutside", false);
+        
+    }
+}
+
+onMounted(() => {
+    window.addEventListener('click', handlerClickOutside)
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('click', handlerClickOutside)
+})
+
 </script>
 
 <template>
     <div class="menu" ref="menu">
         <div class="user-info">
-           <img class="avatar" v-if="user.icon" :src="user.icon">
+           <img class="avatar" v-if="userStore.user?.icon" :src="userStore.user?.icon">
             <span class="avatar">
-                {{ user?.given_name[0]?.toLocaleUpperCase() }}
+                {{ userStore.user?.given_name[0]?.toLocaleUpperCase() }}
             </span>
            <span class="text-info">
-                <h1>{{ user.given_name }}</h1>
-                <p>{{ showEmail() }}</p>
+                <h1>{{ userStore.user?.given_name }}</h1>
+                <p>{{ showEmail }}</p>
            </span>
         </div>
         <nav class="navigator">
-            <router-link  class="link" to="/"><img src="../assets/icons/home.svg" alt="Home icon"/>   Inicio</router-link>
-            <router-link  class="link" to="/coins"><img src="../assets/icons/home.svg" alt="Coins icon"/>   Milha Coins</router-link>
-            <router-link class="link" to="/travels"><img src="../assets/icons/plane.svg" alt="Plane icon"/>   Minhas Viagens</router-link>
-            <router-link class="link" to="/favorites"><img src="../assets/icons/heart.svg" alt="Heart icon"/>   Favoritos</router-link>
-            <router-link class="link" to="/rotalivre"><img src="../assets/icons/rotaLivre.svg" alt="Rotalivre icon"/>   Rota livre</router-link>
-            <router-link class="link" to="/settings"><img src="../assets/icons/config.svg" alt="Config icon"/>   Configurações</router-link>
-            <button class="logout-button" type="button" @click="userLogout"><img src="../assets/icons/exit.svg" alt="Exit icon"/>  Sair</button>
+            <router-link  class="link" to="/"><img src="../../assets/icons/home.svg" alt="Home icon"/>   Inicio</router-link>
+            <router-link  class="link" to="/coins"><img src="../../assets/icons/home.svg" alt="Coins icon"/>   Milha Coins</router-link>
+            <router-link class="link" to="/travels"><img src="../../assets/icons/plane.svg" alt="Plane icon"/>   Minhas Viagens</router-link>
+            <router-link class="link" to="/favorites"><img src="../../assets/icons/heart.svg" alt="Heart icon"/>   Favoritos</router-link>
+            <router-link class="link" to="/rotalivre"><img src="../../assets/icons/rotaLivre.svg" alt="Rotalivre icon"/>   Rota livre</router-link>
+            <router-link class="link" to="/settings"><img src="../../assets/icons/config.svg" alt="Config icon"/>   Configurações</router-link>
+            <button class="logout-button" type="button" @click="userLogout()"><img src="../../assets/icons/exit.svg" alt="Exit icon"/>  Sair</button>
         </nav>
     </div>
 </template>

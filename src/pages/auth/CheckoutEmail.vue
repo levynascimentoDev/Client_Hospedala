@@ -1,17 +1,6 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-import ModalConfirmCode from '../components/modal/ModalConfirmCode.vue';
+<script setup lang="ts">
+import ModalConfirmCode from '../../components/auth/modal/ModalConfirmCode.vue';
 
-export default defineComponent({
-    data() {
-        return {
-            
-        }
-    },
-    components:{
-        ModalConfirmCode
-    }
-})
 </script>
 
 

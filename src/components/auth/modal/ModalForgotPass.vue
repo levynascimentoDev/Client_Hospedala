@@ -1,8 +1,5 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-export default defineComponent({
-    name:"modalForgot"
-})
+<script setup lang="ts">
+
 </script>
 
 <template>

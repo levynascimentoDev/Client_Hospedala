@@ -1,37 +1,39 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
+const query = ref("")
+const showDropdown = ref(false)
 
-export default defineComponent({
-    data() {
-        return {
-            query:"",
-            showDropdown:false,
-        }
-    },
-    methods:{
-        hideDropdown() {
-            this.showDropdown = false;  
-            this.$emit('selected', false);
-        },
-        activeDropdown() {
-            this.showDropdown = true;
-            this.$emit('selected', true);
-        },
-        handlerClickOutside(event:Event) {
-            const dropdown = this.$refs.dropdown as HTMLElement
-            if (dropdown && !(dropdown as HTMLElement).contains(event.target as Node)) {
-                this.$emit('selected', false)
-                this.showDropdown = false;
-            }
-        }
-    },
-    mounted() {
-        document.addEventListener('click', this.handlerClickOutside);
-    },
-    beforeUnmount() {
-        document.removeEventListener('click', this.handlerClickOutside);
+const emit = defineEmits<{
+    (e:"selected", value:boolean):void;
+}>()
+
+const hideDropdown = () => {
+    showDropdown.value = false;  
+    emit('selected', false);
+}
+
+const activeDropdown = () => {
+    showDropdown.value = true;
+    emit('selected', true);
+}
+
+const dropdown = useTemplateRef<HTMLElement>("dropdown")
+
+const handlerClickOutside = (event:Event) => {
+    if (dropdown && !dropdown.value?.contains(event.target as Node)) {
+        emit('selected', false)
+        showDropdown.value = false;
     }
+}
+
+onMounted(() => {
+    document.addEventListener('click', handlerClickOutside);
 })
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handlerClickOutside);
+})
+
 </script>
 
 
@@ -44,7 +46,7 @@ export default defineComponent({
                 height="18px"
                 alt="Calendario"
             >
-            <span>Lugar de Destino</span>
+            <span>Hospedes</span>
         </span>
         <button 
             type="button"

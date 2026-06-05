@@ -1,109 +1,113 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 
-export default defineComponent({
-    data() {
-        return {
-            day:"",
-            month:"",
-            year:"",
-            months:[
-                "janeiro",
-                "fevereiro",
-                "março",
-                "abril",
-                "maio",
-                "junho",
-                "julho",
-                "agosto",
-                "setembro",
-                "outubro",
-                "novembro",
-                "dezembro"
-            ],
-            errorInput:{
-                day:false,
-                month:false,
-                year:false,
-                age:false
-            }
+import { computed, reactive, ref, watch } from 'vue';
+
+
+const day = ref("");
+const month = ref("");
+const year = ref("");
+const months = ref([
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro"
+])
+
+const errorInput = reactive({
+    day:false,
+    month:false,
+    year:false,
+    age:false
+})
+
+
+const props = withDefaults(
+    defineProps<{
+        error?:boolean
+    }>(),
+    {
+        error:false
+    }
+)
+
+const emit = defineEmits<{
+    (e:"error", value:boolean):void;
+    (e:"date", value:string):void;
+}>()
+
+
+const emitDate = () => {
+    if (!day.value || !month.value || !year.value) {
+        errorInput.age = false;
+
+        if (props.error) {
+            errorInput.day = !day.value;
+            errorInput.month = !month.value;
+            errorInput.year = !year.value;
         }
-        
-    },
-    props:{
-        error:{
-            type:Boolean,
-            required:false,
-            default:false
-        }
-    },
-    methods:{
-        emitDate() {
-            if (!this.day || !this.month || !this.year) {
-                this.errorInput.age = false;
+        return;
+    }
 
-                if (this.error) {
-                    this.errorInput.day = !this.day;
-                    this.errorInput.month = !this.month;
-                    this.errorInput.year = !this.year;
-                }
-                return;
-            }
+    errorInput.day = false;
+    errorInput.month = false;
+    errorInput.year = false;
 
-            this.errorInput.day = false;
-            this.errorInput.month = false;
-            this.errorInput.year = false;
+    emit('error', false);
 
-            this.$emit('error', false);
+    
+    const date = new Date(Number(year.value), Number(month.value), Number(day.value))
 
-            
-            const date = new Date(Number(this.year), Number(this.month), Number(this.day))
+    const dateNow = new Date();
 
-            const dateNow = new Date();
+    let age = dateNow.getFullYear() - date.getFullYear() 
 
-            let age = dateNow.getFullYear() - date.getFullYear() 
+    if ( !(dateNow.getMonth() > date.getMonth()) )  {   
+        age -= 1
+    } else if ( date.getMonth() == dateNow.getMonth() && dateNow.getDate() >= date.getDate())  {
+        age -= 1
+    }
 
-            if ( !(dateNow.getMonth() > date.getMonth()) )  {   
-                age -= 1
-            } else if ( date.getMonth() == dateNow.getMonth() && dateNow.getDate() >= date.getDate())  {
-                age -= 1
-            }
+    if (age < 18) {
 
-            if (age < 18) {
+        day.value = ""
+        month.value = ""
+        year.value = ""
+        return errorInput.age = true;
 
-                this.day = ""
-                this.month = ""
-                this.year = ""
-                return this.errorInput.age = true;
+    }
+    
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
+    emit("date", formattedDate)
+    
+}
 
-            }
-            
-            const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')}`;
-            this.$emit('date', formattedDate)
-            
-        }
-    },
-    computed:{
-        listYears() {
-            const currentYear:number = new Date().getFullYear()
-            const years = [];
-            for (let i:number = currentYear; i >= 1900; i-- ) {
-                years.push(i);
-            }
-            return years;
-        }
-    },
-    watch:{
-        error(after:boolean, ) {
-            if (after) {
-                this.errorInput.day = !this.day;
-                this.errorInput.month = !this.month;
-                this.errorInput.year = !this.year;
-                this.errorInput.age = !this.errorInput.age;
-            }
-        }
+const listYears = computed(() => {
+    const currentYear:number = new Date().getFullYear()
+    const years = [];
+    for (let i:number = currentYear; i >= 1900; i-- ) {
+        years.push(i);
+    }
+    return years;
+})
+
+
+watch(() => props.error, (after:boolean) => {
+    if (after) {
+        errorInput.day = !day.value;
+        errorInput.month = !month.value;
+        errorInput.year = !year.value;
+        errorInput.age = !errorInput.age;
     }
 })
+
 </script>
 
 

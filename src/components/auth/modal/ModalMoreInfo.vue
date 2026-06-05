@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import InputBirthDay from '../../../../components/auth/buttons/InputBirthDay.vue';
+import InputBirthDay from '../buttons/InputBirthDay.vue';
 
 export default defineComponent({
     data() {
@@ -39,7 +39,7 @@ export default defineComponent({
             //     this.error.name = false;
             // }
 
-            const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/register`,{
+            const resp = await fetch(`${import.meta.env.VITE_API_URI}/auth/register`,{
                 method:'POST',
                 headers:{
                     "Content-Type":"application/json"

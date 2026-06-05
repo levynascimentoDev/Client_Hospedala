@@ -4,18 +4,23 @@ const authRoutes: RouteRecordRaw[] = [
     {
         path:"/auth",
         component:() => import("../layouts/AuthLayout.vue"),
+        meta:{
+            requireNotAuth:true
+        },
         children:[
             {
-                path:"/login",
-                component:() => import("../pages/auth/Login.vue")
+                path:"login",
+                component:() => import("../pages/auth/Login.vue"),
+            },
+            {   
+                path:"complete",
+                component:() => import("../pages/auth/Register.vue"),
+                meta:{ requireTokenAuthTemp:"complete" }
             },
             {
-                path:"/login/complete",
-                component:() => import("../pages/auth/Register.vue")
-            },
-            {
-                path:"/login/verification",
-                component:() => import("../pages/auth/CheckoutEmail.vue")
+                path:"verification",
+                component:() => import("../pages/auth/CheckoutEmail.vue"),
+                meta:{ requireTokenAuthTemp:"checkout" }
             },
             
         ]

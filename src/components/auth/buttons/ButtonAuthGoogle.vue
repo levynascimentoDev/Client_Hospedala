@@ -1,3 +1,49 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+interface googleAuthResponse {
+    status:number,
+    redirect_uri:string
+}
+
+
+const router = useRouter()
+const isLoading = ref(false) 
+
+const emit = defineEmits<{
+    (e:"load", value:boolean):void;
+}>()
+
+const googleAuthRequest = async () => {
+    try {
+        isLoading.value = true;
+        emit('load', true)
+        const resp = await fetch(`${import.meta.env.VITE_API_URI}/auth/google`, {
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })  
+
+        if (resp.ok) {
+            const urlGoogle:googleAuthResponse = await resp.json()
+
+            document.location.href = urlGoogle.redirect_uri;
+            
+        } else {
+            isLoading.value = false;
+            emit('load', false)
+
+        }
+    } catch (err) {
+        isLoading.value = false;
+        emit('load', false)
+
+    }
+}
+</script>
+
+
 <template>
     <button type="button" @click="googleAuthRequest" class="google-button" :disabled="isLoading">
         <span v-if="isLoading" class="loading"></span>
@@ -8,81 +54,8 @@
             class="img"
         >
         <span>Entrar com google</span>
-    </button>
+    </button>   
 </template>
-
-<script lang="ts">
-    import { defineComponent, ref } from 'vue';
-    import { useRouter } from 'vue-router';
-
-    
-
-    interface googleAuthResponse {
-        status:number,
-        redirect_uri:string
-    }
-    
-    
-    export default defineComponent({
-
-        setup() {
-            const router = useRouter();
-            return { router }
-        },
-        data() {
-            return {
-                isLoading:ref<boolean>(false),
-                googleWindow:null as Window | null
-            }
-        },
-        methods:{
-            async googleAuthRequest() {
-                try {
-                    this.isLoading = true;
-                    this.$emit('load', true)
-                    const resp = await fetch(`${import.meta.env.VITE_API_URI}/api/auth/google`, {
-                        headers:{
-                            "Content-Type":"application/json"
-                        }
-                    })  
-
-                    if (resp.ok) {
-                        const urlGoogle:googleAuthResponse = await resp.json()
-
-                        document.location.href = urlGoogle.redirect_uri;
-
-                        // if (this.googleWindow && !this.googleWindow.closed) {
-                        //     this.googleWindow.focus()
-                        //     return
-                        // }
-
-                        // this.googleWindow = window.open(
-                        //     urlGoogle.redirect_uri,
-                        //     'googleAuth',
-                        //     'width=500,height=600'
-                        // )
-
-                        // const closePopOut = setInterval(() => {
-                        //     if (this.googleWindow?.closed) {
-                        //         this.googleWindow = null;
-                        //         clearInterval(closePopOut)
-                        //     }
-                        // }, 500);
-                        
-                    } else {
-                        this.isLoading = false;
-                        this.$emit('load', false)
-
-                    }
-                } catch (err) {
-                    this.isLoading = false;
-                    this.$emit('load', false)
-
-                }
-            }
-        }
-    })
-</script>
 
 <style scoped>
     .google-button {

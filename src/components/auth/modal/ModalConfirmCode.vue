@@ -1,74 +1,67 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { onMounted, ref, useTemplateRef, watch } from 'vue';
+
+const inputValues = ref<string[]>(["", "", "", "", "", ""])
+const code = ref("");
 
 
-export default defineComponent({
-    name: "modalConfirm",
-    data() {
-        return {
-            inputValues:["", "", "", "", "", ""], 
-            code: "",
-        }
-    },
-    methods: {
-        onInput(index:number) {
+const inputs = useTemplateRef<HTMLInputElement[]>("inputs") 
 
-            const regex = /^[0-9]+$/
+const onInput = (index:number) => {
 
-            if (this.inputValues[index] && !regex.test(this.inputValues[index])) {
-                this.inputValues[index] = "";
-            }
-        
-            if (this.inputValues[index]?.length) {
-                const inputs = this.$refs.inputs as HTMLInputElement[]
-                inputs[index+1]?.focus()
-            }
+    const regex = /^[0-9]+$/
 
-        },
-        onBackspace(index:number) {
-            const inputs = this.$refs.inputs as HTMLInputElement[]
-
-            // Se o input atual TEM valor
-            if (this.inputValues[index]) {
-                this.inputValues[index] = ""
-                return
-            }
-
-            // Se está vazio → volta
-
-            if (index > 0) {
-                inputs[index - 1]?.focus()
-            }
-        },
-        onPaste(event:ClipboardEvent) {
-            const value = event.clipboardData?.getData("text") as string;
-            const regex = /^[0-9]+$/
-
-            console.log(value.length)
-
-            if (!regex.test(value) && !(value.length == 6)) return;
-            
-            if (value) {
-                console.log(value)
-            } 
-            // this.setCode
-        }
-    },
-        
-    mounted() {
-        const inputs = this.$refs.inputs as HTMLInputElement[]
-        if (!inputs) return;
-        inputs[0]?.focus()
-    },
-    computed:{
-        setCode() {
-                if (this.inputValues.every(char => char.length)) {
-                this.code = this.inputValues.toString()
-            }
-        }
+    if (inputValues.value[index] && !regex.test(inputValues.value[index])) {
+        inputValues.value[index] = "";
     }
 
+    if (inputValues.value[index]?.length) {
+        
+
+        if (inputs.value) inputs.value[index+1]?.focus();
+    }
+
+}
+
+
+const onBackspace = (index:number) => {
+
+    // Se o input atual TEM valor
+    if (inputValues.value[index]) {
+        inputValues.value[index] = ""
+        return
+    }
+
+    // Se está vazio → volta
+
+    if (index > 0) {
+        if (inputs.value) inputs.value[index - 1]?.focus();
+    }
+}
+
+onMounted(() => {
+    if (inputs.value) inputs.value[0]?.focus()
 })
+
+const onPaste = (event:ClipboardEvent) => {
+    const value = event.clipboardData?.getData("text") as string;
+    const regex = /^[0-9]+$/
+
+    console.log(value.length)
+
+    if (!regex.test(value) && !(value.length == 6)) return;
+    
+    if (value) {
+        console.log(value)
+    } 
+}
+
+watch([inputValues, code], () => {
+    if (inputValues.value.every(char => char.length)) {
+        code.value = inputValues.value.toString()
+    }
+})
+
 </script>
 
 <template>

@@ -1,23 +1,16 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import type { placeRequests } from '../../types';
-import type { PropType } from 'vue';
 
-export default defineComponent({
-    name:"HostComponent",
-    props:{
-        data:{
-            type:Object as PropType<placeRequests>,
-            required:false
-            
-        },
-        isLoading:{
-            type:Boolean,
-            required:false,
-            default:false
-        }
+const props = withDefaults(
+    defineProps<{
+        data?:placeRequests,
+        isLoading?:boolean;
+    }>(),
+    {
+        isLoading:false
     }
-})
+)
+
 </script>
 
 <template>
@@ -40,11 +33,11 @@ export default defineComponent({
             alt="imagem da hospedagem"
         >
         <div class="info">
-            <h1>{{ `${data?.type.charAt(0).toUpperCase()}${data?.type.slice(1)}`  }} - {{ data?.city }}</h1>
-            <p>{{ data?.title }}</p>    
+            <h1>{{ `${props.data?.type.charAt(0).toUpperCase()}${props.data?.type.slice(1)}`  }} - {{ props.data?.city }}</h1>
+            <p>{{ props.data?.title }}</p>    
         </div>
         <div class="footer">
-            <span class="value">R${{ data?.default_value }}.00/noite</span>
+            <span class="value">R${{ props.data?.default_value }}.00/noite</span>
             <span class="review">
                 <i class="bi bi-star-fill"></i> 4.9       
             </span>

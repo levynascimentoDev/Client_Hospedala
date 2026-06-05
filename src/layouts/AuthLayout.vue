@@ -1,14 +1,6 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import Footer from "../components/ui/Footer.vue"
 import TopBar from "../components/ui/TopBar.vue";
-
-export default defineComponent({
-    components:{
-        Footer,
-        TopBar
-    },
-})
 </script>
 
 <template>

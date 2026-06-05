@@ -1,13 +1,9 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 
-export default defineComponent({
-    name:"spanMessage",
-    props:{
-        message:String,
-        color:String
-    }
-})
+defineProps<{
+    message:string;
+    color:string;
+}>()
 
 </script>
 
