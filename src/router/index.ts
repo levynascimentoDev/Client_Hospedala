@@ -14,10 +14,16 @@ const router = createRouter({
                 {
                     path:"",
                     component:() => import("../pages/index.vue")
-                }                
+                },
+                {
+                    path:"query",
+                    component:() => import("../pages/index.vue"),
+                    beforeEnter:(to) => {
+                        if (!to.query.location) return '/'
+                    }
+                }
             ],
         },
-        
         ...authRoutes, 
         ...hostRoutes
     ],

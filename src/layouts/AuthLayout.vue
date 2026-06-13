@@ -4,18 +4,11 @@ import TopBar from "../components/ui/TopBar.vue";
 </script>
 
 <template>
-    <div class="container">
-        <TopBar :search="false" />
-        <RouterView/>
-        <Footer/>
-    </div>
+    <TopBar :search="false" />
+    <RouterView/>
+    <Footer/>
 </template>
 
 <style scoped>
-.homeSpace {
-    margin-top: 180px;
-}
-main {
-    flex: 1;
-}
+
 </style>

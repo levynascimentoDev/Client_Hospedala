@@ -38,6 +38,7 @@ export const useUserStore = defineStore('user', () => {
             }
 
         } catch (error) {
+
             try {
                 await api.get('/auth/refresh/token', {
                     headers:{
