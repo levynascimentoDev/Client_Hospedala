@@ -17,6 +17,10 @@ const hostRoutes: RouteRecordRaw[] = [
             {
                 path:"create/acomodations-details",
                 component:() => import("../pages/hostSession/AcomodationsDetails.vue")
+            },
+            {
+                path:"create/acomodation-pictures",
+                component:() => import('../pages/hostSession/AcomodationPictures.vue')
             }
         ]
     }
