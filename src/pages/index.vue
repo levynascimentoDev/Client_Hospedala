@@ -10,15 +10,16 @@ const isLoading = ref(false);
 
 
 isLoading.value = true;
+
 (async () => {
     await placesStore.fetchAllPlaces();
 })()
+
 isLoading.value = false;
 onMounted(async () => {
     await nextTick()
     window.scrollTo({ top: 0 });
 })
-console.log(placesStore.filterPlaces.length)
 
 
 </script>

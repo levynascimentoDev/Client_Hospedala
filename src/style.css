@@ -1,14 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-* {
-  font-family: "Poppins", sans-serif;
-  border: none;
-  margin: 0;
-  color: white;
-  box-sizing: border-box;
-  color: rgb(0, 0, 0);
+:root {
+  background-color: #fff;
 }
 
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-layout { flex: 1; }
+
+section {
+  background-color: #fff;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100dvh;
+  display: flex;
+}
 
 input:focus {
   border: 0.2 solid black;
@@ -18,20 +39,10 @@ body, html {
   height: 100%;
 }
 
-
-.container {
-  display: flex;
-  flex-direction: column;
+input, button {
+  border: none;
 }
 
-
-section {
-  background-color: #fff;
-  width: 100%;
-  max-width: 100vw;
-  min-height: 100dvh;
-  display: flex;
-}
 
 img {
   user-select: none;    
@@ -44,4 +55,82 @@ i {
 }
 
 
+.slide-fade-enter-active {
+  /* animation: slideSmothEnter 0.3s ease-out; */
+  animation: slideSmothEnter ease-out .2s;
+} 
+
+.slide-fade-leave-active {
+  /* animation: slideSmothLeave 0.25s ease-out; */
+  animation: slideSmothLeave ease-out .2s;
+} 
+
+.v-btn--variant-outlined {
+  border: 1px solid black;
+}
+
+
+
+
+@keyframes slideSmothEnter {
+  from {
+    transform: translate(-10px, -10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+}
+
+
+@keyframes slideSmothLeave {
+  from {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translate(-10px, -10px);
+    opacity: 0;
+  }
+
+}
+
+.fade-size-enter-active {
+  animation: fadeSizeEnter ease-out .5s;
+} 
+
+.fade-size-leave-active {
+  animation: fadeSizeLeave ease-out .4s;
+} 
+
+
+
+@keyframes fadeSizeEnter {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+@keyframes fadeSizeLeave {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+}
 

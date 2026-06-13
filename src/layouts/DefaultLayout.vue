@@ -1,11 +1,11 @@
 
 <script setup lang="ts">
+import { Transition } from 'vue';
+
 </script>
 
 <template>
-    <div class="container">
-        <RouterView />
-    </div>
+    <RouterView />
 </template>
 
 

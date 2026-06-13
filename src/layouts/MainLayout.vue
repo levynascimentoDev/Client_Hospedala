@@ -1,29 +1,25 @@
 <script setup lang="ts">
-import { defineComponent } from "vue";
-import Footer from "../components/ui/Footer.vue"
-import TopBar from "../components/ui/TopBar.vue";
-
+import Footer from '../components/ui/Footer.vue';
+import TopBar from '../components/ui/TopBar.vue';
 </script>
 
 <template>
-    <div :class="['containerLayout','homeSpace']">
-        <TopBar :search="true"/>
-        <RouterView/>
-        <Footer/>
-    </div>
+  <div :class="['layout', 'spacing-top']">
+    <TopBar :search="true" />
+
+    <main class="content">
+      <RouterView />
+    </main>
+
+    <Footer />
+  </div>
 </template>
 
 <style scoped>
-.homeSpace {
+.spacing-top {
     margin-top: 180px;
 }
-
-.containerLayout {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-}
-main {
-    flex: 1;
+.content {
+  flex: 1;
 }
 </style>

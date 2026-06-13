@@ -1,12 +1,29 @@
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import api from "../services/http/api";
-import type { ibgeLocationPlaces, placeRequests } from "../types";
+import type { ibgeLocationPlaces, placeRequests, currentLoc } from "../types";
 import { defineStore } from "pinia";
 
+
+type ISODateString = `${number}-${number}-${number}`
+
+interface QueryPlaces {
+    city?:string;
+    state?:string;
+    query?:string;
+    checkin:ISODateString;
+    checkout:ISODateString;
+    adult:number;
+    children:number;
+    baby:number;
+    animal:number;
+}
+
+
 export const useHostStore = defineStore('hosts', () => {
+
     const locations = ref<ibgeLocationPlaces>({citys:[], states:[]})
     const filterPlaces = ref<placeRequests[][]>([])
-
+    const currentLocation = reactive<currentLoc>({})
 
     const fetchApiPlaces = async () => {
 
@@ -65,11 +82,35 @@ export const useHostStore = defineStore('hosts', () => {
 
     }
 
+    const fetchCurrentLocation = async () => {
+        try {
+            if (!Object.keys(currentLocation).length) {            
+            
+                const resp = await fetch('https://ipinfo.io/json')    
+                const data = await resp.json()
+                currentLocation.region = data.region as string;
+                currentLocation.city = data.city as string;
+            }
+        } catch {
+            
+        }
+        
+        
+    }
+
+
+    const fetchQueryPlaces = (params:QueryPlaces) => {
+
+    
+    }
+
     return {
         locations,
         filterPlaces,
+        currentLocation,
         fetchAllPlaces,
-        fetchApiPlaces
+        fetchApiPlaces,
+        fetchCurrentLocation
     }
     
 })

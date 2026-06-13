@@ -44,3 +44,25 @@ export interface ibgeLocationPlaces {
     citys:locationValue[];
     states:locationValue[];
 }
+
+export interface currentLoc {
+    region?:string;
+    city?:string;
+}
+
+export interface CheckoutDate {
+    check_in:Date | null;
+    check_out:Date | null;
+}
+
+export interface Region {
+    state:string | null;
+    city:string | null;
+}
+
+export interface Guests {
+    children:number;
+    adult:number;
+    baby:number;
+    animal:number;
+}

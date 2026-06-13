@@ -2,7 +2,7 @@
     <div class="top-bar">
         <Menu 
             v-if="toogleMenu && userStore.user"
-            @clickOutside="toogleMenu = false"
+            ref="menuRef"
         />
         <div class="navigation">
             <div class="logo" @click="$router.push('/')">
@@ -39,11 +39,16 @@
 </template>
 <script setup lang="ts">
 import Menu from './Menu.vue';
-import SearchBar from '../app/searchBar/Search.vue';
+import SearchBar from '../app/SearchBar/index.vue';
 
 import { useUserStore } from '../../stores/users.ts';
 import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 
+const menuRef = ref(null);
+onClickOutside(menuRef, () => {
+    toogleMenu.value = false;
+})
 
 withDefaults(
     defineProps<{
@@ -105,6 +110,7 @@ const showMenu = () => {
         transition: ease .3s ;
         background: rgba(79, 79, 79, 0.187);
         font-weight: 500;
+        color: black;
     }
     .link:hover {
         background: rgb(0, 0, 0);

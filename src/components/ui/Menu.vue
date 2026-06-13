@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, useTemplateRef, onMounted, onBeforeUnmount } from 'vue';
+import { computed } from 'vue';
 import { useUserStore } from '../../stores/users';
+
 
 const userStore = useUserStore();
 
@@ -18,25 +19,6 @@ const userLogout = async () => {
     await userStore.fetchUser()
 }
 
-{}
-const menu = useTemplateRef<HTMLElement>("menu")  
-
-function handlerClickOutside(event:Event) {
-    
-    if (menu.value && !menu.value.contains(event.target as Node)) {
-
-        emit("clickOutside", false);
-        
-    }
-}
-
-onMounted(() => {
-    window.addEventListener('click', handlerClickOutside)
-})
-
-onBeforeUnmount(() => {
-    window.removeEventListener('click', handlerClickOutside)
-})
 
 </script>
 
