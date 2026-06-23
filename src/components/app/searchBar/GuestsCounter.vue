@@ -10,7 +10,7 @@ import { onClickOutside } from '@vueuse/core';
 const seleted = defineModel('selected', { default:false })
 
 
-const guests = defineModel<Guests>('guestsState', {
+const guestsModel = defineModel<Guests>('guestsModel', {
     default:() => ({
         adult:0,
         children:0,
@@ -20,21 +20,20 @@ const guests = defineModel<Guests>('guestsState', {
 }) 
 
 
-const guestsState = ref<Guests>({
+const guests = ref<Guests>({
     adult:0,
     children:0,
     baby:0,
     animal:0
 })
 
-guests.value = {...guestsState.value}
 
 const toogleDropdown = () => {
     seleted.value = !seleted.value
 }
 
 const clearContent = () => {
-    guestsState.value = {
+    guests.value = {
         adult:0,
         children:0,
         baby:0,
@@ -52,19 +51,19 @@ onClickOutside(containerRef, () => {
 
 
 const limitGuests = computed(() => {
-    const total = guestsState.value.adult + guestsState.value.children
+    const total = guests.value.adult + guests.value.children
     return total == 16 ? true : false
 })
 
 const placeholderContent = computed(() => {
 
     let content =!hasGuests.value ? "Quantos Hospedes ?" : 
-        `${guestsState.value.adult + guestsState.value.children} Hóspede` 
+        `${guests.value.adult + guests.value.children} Hóspede` 
 
-    if (guestsState.value.baby) {
-        content += `, ${guestsState.value.baby} Bebês`
-    } else if (guestsState.value.animal) {
-        content += `, Animais: ${guestsState.value.animal}`
+    if (guests.value.baby) {
+        content += `, ${guests.value.baby} Bebês`
+    } else if (guests.value.animal) {
+        content += `, Animais: ${guests.value.animal}`
     }
     return content;
 
@@ -72,19 +71,28 @@ const placeholderContent = computed(() => {
 
 const hasGuests = computed(() => {
 
-    const total = Object.values(guestsState.value).reduce(
+    const total = Object.values(guests.value).reduce(
         (interator, value) => interator + value, 0
     )  
     return total > 0
 }) 
 
 
-watch(guestsState, () => {
-    const { animal, baby, children, adult } = guestsState.value;
-
+watch(guests, ({ animal, baby, children, adult }) => {
+    
     if ((animal || baby || children) && adult === 0) {
-        guestsState.value.adult = 1  
+        guests.value.adult = 1;
+        adult = 1;
     }
+
+    guestsModel.value = {
+        adult,
+        animal,
+        baby,
+        children
+    }
+
+
 }, { deep:true })
 
 
@@ -124,18 +132,18 @@ watch(guestsState, () => {
                         <div class="actions">
                             <button 
                                 class="decrement"
-                                :disabled="guestsState.adult == 0"
-                                @click="guestsState.adult--"
+                                :disabled="guests.adult == 0"
+                                @click="guests.adult--"
                             >
                                 <Icon icon="ic:round-minus" />
                             </button>
 
-                            <span>{{ guestsState.adult }}</span>
+                            <span>{{ guests.adult }}</span>
 
                             <button 
                                 class="increment"
                                 :disabled="limitGuests"
-                                @click="guestsState.adult++"
+                                @click="guests.adult++"
                             >
                                 <Icon icon="ic:round-plus" color="white" />
                             </button>
@@ -153,18 +161,18 @@ watch(guestsState, () => {
                         </div>
                         <div class="actions">
                             <button class="decrement"
-                                :disabled="guestsState.children == 0"
-                                @click.stop="guestsState.children--"
+                                :disabled="guests.children == 0"
+                                @click.stop="guests.children--"
                             >
                                 <Icon icon="ic:round-minus" />
                             </button>
 
-                            <span>{{ guestsState.children }}</span>
+                            <span>{{ guests.children }}</span>
 
                             <button 
                                 class="increment"
                                 :disabled="limitGuests"
-                                @click.stop="guestsState.children++"
+                                @click.stop="guests.children++"
                             >
                                 <Icon icon="ic:round-plus" color="white" />
                             </button>
@@ -184,18 +192,18 @@ watch(guestsState, () => {
 
                         <div class="actions">
                             <button class="decrement"
-                                :disabled="guestsState.baby == 0"
-                                @click.stop="guestsState.baby--"
+                                :disabled="guests.baby == 0"
+                                @click.stop="guests.baby--"
                             >
                                 <Icon icon="ic:round-minus" />
                             </button>
 
-                            <span>{{ guestsState.baby }}</span>
+                            <span>{{ guests.baby }}</span>
 
                             <button 
                                 class="increment"
-                                :disabled="guestsState.baby == 5"
-                                @click.stop="guestsState.baby++"
+                                :disabled="guests.baby == 5"
+                                @click.stop="guests.baby++"
                             >
                                 <Icon icon="ic:round-plus" color="white" />
                             </button>
@@ -212,18 +220,18 @@ watch(guestsState, () => {
 
                         <div class="actions">
                             <button class="decrement"
-                                :disabled="guestsState.animal == 0"
-                                @click.stop="guestsState.animal--"
+                                :disabled="guests.animal == 0"
+                                @click.stop="guests.animal--"
                             >
                                 <Icon icon="ic:round-minus" />
                             </button>
 
-                            <span>{{ guestsState.animal }}</span>
+                            <span>{{ guests.animal }}</span>
 
                             <button 
                                 class="increment"   
-                                :disabled="guestsState.animal == 5"
-                                @click.stop="guestsState.animal++"
+                                :disabled="guests.animal == 5"
+                                @click.stop="guests.animal++"
                             >
                                 <Icon icon="ic:round-plus" color="white" />
                             </button>

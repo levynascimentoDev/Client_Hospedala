@@ -4,6 +4,12 @@ import { ref, Transition, useTemplateRef, watch } from "vue";
 import { useFocus, onClickOutside, onKeyStroke } from "@vueuse/core";
 import Base from "./Base.vue";
 
+
+interface Option {
+    state?:string;
+    city?:string;
+}
+
 interface Results {
     name:string,
     sigla:string, 
@@ -16,8 +22,9 @@ const isLoading = ref(false);
 const debounceTimer = ref<any>(null)
 const hostStore = useHostStore();
 const selected = defineModel('selected', { default:false })
-
-const value = defineModel('locate', { default:"" })
+    
+const option = ref<Option>() 
+const value = defineModel('location', { default:"" })
 value.value = query.value;
 
 const emit = defineEmits(['next'])

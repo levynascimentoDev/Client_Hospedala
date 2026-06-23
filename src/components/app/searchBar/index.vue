@@ -24,7 +24,7 @@ const date = ref<CheckoutDate>({
 //     state:null
 // })
 
-const locate = ref("")
+const location = ref("")
 const guests = ref<Guests>({
     adult:0,
     animal:0,
@@ -46,7 +46,7 @@ const showGuestsCounter = ref(false);
         >
             <SearchLocation 
                 @next="showDatePicker = true;"
-                v-model:locate="locate"
+                v-model:location="location"
             />
         </div>
 

@@ -9,11 +9,14 @@ const date = ref<Date[]>([])
 
 
 const selected = defineModel('selected', { default:false })
-const dateModel = defineModel<CheckoutDate>('date')    
-dateModel.value = {
-    check_in:date.value[0] ?? null,
-    check_out:date.value[1] ?? null
-}
+
+const dateModel = defineModel<CheckoutDate>('date', {
+    default:{
+        check_in:null,
+        check_out:null  
+    }
+})    
+
     
 
 const emit = defineEmits(['next'])
@@ -43,8 +46,14 @@ onClickOutside(datePickerRef, () => {
 }, { ignore:[ containerRef ] })
 
 
-watch(date, (dateValue) => {
-    if (dateValue[0] && dateValue[1]) emit('next');
+watch(date, ([checkin, checkout]) => {
+    
+    dateModel.value = {
+        check_in:checkin ?? null,
+        check_out:checkout ?? null
+    }
+
+    if (checkin  && checkout ) return emit('next');
 }, {deep: true})
     
 </script>
@@ -63,16 +72,20 @@ watch(date, (dateValue) => {
     
         <Transition name="slide-fade" >
 
-            <VDateRangePicker
+            <div
                 class="dropdown"
-                v-if="selected"
                 ref="datePickerRef"
-                :min="new Date()"
-                v-model="date"
-                bg-color="white"
-                color="black"
+                v-if="selected"
                 @click.stop
-            />
+            >
+                <VDateRangePicker
+                    :min="new Date()"
+                    v-model="date"
+                    bg-color="white"
+                    color="black"          
+                />
+            </div>
+            
         </Transition>
     </Base>
 </template>

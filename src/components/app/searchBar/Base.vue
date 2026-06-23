@@ -22,7 +22,6 @@ const emit = defineEmits(['clicked', 'clear'])
     <div 
         :class="['base-item', { 'selected':props.select }]"
         @click="emit('clicked')"
-        
     >
         <span class="label">
             <Icon 

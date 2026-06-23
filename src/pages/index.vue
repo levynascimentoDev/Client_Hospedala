@@ -15,6 +15,9 @@ isLoading.value = true;
     await placesStore.fetchAllPlaces();
 })()
 
+
+console.log(placesStore.filterPlaces)
+
 isLoading.value = false;
 onMounted(async () => {
     await nextTick()
