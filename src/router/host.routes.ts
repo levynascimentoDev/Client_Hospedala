@@ -8,19 +8,19 @@ const hostRoutes: RouteRecordRaw[] = [
         children:[
             {
                 path:"create/select-type-place",
-                component:() => import("../pages/hostSession/SelectYourPlace.vue")
+                component:() => import("../pages/host/create/SelectYourPlace.vue/index.js")
             },
             {
                 path:"create/place-type",
-                component:() => import("../pages/hostSession/PlaceType.vue")
+                component:() => import("../pages/host/create/PlaceType.vue")
             },
             {
                 path:"create/acomodations-details",
-                component:() => import("../pages/hostSession/AcomodationsDetails.vue")
+                component:() => import("../pages/host/create/AcomodationsDetails.vue")
             },
             {
                 path:"create/acomodation-pictures",
-                component:() => import('../pages/hostSession/AcomodationPictures.vue')
+                component:() => import('../pages/host/create/AcomodationPictures.vue')
             }
         ]
     }
