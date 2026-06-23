@@ -25,6 +25,10 @@ const hostRoutes: RouteRecordRaw[] = [
             {
                 path:"create/:id/pictures",
                 component:() => import('../pages/accommodation/create/SelectPictures.vue')
+            },
+            {
+                path:"create/:id/address",
+                component:() => import('../pages/accommodation/create/SelectAddress.vue')
             }
         ]
     }
