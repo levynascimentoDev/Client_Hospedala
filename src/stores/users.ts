@@ -26,36 +26,23 @@ export const useUserStore = defineStore('user', () => {
     const fetchUser = async () => {
         try {
             const respAcess = await api.get('/users/me', {
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                withCredentials:true
-            }) 
-            if (respAcess.status == 200) {
-                return user.value = respAcess.data as User;
-            } else {
-                return user.value = null;
-            }
-
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true
+            });
+            user.value = respAcess.data as User;
         } catch (error) {
-
             try {
                 await api.get('/auth/refresh/token', {
-                    headers:{
-                        "Content-Type":"application/json"
-                    },
-                    withCredentials:true
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true
                 });
-
                 const respAcess = await api.get('/users/me', {
-                    headers:{
-                        "Content-Type":"application/json"
-                    },
-                    withCredentials:true
-                }) 
-                return user.value = respAcess.data as User;
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true
+                });
+                user.value = respAcess.data as User;
             } catch (error) {
-                return await fetchLogoutUser()
+                user.value = null;
             }
         }
     }

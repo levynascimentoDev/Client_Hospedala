@@ -66,3 +66,26 @@ export interface Guests {
     baby:number;
     animal:number;
 }
+
+
+export interface Services {
+    wifi:boolean;
+    tv:boolean;
+    parking:boolean;
+    air:boolean;
+    heater:boolean;
+    pool:boolean;
+    gym:boolean;
+    grill:boolean;
+    jacuzze:boolean;
+    breakfast:boolean;
+    bedlinen:boolean;
+    safe:boolean;
+    reception:boolean;
+    wheelchairAccessibility:boolean;
+    elevator:boolean;
+    crib:boolean;
+    balcony:boolean;
+    cityView:boolean;
+    seaView:boolean;
+}

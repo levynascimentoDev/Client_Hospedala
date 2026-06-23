@@ -19,7 +19,6 @@ const bathRooms = ref(0);
 
             
             <div class="counters">
-                <!-- contador de quartos -->
                 <div class="options">
                     <div class="content">
                         <h2>Quartos</h2>

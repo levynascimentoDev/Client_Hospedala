@@ -1,5 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useWizardStep } from '../../../composables/useWizardStep';
+import { useRoute, useRouter } from 'vuetify/lib/composables/router.mjs';
+
+
+
+const { onContinue, onBack, canContinue } = useWizardStep()
+
+const router = useRouter();
+const route = useRoute()
+
+onContinue.value = async () => {
+    const id = route.value?.params.id
+
+    if (id) {
+            
+    }
+}
 
 const selected = ref<number | null>(null)
 

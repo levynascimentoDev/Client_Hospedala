@@ -33,7 +33,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     const userStore = useUserStore();
-    await userStore.fetchUser();
+    // await userStore.fetchUser();
 
     if (to.meta.requireNotAuth && userStore.user) return next("/");
     if (to.meta.requireAuth && !userStore.user) return next("/login"); 

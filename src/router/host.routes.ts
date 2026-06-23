@@ -3,24 +3,28 @@ import type { RouteRecordRaw } from "vue-router";
 
 const hostRoutes: RouteRecordRaw[] = [
     {
-        path:"/host",
-        component:() => import("../layouts/DefaultLayout.vue"),
+        path:"/accommodation",
+        component:() => import("../layouts/accommodation/CreateLayout.vue"),
         children:[
             {
-                path:"create/select-type-place",
-                component:() => import("../pages/host/create/SelectYourPlace.vue/index.js")
+                path:"create/:id/accommodation-type",
+                component:() => import("../pages/accommodation/create/SelectTypePropety.vue")
             },
             {
-                path:"create/place-type",
-                component:() => import("../pages/host/create/PlaceType.vue")
+                path:"create/:id/space-type",
+                component:() => import("../pages/accommodation/create/SelectSpaceType.vue")
             },
             {
-                path:"create/acomodations-details",
-                component:() => import("../pages/host/create/AcomodationsDetails.vue")
+                path:"create/:id/services",
+                component:() => import("../pages/accommodation/create/Services.vue")
             },
             {
-                path:"create/acomodation-pictures",
-                component:() => import('../pages/host/create/AcomodationPictures.vue')
+                path:"create/:id/details",
+                component:() => import("../pages/accommodation/create/Details.vue")
+            },
+            {
+                path:"create/:id/pictures",
+                component:() => import('../pages/accommodation/create/SelectPictures.vue')
             }
         ]
     }
