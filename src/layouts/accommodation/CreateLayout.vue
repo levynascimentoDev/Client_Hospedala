@@ -3,7 +3,7 @@
 import { Transition } from 'vue';
 import { useWizardStep } from '../../composables/useWizardStep'
 
-const { onContinue, onBack, canContinue } = useWizardStep()
+const { onContinue, onBack, canContinue, canBack } = useWizardStep()
 
 const handleContinue =  async () => {
     if (onContinue.value) {
@@ -28,7 +28,7 @@ const handleBack = () => {
             </Transition>
         </div>
         <div class="bottom-bar">
-            <button class="back" @click="handleBack">Voltar</button>
+            <button class="back" @click="handleBack" :disabled="!canBack">Voltar</button>
             <button class="next" @click="handleContinue" :disabled="!canContinue">Continuar</button>
         </div>
     </div>
@@ -107,16 +107,20 @@ const handleBack = () => {
     text-align: center;
     padding: 10px 15px;
     border-radius: 10px;
-    transition: .2s ease-out;
+    transition: ease .3s;
 }
 
 .back:hover, .next:hover {
-    opacity: 0.9;
-    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.283);
+    opacity: 0.8;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.283);
 }
 
 .next:disabled {
     opacity: 0.3;
+}
+
+.back:disabled {
+    opacity: 0;
 }
 
 

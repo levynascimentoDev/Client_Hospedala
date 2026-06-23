@@ -6,12 +6,6 @@ import BigButton from '../../../components/app/accommodations/BigButton.vue';
 import { reactive } from 'vue';
 import type { Services } from '../../../types'
 
-import { Textarea } from 'primevue';
-
-
-
-
-
 const services = reactive<Services>({
     air:false,
     balcony:false,

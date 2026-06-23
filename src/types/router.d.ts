@@ -6,5 +6,6 @@ declare module "vue-router" {
         requireAuth?:boolean;
         requireNotAuth?:boolean;
         requireTokenAuthTemp?:"checkout" | "complete";
+        AccomodationIncomplete?:boolean;
     }
 }
