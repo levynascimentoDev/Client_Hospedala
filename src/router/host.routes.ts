@@ -11,18 +11,23 @@ const hostRoutes: RouteRecordRaw[] = [
                 component:() => import('../pages/accommodation/create/Apresentation.vue')
             },
             {
-                path:"create/:id/accommodation-type",
-                component:() => import("../pages/accommodation/create/SelectTypePropety.vue"),
+                path:"create/:id/propety",
+                component:() => import("../pages/accommodation/create/Propety.vue"),
                 meta:{ AccomodationIncomplete:true }
             },
             {
-                path:"create/:id/space-type",
-                component:() => import("../pages/accommodation/create/SelectSpaceType.vue"),
+                path:"create/:id/space",
+                component:() => import("../pages/accommodation/create/SpaceType.vue"),
                 meta:{ AccomodationIncomplete:true }
             },
             {
                 path:"create/:id/services",
                 component:() => import("../pages/accommodation/create/Services.vue"),
+                meta:{ AccomodationIncomplete:true }
+            },
+            {
+                path:"create/:id/address",
+                component:() => import('../pages/accommodation/create/Location.vue'),
                 meta:{ AccomodationIncomplete:true }
             },
             {
@@ -32,12 +37,17 @@ const hostRoutes: RouteRecordRaw[] = [
             },
             {
                 path:"create/:id/pictures",
-                component:() => import('../pages/accommodation/create/SelectPictures.vue'),
+                component:() => import('../pages/accommodation/create/Photos.vue'),
                 meta:{ AccomodationIncomplete:true }
             },
             {
-                path:"create/:id/address",
-                component:() => import('../pages/accommodation/create/SelectAddress.vue'),
+                path:"create/:id/rules",
+                component:() => {},
+                meta:{ AccomodationIncomplete:true }
+            },
+            {
+                path:"create/:id/finish",
+                component:() => {},
                 meta:{ AccomodationIncomplete:true }
             }
         ]

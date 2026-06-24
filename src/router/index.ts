@@ -25,6 +25,11 @@ const router = createRouter({
                     }
                 }
             ],
+    
+        },
+        {
+            path:"/teste",
+            component:() => import('../pages/teste.vue')
         },
         ...authRoutes, 
         ...hostRoutes
