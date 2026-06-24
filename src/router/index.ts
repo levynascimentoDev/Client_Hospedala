@@ -3,8 +3,7 @@ import authRoutes from "./auth.routes";
 import hostRoutes from "./host.routes.ts";
 import { useUserStore } from "../stores/users.ts";
 import { useAuthStore } from "../stores/auth.ts";
-import { useAccommodationStore } from "../stores/accomodation.ts";
-import { paramCreateSchema } from "../schemas/accomodation.schemas.ts";
+
 
 
 const router = createRouter({
@@ -27,10 +26,6 @@ const router = createRouter({
             ],
     
         },
-        {
-            path:"/teste",
-            component:() => import('../pages/teste.vue')
-        },
         ...authRoutes, 
         ...hostRoutes
     ],
@@ -51,14 +46,14 @@ router.beforeEach(async (to, from, next) => {
         if (!state || to.meta.requireTokenAuthTemp !== state) return next(from.path);
     }
 
-    if (to.meta.AccomodationIncomplete) {
-        const accomodationStore = useAccommodationStore();
+    // if (to.meta.AccomodationIncomplete) {
+    //     const accomodationStore = useAccommodationStore();
 
-        const { id } = paramCreateSchema.parse(to.params);
-        await accomodationStore.fetchAcomodation(id)    
-        if (!accomodationStore.accomodation || accomodationStore.accomodation.complete) return next('/') 
+    //     const { id } = paramCreateSchema.parse(to.params);
+    //     await accomodationStore.fetchAcomodation(id)    
+    //     if (!accomodationStore.accomodation || accomodationStore.accomodation.complete) return next('/') 
         
-    }
+    // }
     
 
     next();

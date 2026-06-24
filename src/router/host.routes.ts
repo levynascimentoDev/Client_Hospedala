@@ -11,7 +11,7 @@ const hostRoutes: RouteRecordRaw[] = [
                 component:() => import('../pages/accommodation/create/Apresentation.vue')
             },
             {
-                path:"create/:id/propety",
+                path:"create/:id/property",
                 component:() => import("../pages/accommodation/create/Propety.vue"),
                 meta:{ AccomodationIncomplete:true }
             },
@@ -26,7 +26,7 @@ const hostRoutes: RouteRecordRaw[] = [
                 meta:{ AccomodationIncomplete:true }
             },
             {
-                path:"create/:id/address",
+                path:"create/:id/location",
                 component:() => import('../pages/accommodation/create/Location.vue'),
                 meta:{ AccomodationIncomplete:true }
             },

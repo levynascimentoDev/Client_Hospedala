@@ -1,93 +1,144 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
-    import Textarea from 'primevue/textarea';
-    import FloatLabel from 'primevue/floatlabel';
-
-    const cep = ref<string>('');
-    const endereco = ref<string>('');
-    const numero = ref<string>('');
-    const complemento = ref<string>('');
-    const bairro = ref<string>('');
-    const cidade = ref<string>('');
-    const estado = ref<string>('');
-
+import InputMask from 'primevue/inputmask';
+import InputNumber from 'primevue/inputnumber';
+import InputText from 'primevue/inputtext';
+import Select from 'primevue/select';
 
 
 
 </script>
 
+
 <template>
     <div class="container">
-        <div class="header">
-            <h1>Confirme seu endereço</h1>
-            <p>Seu endereço só é compartilhado com os hóspedes, depois que a reserva é confirmada!</p>
+        <div class="title">
+            <div>
+                <h1>Confirme seu endereço</h1>
+                <p>Seu endereço só é compartilhado com os hospedes, depois que a reserva e comfirmada!</p>
+            </div>
         </div>
-        
-        <div class="form">
-            <FloatLabel>
-                <Textarea id="over_label" v-model="cep" rows="1" cols="70"  style=" resize: none; background-color: white; color: black" />
-                <label for="over_label">CEP:</label>
-            </FloatLabel>
+        <div class="content">
+            <form 
+                @submit.prevent=""
+                class="form"
+            >
 
-            <FloatLabel>
-                <Textarea id="over_label" v-model="endereco" rows="1" cols="70" style="resize: none; background-color: white; color: black" />
-                <label for="over_label">Over Label</label>
-            </FloatLabel>
+                <div :class="['label', 'cep']">
+                    <label for="cep">cep</label>
+                    <InputMask 
+                        id="cep" 
+                        mask="99999-999" 
+                        placeholder="00000-000" 
+                        slot-char="" 
+                    />
+                    <span>O preeenchimeto do CEP agiliza seu cadastro</span>
+                </div>
 
-            <FloatLabel>
-                <Textarea id="over_label" v-model="numero" rows="1" cols="70" style="resize: none; background-color: white; color: black" />
-                <label for="over_label">Over Label</label>
-            </FloatLabel>
+                <div class="label">
+                    <label for="address">Endereço / Rua</label>
+                    <InputText 
+                        id="address" 
+                        type="text"
+                        placeholder="ex: Rua das flores"
+                    />
 
-            <FloatLabel>
-                <Textarea id="over_label" v-model="cep" rows="1" cols="70"  style=" resize: none; background-color: white; color: black" />
-                <label for="over_label">CEP:</label>
-            </FloatLabel>
+                </div>
 
-            <FloatLabel>
-                <Textarea id="over_label" v-model="cep" rows="1" cols="70"  style=" resize: none; background-color: white; color: black" />
-                <label for="over_label">CEP:</label>
-            </FloatLabel>
+                <div :class="['label', 'direction-row']">
 
-            <FloatLabel>
-                <Textarea id="over_label" v-model="cep" rows="1" cols="70"  style=" resize: none; background-color: white; color: black" />
-                <label for="over_label">CEP:</label>
-            </FloatLabel>
+                    <div>
+                        <label for="withoutgrouping">Número</label>
+                        <InputNumber  
+                            inputId="withoutgrouping" 
+                            :useGrouping="false" 
+                            fluid 
+                            placeholder="Numero do lugar"
+                        />
+                    </div>
+                    
+                    <div class="label">
+                        <label for="address">Endereço / Rua</label>
+                        <InputText 
+                            id="address" 
+                            type="text"
+                            placeholder="Complemento"
+                        />
+                    </div>
+                </div>
 
-            <FloatLabel>
-                <Textarea id="over_label" v-model="cep" rows="1" cols="70"  style=" resize: none; background-color: white; color: black" />
-                <label for="over_label">CEP:</label>
-            </FloatLabel>
+                <div class="label">
+                    <label for="city">Cidade</label>
+                    <Select 
+                        label-id="city"
+                        optionLabel="name" 
+                        placeholder="Cidade" 
+                    />
+                    <label for="state">Estado UF</label>
+                    <Select 
+                        label-id="state"
+                        optionLabel="name" 
+                        placeholder="Estado" 
+                    />
+
+
+                </div>
+
+                
+            </form>
         </div>
-
     </div>
-
-
-
 </template>
 
-<style>
-.container{
+<style scoped>
+
+.conatiner {
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.title {
+    width: 100%;
+    display: flex;
     align-items: center;
-    gap:2;
     justify-content: center;
-    flex-direction: column;
-    align-items: stretch;
+    padding: 40px;
 }
 
-.header {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 20px 0;
-
+.title div {
+    text-align: center;
 }
 
-.form{
+.content {
     display: flex;
+    align-items: start;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+}
+
+.content .form {
+    display: flex;
+    align-items: start;
+    justify-content: start;
     flex-direction: column;
     gap: 20px;
-    width: 100%;
+}
+
+.form .label {
+    display: flex;
+    align-items: start  ;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.label label {
+    text-align: start;
+}
+
+
+.direction-row {
+    flex-direction: row !important;
 }
 
 
