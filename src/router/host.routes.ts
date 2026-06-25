@@ -46,6 +46,11 @@ const hostRoutes: RouteRecordRaw[] = [
                 meta:{ AccomodationIncomplete:true }
             },
             {
+                path:"create/:id/customize",
+                component:() => import('../pages/accommodation/create/Customize.vue'),
+                meta:{ AccomodationIncomplete:true}
+            },
+            {
                 path:"create/:id/finish",
                 component:() => {},
                 meta:{ AccomodationIncomplete:true }
