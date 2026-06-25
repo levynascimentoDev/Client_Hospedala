@@ -87,7 +87,7 @@ function handleContinue() {
   margin: 0 auto;
   background: #fff;
   padding: 32px;
-  border-radius: 20px;
+  border-radius: 20px ;
 }
 
 .title {

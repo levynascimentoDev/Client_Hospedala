@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 
 interface Counter {
-    key: 'rooms' | 'beds' | 'bathRooms'
+    key: 'rooms' | 'beds' | 'bathRooms' | 'guests'
     label: string
     description: string
 }
@@ -10,13 +10,16 @@ interface Counter {
 const counters = reactive({
     rooms: 0,
     beds: 0,
-    bathRooms: 0
+    bathRooms: 0,
+    guests: 0
 })
 
 const options: Counter[] = [
     { key: 'rooms', label: 'Quartos', description: 'Número de quartos disponiveis' },
     { key: 'beds', label: 'Camas', description: 'Número total de camas' },
-    { key: 'bathRooms', label: 'Banheiros', description: 'Número de banheiros disponiveis' }
+    { key: 'bathRooms', label: 'Banheiros', description: 'Número de banheiros disponiveis' },
+    { key: 'guests', label: 'Hóspedes', description: 'Informe o número máximo de hospedes'},
+
 ]
 
 const decrement = (key: Counter['key']) => {
