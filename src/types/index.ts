@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { accommodationSchema, propertyTypeSchema, spaceTypeSchema } from "../schemas/accomodation.schemas";
+
 
 export interface User {
     id:number;
@@ -5,7 +8,7 @@ export interface User {
     family_name:string;
     email:string;
     icon?:string;
-    role:"user" | "Host" | "admin";
+    role:"USER" | "HOST" | "ADMIN";
 }
 
 export interface Place {
@@ -91,8 +94,6 @@ export interface Services {
 }
 
 
-export type PropertyType = "apartamento" | "casa" | "pousada" | "chalê" | "quarto" | "hotel" | "resort"
-
 
 export interface Accommodations {
     id:string;
@@ -105,3 +106,10 @@ export interface Accommodations {
     max_guests?:number;
     bedrooms?:number;
 }
+
+
+export type AccomodatioWizard = z.infer<typeof accommodationSchema>
+
+export type PropertyType = z.infer<typeof propertyTypeSchema>
+
+export type SpaceType = z.infer<typeof spaceTypeSchema>

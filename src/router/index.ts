@@ -3,6 +3,8 @@ import authRoutes from "./auth.routes";
 import hostRoutes from "./host.routes.ts";
 import { useUserStore } from "../stores/users.ts";
 import { useAuthStore } from "../stores/auth.ts";
+import { useAccommodationWizardStore } from "../stores/accomodation.ts";
+import { paramIdSchema } from "../schemas/accomodation.schemas.ts";
 
 
 
@@ -46,14 +48,16 @@ router.beforeEach(async (to, from, next) => {
         if (!state || to.meta.requireTokenAuthTemp !== state) return next(from.path);
     }
 
-    // if (to.meta.AccomodationIncomplete) {
-    //     const accomodationStore = useAccommodationStore();
-
-    //     const { id } = paramCreateSchema.parse(to.params);
-    //     await accomodationStore.fetchAcomodation(id)    
-    //     if (!accomodationStore.accomodation || accomodationStore.accomodation.complete) return next('/') 
+    if (to.meta.AccomodationIncomplete) {
+        try {            
+            const store = useAccommodationWizardStore();
+            const { id } = paramIdSchema.parse(to.params);
+            await store.getAccommodation(id);
+        } catch (err) {
+            return next(from.path);
+        }
         
-    // }
+    }
     
 
     next();
