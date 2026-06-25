@@ -8,10 +8,10 @@ const selected = ref<number | null>(null)
 
 const router = useRouter()
 
-const { canContinue, onBack, onContinue } = useWizardStep()
 
+const { canContinue, onBack, onContinue } = useWizardStep()
 canContinue.value = true
-onContinue.value = async () => {
+onContinue.value = async () => {    
     await router.push(`/accommodation/create/ejwidjajwj/acomodation-pictures`)
 } 
 
