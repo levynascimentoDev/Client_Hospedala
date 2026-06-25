@@ -25,10 +25,7 @@ export const useUserStore = defineStore('user', () => {
     
     const fetchUser = async () => {
         try {
-            const respAcess = await api.get('/users/me', {
-                headers: { "Content-Type": "application/json" },
-                withCredentials: true
-            });
+            const respAcess = await api.get('/users/me');
             user.value = respAcess.data as User;
         } catch (error) {
             try {

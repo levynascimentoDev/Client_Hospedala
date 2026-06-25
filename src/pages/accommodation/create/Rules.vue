@@ -1,21 +1,18 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
-    import SelectButton from 'primevue/selectbutton'; 
-    import Textarea from 'primevue/textarea';
-    import { Icon } from '@iconify/vue';
+import { ref } from 'vue';
+import SelectButton from 'primevue/selectbutton'; 
+import Textarea from 'primevue/textarea';
+import { Icon } from '@iconify/vue';
 
-    const pet = ref<boolean>(false)
-    const smoke = ref<boolean>(false)
-    const events = ref<boolean>(false)
-    const optional = ref<string>('')
-    const options = [
-        {label: 'sim', value: true},
-        {label: 'não', value: false}
+const pet = ref<boolean>(false)
+const smoke = ref<boolean>(false)
+const events = ref<boolean>(false)
+const optional = ref<string>('')
+const options = ref([
+    {label: 'sim', value: true},
+    {label: 'não', value: false}
 
-    ]
-
-    
-
+])
 
 </script>
 
@@ -93,10 +90,6 @@
 
                 <h4>Informações adicionais(opcional)</h4>
                 <Textarea id="over_label" v-model="optional" rows="3" cols="50" style="resize: none; background-color:white;" placeholder="Ex: Silêncio após às 22h, taxa extra para limpeza pesada, etc." color="white"/>
-                
-
-                
-
 
             </div>
 
@@ -109,81 +102,81 @@
 </template>
 
 <style>
-    .container {
-        background-color: #F9FAFB;
-        display: flex;
-        justify-content: center;
-        padding-top: 20px;
-    }
+.container {
+    background-color: #F9FAFB;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
 
-    .box {
-        width: 900px;
-        background: white;
-        border: 1px solid #E5E7EB;
-        border-radius: 12px;
-        padding: 40px;
+.box {
+    width: 900px;
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 40px;
 
-    }
+}
 
-    .title {
-        text-align: center;
-        margin-bottom: 40px;
-        padding-bottom: 20px;
-    }
+.title {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+}
 
-    .title h1 {
-        margin-bottom: 10px;
-    }
+.title h1 {
+    margin-bottom: 10px;
+}
 
-    .title p {
-        color: #6B7280;
-        font-size: 14px;
-    }
+.title p {
+    color: #6B7280;
+    font-size: 14px;
+}
 
-    .rule {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding-bottom: 40px;
-        margin-bottom: 5px;
+.rule {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 40px;
+    margin-bottom: 5px;
 
+
+}
+
+
+.icons {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    border-radius: 200%;
     
-    }
-   
 
-    .icons {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: black;
-        border-radius: 200%;
-       
+}
 
-    }
+.text {
+    flex: 1;
+}
 
-    .text {
-        flex: 1;
-    }
+.text h3 {
+    margin: 0;
+    font-size: 16px;
+}
 
-    .text h3 {
-        margin: 0;
-        font-size: 16px;
-    }
+.text p {
+    margin: 4px 0 0;
+    color: #6B7280;
+    font-size: 14px;
+}
 
-    .text p {
-        margin: 4px 0 0;
-        color: #6B7280;
-        font-size: 14px;
-    }
+h4 {
+    margin: 35px 0 10px;
+}
 
-    h4 {
-        margin: 35px 0 10px;
-    }
-
-    #over_label {
-        width: 100%;
-    }
+#over_label {
+    width: 100%;
+}
 
 </style>

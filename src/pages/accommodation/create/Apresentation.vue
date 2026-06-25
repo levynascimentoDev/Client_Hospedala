@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useWizardStep } from '../../../composables/useWizardStep';
+import { useAccommodationWizardStore } from '../../../stores/accomodation';
 
 
 const { onContinue, canContinue, canBack } = useWizardStep()
 
 canContinue.value = true;
 canBack.value = false;
-onContinue.value = async () => {
-    
-}
+const store = useAccommodationWizardStore();
+
 
 
 </script>
