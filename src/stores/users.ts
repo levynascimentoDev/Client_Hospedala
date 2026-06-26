@@ -10,12 +10,7 @@ export const useUserStore = defineStore('user', () => {
 
     const fetchLogoutUser = async () => {
         try {
-            await api.delete('/users/logout', {
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                withCredentials:true
-            })
+            await api.delete('/users/logout')
 
             return user.value = null;
         } catch (err) {
@@ -25,22 +20,10 @@ export const useUserStore = defineStore('user', () => {
     
     const fetchUser = async () => {
         try {
-            const respAcess = await api.get('/users/me');
-            user.value = respAcess.data as User;
+            const { data } = await api.get('/users/me');
+            user.value = data.data as User;
         } catch (error) {
-            try {
-                await api.get('/auth/refresh/token', {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true
-                });
-                const respAcess = await api.get('/users/me', {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true
-                });
-                user.value = respAcess.data as User;
-            } catch (error) {
-                user.value = null;
-            }
+            user.value = null;
         }
     }
 

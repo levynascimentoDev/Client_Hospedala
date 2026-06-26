@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { accommodationSchema, propertyTypeSchema, spaceTypeSchema } from "../schemas/accomodation.schemas";
+import { accommodationSchema, locationSchema, propertyTypeSchema, spaceTypeSchema } from "../schemas/accomodation.schemas";
+
+export interface DefaultResponse<T = any> {
+    success:boolean;
+    message:string;
+    data:T;
+}
 
 
 export interface User {
@@ -80,7 +86,7 @@ export interface Services {
     pool:boolean;
     gym:boolean;
     grill:boolean;
-    jacuzze:boolean;
+    jacuzzi:boolean;
     breakfast:boolean;
     bedlinen:boolean;
     safe:boolean;
@@ -113,3 +119,5 @@ export type AccomodatioWizard = z.infer<typeof accommodationSchema>
 export type PropertyType = z.infer<typeof propertyTypeSchema>
 
 export type SpaceType = z.infer<typeof spaceTypeSchema>
+
+export type Address = z.infer<typeof locationSchema>

@@ -3,10 +3,13 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import BigButton from '../../../components/app/accommodations/BigButton.vue';
-import { reactive } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { Services } from '../../../types'
+import { useWizardStep } from '../../../composables/useWizardStep.ts';
+import { useAccommodationWizardStore } from '../../../stores/accomodation.ts';
+import { useRouter } from 'vue-router';
 
-const services = reactive<Services>({
+const services = ref<Services>({
     air:false,
     balcony:false,
     bedlinen:false,
@@ -17,7 +20,7 @@ const services = reactive<Services>({
     grill:false,
     gym:false,
     heater:false,
-    jacuzze:false,
+    jacuzzi:false,
     parking:false,
     pool:false,
     reception:false,
@@ -27,6 +30,34 @@ const services = reactive<Services>({
     wheelchairAccessibility:false,
     wifi:false,
 })
+
+
+const { canContinue, onBack, onContinue } = useWizardStep();
+
+const store = useAccommodationWizardStore();
+const router = useRouter()
+
+canContinue.value = true;
+onContinue.value = async () => {
+    const ok = await store.setServices({ ...services.value });
+
+    if (ok) {
+        await router.push(`location`)
+    }
+}
+
+onBack.value = () => {
+    router.push(`space`)
+}
+
+onMounted(() => {
+    if (store.accommodation?.services) {
+        const data = store.accommodation.services;
+        services.value = data 
+    }
+})
+
+
 
 </script>
 
@@ -67,7 +98,7 @@ const services = reactive<Services>({
                         <BigButton  icon="ic:round-pool" content="Piscina" :selected="services.pool" @clicked="services.pool = !services.pool" />
                         <BigButton  icon="iconoir:gym" content="Academia" :selected="services.gym" @clicked="services.gym = !services.gym" />
                         <BigButton  icon="pinhead:barbecue-grill-with-steam" content="Churrasqueira" :selected="services.grill" @clicked="services.grill = !services.grill" />
-                        <BigButton  icon="ic:round-hot-tub" content="Jacuzzi" :selected="services.jacuzze" @clicked="services.jacuzze = !services.jacuzze" />
+                        <BigButton  icon="ic:round-hot-tub" content="Jacuzzi" :selected="services.jacuzzi" @clicked="services.jacuzzi = !services.jacuzzi" />
                     </div>
                 </div>
 

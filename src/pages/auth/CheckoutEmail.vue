@@ -11,3 +11,12 @@ import ModalConfirmCode from '../../components/auth/modal/ModalConfirmCode.vue';
         </section>
     </div>  
 </template>
+
+<style scoped>
+section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+</style>

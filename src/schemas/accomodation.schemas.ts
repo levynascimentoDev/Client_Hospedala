@@ -4,24 +4,20 @@ export const paramIdSchema = z.object({
     id:z.string()
 })
 
-export const propertyTypeSchema = z.object({
-  propertyType: z.enum([
+export const propertyTypeSchema = z.enum([
     'APARTAMENTO',
     'CASA',
     'POUSADA',
     'MOTEL',
     'HOTEL',
     'RESORT'
-  ])
-})
+])
 
-export const spaceTypeSchema = z.object({
-  spaceType: z.enum([
+export const spaceTypeSchema = z.enum([
     'ALL',
     'BEDROOM',
     'ALBERQUE'
-  ])
-})
+])
 
 export const servicesSchema = z.object({
   wifi: z.boolean(),
@@ -131,22 +127,30 @@ export const accommodationSchema = z.object({
     accommodationId: z.string(),
   }).nullable(),
 
-  services: z.object({
-    id: z.number(),
-    accommodationId: z.string(),
+    services: z.object({
+        wifi: z.boolean().default(false),
+        air: z.boolean().default(false),
+        tv: z.boolean().default(false),
+        kitchen: z.boolean().default(false),
+        pool: z.boolean().default(false),
+        parking: z.boolean().default(false),
+        heater: z.boolean().default(false),
+        gym: z.boolean().default(false),
+        grill: z.boolean().default(false),
+        jacuzzi: z.boolean().default(false),
+        hotTub: z.boolean().default(false),
 
-    wifi: z.boolean(),
-    air: z.boolean(),
-    tv: z.boolean(),
-    kitchen: z.boolean(),
-    pool: z.boolean(),
-    parking: z.boolean(),
-    heater: z.boolean(),
-    gym: z.boolean(),
-    grill: z.boolean(),
-    jacuzzi: z.boolean(),
-    hotTub: z.boolean(),
-  }).nullable(),
+        balcony: z.boolean().default(false),
+        bedlinen: z.boolean().default(false),
+        breakfast: z.boolean().default(false),
+        cityView: z.boolean().default(false),
+        crib: z.boolean().default(false),
+        elevator: z.boolean().default(false),
+        reception: z.boolean().default(false),
+        safe: z.boolean().default(false),
+        seaView: z.boolean().default(false),
+        wheelchairAccessibility: z.boolean().default(false),
+    }).nullable(),
 
   rules: z.object({
     id: z.number(),

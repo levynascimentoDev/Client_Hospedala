@@ -8,7 +8,8 @@ const hostRoutes: RouteRecordRaw[] = [
         children:[
             {
                 path:"create",
-                component:() => import('../pages/accommodation/create/Apresentation.vue')
+                component:() => import('../pages/accommodation/create/Apresentation.vue'),
+                meta:{ requireAuth:true }
             },
             {
                 path:"create/:id/property",

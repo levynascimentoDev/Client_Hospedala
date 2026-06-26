@@ -21,9 +21,9 @@ const handleBack = () => {
 <template>
     <div class="container">
         <div class="content">
-            <Transition name="slide" mode="in-out">
-                <RouterView v-slot="{ Component }">
-                    <component :is="Component"/>
+            <Transition name="slide" mode="in-out" appear>
+                <RouterView v-slot="{ Component, route }">
+                    <component :is="Component" :key="route.fullPath" />
                 </RouterView>
             </Transition>
         </div>
@@ -47,38 +47,40 @@ const handleBack = () => {
 
 .content {
     flex: 1;
-    overflow: auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
     width: 100%;
 }
 
 .slide-enter-active {
-    animation: slideEnter 0.3s ease-out;
+  animation: slideEnter 0.3s ease-out;
 }
 
 .slide-leave-active {
-    animation: slideLeave 0.3s ease-out;
+  animation: slideLeave 0.3s ease-out;
 }
 
 @keyframes slideEnter {
-    from {
-        transform: translateX(-100px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slideLeave {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(-100px);
-        opacity: 0;
-    }
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
 }
 
 .bottom-bar {

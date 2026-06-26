@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useUserStore } from '../../stores/users';
+import { Icon } from '@iconify/vue';
 
 
 const userStore = useUserStore();
@@ -35,18 +36,37 @@ const userLogout = async () => {
            </span>
         </div>
         <nav class="navigator">
-            <router-link  class="link" to="/"><img src="../../assets/icons/home.svg" alt="Home icon"/>   Inicio</router-link>
-            <router-link  class="link" to="/coins"><img src="../../assets/icons/home.svg" alt="Coins icon"/>   Milha Coins</router-link>
-            <router-link class="link" to="/travels"><img src="../../assets/icons/plane.svg" alt="Plane icon"/>   Minhas Viagens</router-link>
-            <router-link class="link" to="/favorites"><img src="../../assets/icons/heart.svg" alt="Heart icon"/>   Favoritos</router-link>
-            <router-link class="link" to="/rotalivre"><img src="../../assets/icons/rotaLivre.svg" alt="Rotalivre icon"/>   Rota livre</router-link>
-            <router-link class="link" to="/settings"><img src="../../assets/icons/config.svg" alt="Config icon"/>   Configurações</router-link>
+            <router-link  class="link" to="/">
+                <Icon class="icon" height="20" width="20" icon="material-symbols:home-rounded"/> 
+                <span>Inicio</span>
+            </router-link>
+            <router-link class="link" to="/accommodation/create">
+                <Icon class="icon" height="20" width="20" icon="icon-park-solid:boy-one"/> 
+                <span>Torne-se Anfitrião</span>
+            </router-link>
+            <router-link class="link" to="/travels">
+                <Icon class="icon" height="20" width="20" icon="clarity:plane-solid"/> 
+                <span>Minhas Viagens</span>
+            </router-link>
+            <router-link class="link" to="/favorites">
+                <Icon class="icon" height="20" width="20" icon="mdi:heart"/> 
+                <span>Favoritos</span>
+            </router-link>
+            <router-link class="link" to="/settings">
+                <Icon class="icon" height="20" width="20" icon="bi:gear-fill"/> 
+                <span>Configurações</span>
+            </router-link>
             <button class="logout-button" type="button" @click="userLogout()"><img src="../../assets/icons/exit.svg" alt="Exit icon"/>  Sair</button>
         </nav>
     </div>
 </template>
 
 <style scoped>
+* {
+    color: #000;
+}
+
+
 .menu {
     width: 250px;
     padding: 5px;
@@ -128,8 +148,15 @@ const userLogout = async () => {
     transition: .2s linear;
 }
 
-.navigator > .link img {
-    margin-right: 10px;
+.navigator > .link {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+
+.link .icon {
+    color: rgb(118, 118, 118);
 }
 
 .navigator .logout-button {
@@ -168,7 +195,6 @@ const userLogout = async () => {
         opacity: 1;
     }
 }
-
 
 
 </style>

@@ -1,25 +1,21 @@
 <script setup lang="ts">
 import ButtonAuthGoogle from '../../components/auth/buttons/ButtonAuthGoogle.vue';
 import { ref } from 'vue';
-import api from '../../services/http/api.ts';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../stores/auth.ts';
 
 const email = ref("");
 const isError = ref(false);
 const isLoading = ref(false);
 
-interface FormRequest {
-    email:string;
-}
 
 const router = useRouter()
+const store = useAuthStore();
 
 const postRequests = async () => {
-    const resp = await api.post<FormRequest>("/auth/login", {
-        email:email
-    })    
+    const response = await store.fetchLogin(email.value)
 
-    if (resp.status == 200) {
+    if (response) {
         return router.push("/auth/verification") 
     }
 }

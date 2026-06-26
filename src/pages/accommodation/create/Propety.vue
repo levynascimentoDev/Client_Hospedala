@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import {  ref, TransitionGroup, watch } from 'vue';
+import {  onMounted, ref, TransitionGroup, watch } from 'vue';
 import { useWizardStep } from '../../../composables/useWizardStep';
-
-const { canContinue, canBack, onContinue } = useWizardStep();
-
-canContinue.value = false;
-canBack.value = false;
+import { useAccommodationWizardStore } from '../../../stores/accomodation';
+import type { PropertyType } from '../../../types';
+import { useRouter } from 'vue-router';
 
 interface Option {
     name:string;
@@ -15,10 +13,33 @@ interface Option {
     value:string;
 }
 
+const { canContinue, canBack, onContinue } = useWizardStep();
+canContinue.value = false;
+canBack.value = false;
+const store = useAccommodationWizardStore();
+
+
+
+const router = useRouter();
+
+onContinue.value = async () => {
+    const ok = await store.setProperty(value.value as PropertyType);
+    
+    if (ok) {
+        await router.push(`/accommodation/create/${store.accommodation?.id}/space`)
+    };
+}
+
 const value = ref("");
 
+onMounted(() => {
+    if (store.accommodation?.propertyType) {
+        value.value = store.accommodation.propertyType 
+    }
+})
+
 watch(value, (v) => {
-    if (v.length) return canContinue.value = true
+    if (v.length) return canContinue.value = true;
 })
 
 const options = ref<Option[]>([

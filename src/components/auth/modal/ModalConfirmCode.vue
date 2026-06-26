@@ -1,64 +1,30 @@
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef, watch } from 'vue';
+import { ref, watch } from 'vue';
+import InputOtp from 'primevue/inputotp';
+import { useAuthStore } from '../../../stores/auth';
+import { useRouter } from 'vuetify/lib/composables/router.mjs';
 
-const inputValues = ref<string[]>(["", "", "", "", "", ""])
+const store = useAuthStore();
+const router = useRouter()
+
 const code = ref("");
+const invalidCode = ref(false);
 
+const buttondisabled = ref(false);
 
-const inputs = useTemplateRef<HTMLInputElement[]>("inputs") 
-
-const onInput = (index:number) => {
-
-    const regex = /^[0-9]+$/
-
-    if (inputValues.value[index] && !regex.test(inputValues.value[index])) {
-        inputValues.value[index] = "";
-    }
-
-    if (inputValues.value[index]?.length) {
-        
-
-        if (inputs.value) inputs.value[index+1]?.focus();
-    }
-
-}
-
-
-const onBackspace = (index:number) => {
-
-    // Se o input atual TEM valor
-    if (inputValues.value[index]) {
-        inputValues.value[index] = ""
-        return
-    }
-
-    // Se está vazio → volta
-
-    if (index > 0) {
-        if (inputs.value) inputs.value[index - 1]?.focus();
-    }
-}
-
-onMounted(() => {
-    if (inputs.value) inputs.value[0]?.focus()
-})
-
-const onPaste = (event:ClipboardEvent) => {
-    const value = event.clipboardData?.getData("text") as string;
-    const regex = /^[0-9]+$/
-
-    console.log(value.length)
-
-    if (!regex.test(value) && !(value.length == 6)) return;
+watch(code, async () => {
+    if (code.value.length == 5) {        
+        try {
+            const response = await store.sendCode(code.value);
+            if (response) {
+                await router?.push(response.redirect)
+            }
+        } catch {
+            invalidCode.value = true;
+        }
     
-    if (value) {
-        console.log(value)
-    } 
-}
-
-watch([inputValues, code], () => {
-    if (inputValues.value.every(char => char.length)) {
-        code.value = inputValues.value.toString()
+    } else {
+        invalidCode.value = false
     }
 })
 
@@ -67,35 +33,42 @@ watch([inputValues, code], () => {
 <template>
     <div 
         class="modal-forgot"
-        @paste.prevent="onPaste($event)"
     >
-
         <div class="title">
 
             <h2>Insira o código de confirmação</h2>
             <p> Insira o código de 6 digitos que enviamos para.</p>
-            <h1>a......@gmail.com</h1>
+            <h1>{{ store.tempPayload?.email }}</h1>
 
         </div>
         <div class="inputs">
-            <input 
-                ref="inputs" 
-                type="text" 
-                v-for="(_, key) in inputValues" 
-                :key="key"
-                maxlength="1" 
-                v-model="inputValues[key]" 
-                @input="onInput(key)"
-                @keydown.backspace="onBackspace(key)"
-            >
+            <InputOtp
+                v-model="code"
+                :length="5"
+                integer-only                
+                :class="{ 'otp-error':invalidCode }"
+            />
         </div>
         <div class="footer">
-            <button>Reenviar - codigo</button>
+            <button
+                :disabled="buttondisabled"
+                @click=""
+            >Reenviar - codigo</button>
         </div>
     </div>
 </template>
 
 <style scoped>
+
+:deep(.otp-error .p-inputotp input) {
+  border: 1px solid red !important;
+  border-radius: 6px;
+}
+
+:deep(.otp-error .p-inputotp input:focus) {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+}
 
 .modal-forgot {
     width: 350px;

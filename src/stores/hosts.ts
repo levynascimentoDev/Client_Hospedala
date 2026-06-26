@@ -99,11 +99,6 @@ export const useHostStore = defineStore('hosts', () => {
     }
 
 
-    const fetchQueryPlaces = (params:QueryPlaces) => {
-
-    
-    }
-
     return {
         locations,
         filterPlaces,

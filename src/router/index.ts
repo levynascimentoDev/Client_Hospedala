@@ -28,7 +28,7 @@ const router = createRouter({
             ],
     
         },
-        ...authRoutes, 
+        ...authRoutes,
         ...hostRoutes
     ],
     history:createWebHistory()
@@ -37,15 +37,15 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     const userStore = useUserStore();
-    // await userStore.fetchUser();
+    await userStore.fetchUser();
 
     if (to.meta.requireNotAuth && userStore.user) return next("/");
-    if (to.meta.requireAuth && !userStore.user) return next("/login"); 
+    if (to.meta.requireAuth && !userStore.user) return next("/auth/login"); 
 
     if (to.meta.requireTokenAuthTemp) {
-        const authStore = useAuthStore()
-        const state = await authStore.fetchTokenVerify()
-        if (!state || to.meta.requireTokenAuthTemp !== state) return next(from.path);
+        const store = useAuthStore()
+        await store.verifyTokenTemp()
+        if (!store.tempPayload || to.meta.requireTokenAuthTemp != store.tempPayload.action) return next('/');
     }
 
     if (to.meta.AccomodationIncomplete) {
@@ -53,6 +53,8 @@ router.beforeEach(async (to, from, next) => {
             const store = useAccommodationWizardStore();
             const { id } = paramIdSchema.parse(to.params);
             await store.getAccommodation(id);
+        
+            if (!store.accommodation) return next(from.path)
         } catch (err) {
             return next(from.path);
         }
