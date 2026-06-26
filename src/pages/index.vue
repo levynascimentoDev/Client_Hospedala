@@ -8,17 +8,14 @@ import { ref, nextTick } from 'vue';
 const placesStore = useHostStore();
 const isLoading = ref(false);
 
+const places = placesStore.places
+
 
 isLoading.value = true;
+setTimeout(() => {
+    isLoading.value = false;
+}, 600);
 
-(async () => {
-    await placesStore.fetchAllPlaces();
-})()
-
-
-console.log(placesStore.filterPlaces)
-
-isLoading.value = false;
 onMounted(async () => {
     await nextTick()
     window.scrollTo({ top: 0 });
@@ -38,14 +35,14 @@ onMounted(async () => {
             </div>
         </div>
         <div class="content" v-else>
-            <div class="row-content" v-for="(listValues, indexList) in placesStore.filterPlaces" :key="indexList">
-                <h1>Em destaque</h1>
+            <div class="row-content" v-for="(row, indexList) in places" :key="indexList">
+                <h1>{{ row.title }}</h1>
                 <div class="values">
-                    <Host v-for="(value, indexValue) in listValues" :data="value" :key="indexValue"  />
+                    <Host v-for="(value, indexValue) in row.items" :data="value" :key="indexValue" />
                 </div>
             </div>
 
-            <div class= "not-found" v-if="!placesStore.filterPlaces.length">
+            <div class="not-found" v-if="!places.length">
                 <i class="bi bi-emoji-frown"></i>
                 <h1>Ops!, Sem valores no momento.</h1>
             </div>
@@ -122,5 +119,3 @@ onMounted(async () => {
 
 
 </style>
-
-

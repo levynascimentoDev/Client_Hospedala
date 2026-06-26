@@ -20,6 +20,131 @@ interface QueryPlaces {
 
 
 export const useHostStore = defineStore('hosts', () => {
+    const places = ref([
+        {
+            title: 'Em destaque',
+            items: [
+                {
+                    images: ['https://images.unsplash.com/photo-1593105544559-ecb03bf76f82?w=600'],
+                    title: 'Jericoacoara, CE',
+                    distance: 'A 320 km de distância',
+                    dates: '12–17 de jul.',
+                    price: 487,
+                    isNew: true,
+                },
+                {
+                    images: ['https://images.unsplash.com/photo-1583531352515-8884af319dc1?w=600'],
+                    title: 'Gramado, RS',
+                    distance: 'A 1.890 km de distância',
+                    dates: '3–9 de ago.',
+                    price: 612,
+                    isNew: false,
+                },
+                {
+                    images: ['https://images.unsplash.com/photo-1518639192441-8fce0a366e2e?w=600'],
+                    title: 'Paraty, RJ',
+                    distance: 'A 1.040 km de distância',
+                    dates: '20–25 de jul.',
+                    price: 398,
+                    isNew: true,
+                },
+                {
+                    images: ['https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=600'],
+                    title: 'Fernando de Noronha, PE',
+                    distance: 'A 540 km de distância',
+                    dates: '1–6 de set.',
+                    price: 1250,
+                    isNew: false,
+                },
+                {
+                    images: ['https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600'],
+                    title: 'Florianópolis, SC',
+                    distance: 'A 1.620 km de distância',
+                    dates: '15–20 de ago.',
+                    price: 540,
+                    isNew: false,
+                },
+                {
+                    images: ['https://images.unsplash.com/photo-1551634979-2b11f8c946fe?w=600'],
+                    title: 'Ouro Preto, MG',
+                    distance: 'A 290 km de distância',
+                    dates: '8–12 de jul.',
+                    price: 320,
+                    isNew: true,
+                },
+                {
+                    images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB5KMAdSYWgHcrBlZwHWHuExy54dScr0_dp-HRcDDR9Q&s=10'],
+                    title: 'Búzios, RJ',
+                    distance: 'A 980 km de distância',
+                    dates: '22–27 de jul.',
+                    price: 705,
+                    isNew: false,
+                },
+                {
+                    images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL92dkFRNeXfedjhDvLPRJBK2bHu6X0PysuN0aFPWmLA&s=10'],
+                    title: 'Alter do Chão, PA',
+                    distance: 'A 2.430 km de distância',
+                    dates: '5–10 de set.',
+                    price: 410,
+                    isNew: true,
+                },
+            ],
+        },
+        {
+            title: 'Perto de você',
+            items: [
+                {
+                    images: ['https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRfDwq_ktqqZlYduFztAdRT3LKu54IJSXR93mgMbglsma_eD6x1g8W4i58sEuSGAi9Ero1Gsz6Noq_0_45bxUiA4iKT&s=19'],
+                    title: 'Canoa Quebrada, CE',
+                    distance: 'A 165 km de distância',
+                    dates: '14–19 de jul.',
+                    price: 295,
+                    isNew: false,
+                },
+                {
+                    images: ['https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600'],
+                    title: 'Cumbuco, CE',
+                    distance: 'A 35 km de distância',
+                    dates: '11–14 de jul.',
+                    price: 350,
+                    isNew: true,
+                },
+                {
+                    images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgKbNnDYDeIt9ys7pYJxjxOXjaoV2V-OSLMU5HVttMeg&s=10'],
+                    title: 'Lagoinha, CE',
+                    distance: 'A 110 km de distância',
+                    dates: '18–22 de jul.',
+                    price: 275,
+                    isNew: false,
+                },
+                {
+                    images: ['https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSJy532BnldMLBcT_wvU-9kS-WoIuVuzqOczfUrSuMMvVCRioUEhuHtSxVj2tMxiQkM4ZWU3kshRgG2ZG-AhWbiQ74&s=19'],
+                    title: 'Morro Branco, CE',
+                    distance: 'A 85 km de distância',
+                    dates: '9–13 de jul.',
+                    price: 260,
+                    isNew: false,
+                },
+                {
+                    images: ['https://images.unsplash.com/photo-1540202404-a2f29016b523?w=600'],
+                    title: 'Icaraí de Amontada, CE',
+                    distance: 'A 145 km de distância',
+                    dates: '16–21 de jul.',
+                    price: 330,
+                    isNew: true,
+                },
+                {
+                    images: ['https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=600'],
+                    title: 'Beberibe, CE',
+                    distance: 'A 78 km de distância',
+                    dates: '7–11 de jul.',
+                    price: 240,
+                    isNew: false,
+                },
+            ],
+        },
+    ]);
+
 
     const locations = ref<ibgeLocationPlaces>({citys:[], states:[]})
     const filterPlaces = ref<placeRequests[][]>([])
@@ -105,7 +230,8 @@ export const useHostStore = defineStore('hosts', () => {
         currentLocation,
         fetchAllPlaces,
         fetchApiPlaces,
-        fetchCurrentLocation
+        fetchCurrentLocation,
+        places
     }
     
 })
