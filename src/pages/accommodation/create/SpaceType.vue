@@ -25,12 +25,12 @@ onMounted(() => {
 onContinue.value = async () => {
     const ok = await store.setSpace(value.value as SpaceType)
     if (ok) {
-        await router.push(`/accommodation/create/${store.accommodation?.id}/services`)
+        await router.push(`services`)
     };
 }
 
 onBack.value = () => {
-    router.push(`/accommodation/create/${store.accommodation?.id}/property`)
+    router.push(`property`)
 }
 
 const selectBox = (v: string) => {

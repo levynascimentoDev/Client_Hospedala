@@ -17,7 +17,7 @@ onContinue.value = async () => {
     await store.create();
 
     if (store.accommodation) {
-        router.push(`/accommodation/create/${store.accommodation.id}/property-type`)
+        router.push(`create/${store.accommodation.id}/property`)
     }
     
 }

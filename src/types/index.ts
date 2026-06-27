@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { accommodationSchema, locationSchema, propertyTypeSchema, spaceTypeSchema } from "../schemas/accomodation.schemas";
+import { accommodationSchema, detailsSchema, locationSchema, propertyTypeSchema, spaceTypeSchema } from "../schemas/accomodation.schemas";
 
 export interface DefaultResponse<T = any> {
     success:boolean;
@@ -121,3 +121,5 @@ export type PropertyType = z.infer<typeof propertyTypeSchema>
 export type SpaceType = z.infer<typeof spaceTypeSchema>
 
 export type Address = z.infer<typeof locationSchema>
+
+export type Details = z.infer<typeof detailsSchema>

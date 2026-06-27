@@ -26,7 +26,7 @@ onContinue.value = async () => {
     const ok = await store.setProperty(value.value as PropertyType);
     
     if (ok) {
-        await router.push(`/accommodation/create/${store.accommodation?.id}/space`)
+        await router.push(`space`)
     };
 }
 

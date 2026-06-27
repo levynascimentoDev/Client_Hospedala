@@ -45,9 +45,6 @@ export const locationSchema = z.object({
 })
 
 export const detailsSchema = z.object({
-  title: z.string().min(5).max(100),
-  description: z.string().min(20),
-  pricePerNight: z.coerce.number().positive(),
   maxGuests: z.number().positive(),
   bedrooms: z.number().min(0),
   bathrooms: z.number().min(0),
@@ -99,7 +96,7 @@ export const accommodationSchema = z.object({
   spacetype: z.enum([
     'ALL',
     'BEDROOM',
-    'ALBERQUE'
+    'ALBERG'
   ]).nullable(),
 
   title: z.string().nullable(),
@@ -116,8 +113,8 @@ export const accommodationSchema = z.object({
 
   address: z.object({
     id: z.number(),
-    lat: z.number(),
-    lon: z.number(),
+    lat: z.coerce.number(),
+    lon: z.coerce.number(),
     cep: z.string(),
     street: z.string(),
     neighborhood: z.string(),

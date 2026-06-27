@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import api from "../services/http/api";
 import { ref } from "vue";
-import type { AccomodatioWizard, Address, DefaultResponse, PropertyType, Services, SpaceType } from "../types";
+import type { AccomodatioWizard, Address, DefaultResponse, Details, PropertyType, Services, SpaceType } from "../types";
 import { accommodationSchema } from "../schemas/accomodation.schemas";
 
 
@@ -13,7 +13,11 @@ export const useAccommodationWizardStore = defineStore('accommodationWizard', ()
         try {
             const { data } = await api.get(`/accommodations/${id}`);
 
+            console.log(data)
+
             const result = await accommodationSchema.safeParseAsync(data.data);
+            console.log(result)
+            
 
             if (result.success) {
                 accommodation.value = result.data;
@@ -125,6 +129,31 @@ export const useAccommodationWizardStore = defineStore('accommodationWizard', ()
     }
 
 
+    const setDetails = async (details:Details) => {
+        
+
+        try {
+            const { data } = await api.patch<DefaultResponse>(`/accommodations/update/${accommodation.value?.id}/details`, {
+                ...details,
+                max_guests:details.maxGuests
+                
+            })  
+
+            if (data.success) {
+                await getAccommodation(accommodation.value?.id!)        
+                
+                return true
+            } else {
+                return false
+            }
+            
+        } catch {
+            return false
+        }
+    
+    }
+
+
     
 
     
@@ -135,6 +164,7 @@ export const useAccommodationWizardStore = defineStore('accommodationWizard', ()
         setProperty,
         setSpace,
         setServices,
-        setAddress
+        setAddress,
+        setDetails
     };
 });

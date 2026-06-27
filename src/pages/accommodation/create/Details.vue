@@ -1,25 +1,57 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
+import { useAccommodationWizardStore } from '../../../stores/accomodation'
+import { useWizardStep } from '../../../composables/useWizardStep'
+import { useRouter } from 'vue-router'
 
 interface Counter {
-    key: 'rooms' | 'beds' | 'bathRooms' | 'guests'
+    key: 'bedrooms' | 'beds' | 'bathrooms' | 'maxGuests'
     label: string
     description: string
 }
 
+const router = useRouter()
+
+const store = useAccommodationWizardStore()
+const { canContinue, canBack, onContinue, onBack } = useWizardStep()
+
+canBack.value = true
+canContinue.value = false;
+
 const counters = reactive({
-    rooms: 0,
+    bedrooms: 0,
     beds: 0,
-    bathRooms: 0,
-    guests: 0
+    bathrooms: 0,
+    maxGuests: 0
 })
 
-const options: Counter[] = [
-    { key: 'rooms', label: 'Quartos', description: 'Número de quartos disponiveis' },
-    { key: 'beds', label: 'Camas', description: 'Número total de camas' },
-    { key: 'bathRooms', label: 'Banheiros', description: 'Número de banheiros disponiveis' },
-    { key: 'guests', label: 'Hóspedes', description: 'Informe o número máximo de hospedes'},
+watch(counters, () => {
 
+    if (counters.bathrooms > 0 || counters.bedrooms> 0 || counters.maxGuests > 0 || counters.beds> 0) {
+        return canContinue.value = true
+    } else {
+        return canContinue.value = false;
+    }
+
+}, { deep:true })
+
+onContinue.value = async () => {
+    const resp = await store.setDetails(counters)
+
+    if (resp) {
+        await router.push('photos') 
+    }
+}
+
+onBack.value = () => {
+    router.push('location')
+}
+
+const options: Counter[] = [
+    { key: 'bedrooms', label: 'Quartos', description: 'Número de quartos disponiveis' },
+    { key: 'beds', label: 'Camas', description: 'Número total de camas' },
+    { key: 'bathrooms', label: 'Banheiros', description: 'Número de banheiros disponiveis' },
+    { key: 'maxGuests', label: 'Hóspedes', description: 'Informe o número máximo de hospedes' },
 ]
 
 const decrement = (key: Counter['key']) => {
@@ -30,7 +62,6 @@ const increment = (key: Counter['key']) => {
     if (counters[key] < 20) counters[key]++
 }
 </script>
-
 <template>
     <div class="container">
         <div class="modal-form">

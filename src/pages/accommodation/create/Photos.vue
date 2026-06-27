@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import {  onMounted, onUnmounted, ref, watch } from 'vue'
 import { useWizardStep } from '../../../composables/useWizardStep'
 import { useRouter } from 'vue-router'
 
 const { onContinue, canContinue } = useWizardStep()
 const router = useRouter()
 
+
 onMounted(() => {
-    canContinue.value = false
+    canContinue.value = false;
     onContinue.value = async () => {
-        await router.push('/accommodation/create/23osjiddjsidjdjsd/place-type')
+        await router.push('rules')
     }
+    
 })
 
 onUnmounted(() => {
@@ -19,7 +21,7 @@ onUnmounted(() => {
 })
 
 interface PicturesFiles {
-    file: File
+    file?: File
     url: string
 }
 
@@ -48,6 +50,8 @@ const selecionarFotos = (event: Event) => {
 }
 
 const dropfile = (event: DragEvent) => {
+    if (filesData.value.length >= 5) return
+
     const files = event.dataTransfer?.files
     fileenter.value = false
     if (!files) return
@@ -61,6 +65,7 @@ const dropfile = (event: DragEvent) => {
 }
 
 const removerFile = (index: number) => {
+    fileenter.value  = false
     filesData.value.splice(index, 1)
 }
 </script>
@@ -130,6 +135,7 @@ const removerFile = (index: number) => {
                 accept="image/*"
                 @change="selecionarFotos"
                 style="display: none;"
+                
             />
         </label>
 

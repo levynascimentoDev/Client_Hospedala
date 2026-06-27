@@ -33,7 +33,7 @@ const loadStates = async () => {
 }
 
 const loadCities = async (uf: string) => {
-    address.city = ''
+    address.value.city = ''
     cities.value = []
 
     if (!uf) return
@@ -52,7 +52,7 @@ const { onContinue, canContinue, onBack } = useWizardStep()
 const store = useAccommodationWizardStore()
 const router = useRouter()
 
-const address = reactive({
+const address = ref({
     state: "",
     city: "",
     cep: "",
@@ -64,7 +64,7 @@ const address = reactive({
 })
 
 onContinue.value = async () => {
-    const ok = await store.setAddress(address)
+    const ok = await store.setAddress(address.value)
     if (ok) {
         await router.push('details')
     }
@@ -83,8 +83,8 @@ watch(
     (c) => {
         if (!Number.isFinite(c.latitude) || !Number.isFinite(c.longitude)) return
 
-        address.lat = c.latitude
-        address.lon = c.longitude
+        address.value.lat = c.latitude
+        address.value.lon = c.longitude
 
         geoReady.value = true
     },
@@ -92,7 +92,7 @@ watch(
 )
 
 const next = computed(() => {
-    const { cep, street, number, neighborhood, state, city } = address
+    const { cep, street, number, neighborhood, state, city } = address.value
     return !!cep && !!street && number > 0 && !!neighborhood && !!state && !!city
 })
 
@@ -102,11 +102,15 @@ watch(next, (value) => {
 
 const onMarkerDragEnd = (e: any) => {
     if (!e.latLng) return
-    address.lat = e.latLng.lat()
-    address.lon = e.latLng.lng()
+    address.value.lat = e.latLng.lat()
+    address.value.lon = e.latLng.lng()
 }
 
-onMounted(() => {
+onMounted(() => {   
+    if (store.accommodation?.address) {
+        const { accommodationId, id, ...data }  = store.accommodation.address
+        address.value = data;
+    }
     loadStates()
 })
 
