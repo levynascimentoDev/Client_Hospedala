@@ -39,7 +39,7 @@
 </template>
 <script setup lang="ts">
 import Menu from './Menu.vue';
-import SearchBar from '../app/searchbar/index.vue';
+import SearchBar from '../app/searchBar/index.vue';
 
 import { useUserStore } from '../../stores/users.ts';
 import { ref } from 'vue';
