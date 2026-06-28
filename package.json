@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --mode production",
-    "preview": "vite preview",
-    "start": "serve -s dist -l 8080"
+    "preview": "bun run build && wrangler dev",
+    "start": "serve -s dist -l 8080",
+    "deploy": "bun run build && wrangler deploy"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.1",
@@ -30,10 +31,12 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.42.3",
     "@types/node": "^24.6.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
     "typescript": "~5.9.3",
-    "vue-tsc": "^3.1.0"
+    "vue-tsc": "^3.1.0",
+    "wrangler": "^4.105.0"
   }
 }
